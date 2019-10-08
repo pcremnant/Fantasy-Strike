@@ -6,7 +6,7 @@ from pico2d import *
 # 3. 스테이터스
 # 4. 인공지능
 
-open_canvas()
+open_canvas(1024, 768)
 
 
 class Struct_Position:
@@ -42,22 +42,29 @@ class Struct_Image:
 
     def __init__(self, position, imgPath):
         self.imgObjectImage = load_image(imgPath)  # 이미지 로딩
-        self.nMaxFrame = 4  # 최대 프레임
+        self.nMaxFrame = 0  # 최대 프레임
         self.nCurFrame = 0  # 현재 프레임
-        self.nImageWidth = 16  # 한 프레임의 너비
-        self.nImageHeight = 16  # 한 프레임의 높이
+        self.nFrameMode = 0  # 현재 이미지의 행동
+        self.nImageWidth = 0  # 한 프레임의 너비
+        self.nImageHeight = 0  # 한 프레임의 높이
         self.posImagePosition = position  # 이미지의 화면상 위치
         self.bIsDraw = True  # 이미지 렌더링 여부
 
-    def DrawImage(self):
+    def DrawImage(self):  # 이미지 렌더링
         if self.bIsDraw:
-            self.imgObjectImage.clip_draw(self.nCurFrame * self.nImageWidth, self.nImageHeight, self.nImageWidth,
-                                          self.nImageHeight, self.posImagePosition.PosX, self.posImagePosition.PosY)
-        self.nCurFrame += 1
-        self.nCurFrame = self.nCurFrame % self.nMaxFrame
+            self.imgObjectImage.clip_draw(self.nCurFrame * self.nImageWidth, self.nFrameMode * self.nImageHeight,
+                                          self.nImageWidth, self.nImageHeight, self.posImagePosition.PosX,
+                                          self.posImagePosition.PosY)
+            self.nCurFrame += 1
+            self.nCurFrame = self.nCurFrame % self.nMaxFrame
 
+    def MovePosition(self, x, y):  # 이미지 위치 이동
+        self.posImagePosition.MovePosition(x, y)
 
-running = True
+    def SetImageFrame(self, maxFrame, imgWidth, imgHeight):  # 이미지 초기 세팅
+        self.nMaxFrame = maxFrame  # 최대 프레임
+        self.nImageWidth = imgWidth  # 한 프레임의 너비
+        self.nImageHeight = imgHeight  # 한 프레임의 높이
 
 
 def handle_events():
@@ -69,31 +76,49 @@ def handle_events():
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_ESCAPE:
                 running = False
-
     pass
 
 
-class Obj_Player_Unit_Civil:
+class Obj:
 
-    def __init__(self, x, y):
-        self.Obj_Position = Struct_Position(x, y)  # position
+    def __init__(self, x, y, imgPath):
+        self.posObject = Struct_Position(x, y)
+        self.imgObject = Struct_Image(self.posObject, imgPath)
 
-        self.Obj_Image = Struct_Image(self.Obj_Position, "jumblysprite.png")  # 오브젝트 이미지
-        self.Obj_Status = Struct_Status_Unit()
-        # Obj Status add
-
-        pass
+    def SetObjectImage(self, maxFrame, imgWidth, imgHeight):
+        self.imgObject.SetImageFrame(maxFrame, imgWidth, imgHeight)
 
     def DrawObject(self):
-        self.Obj_Image.DrawImage()
+        self.imgObject.DrawImage()
 
 
-unit = Obj_Player_Unit_Civil(400, 300)
+class Obj_Build(Obj):
+
+    def __init__(self, x, y, imgPath):
+        super().__init__(x, y, imgPath)
+        # 필요한 자원 리소스들 추가
+        self.nResource = 0  # 임시 자원 변수
+
+    def BuildObject(self, posMouse):
+        self.posObject.SetPosition(posMouse.posX - (posMouse.posX % 16), posMouse.posY - (posMouse.posY % 16))
+        # 16픽셀 단위로 이동 가능하게 설정
+
+    def SetObjectImage(self, maxFrame, imgWidth, imgHeight):
+        self.imgObject.SetImageFrame(maxFrame, imgWidth, imgHeight)
+
+
+# 마우스 포인터를 받아서 건물을 짓는다
+
+
+build = Obj_Build(400, 300, "64x64_tile.png")
+build.SetObjectImage(1, 64, 64)
+
+running = True
 
 while running:
     clear_canvas()
 
-    unit.DrawObject()
+    build.DrawObject()
 
     update_canvas()
 
