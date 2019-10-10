@@ -9,6 +9,26 @@ from pico2d import *
 open_canvas(1024, 768)
 
 
+# 건설 맵 크기를 몇으로 할까??
+# 가로 26칸
+# 세로 12칸
+# tile_size = Window_Width/32 Window_Height/16 -> 나머지 칸들은 UI가 들어 갈 칸
+
+
+class Struct_Build_Coord:
+
+    def __init__(self, nWinWidth, nWinHeight):
+        self.nTileWidth = nWinWidth / 32
+        self.nTileHeight = nWinHeight / 16
+        self.nTileStartX = 3*self.nTileWidth
+        self.nTileStartY = 2*self.nTileHeight
+        self.posCoord = Struct_Position(0, 0)
+
+    def GetPosition(self):
+        return (self.posCoord.PosX*self.nTileWidth + self.nTileStartX,
+                self.posCoord.PosY*self.nTileHeight + self.nTileHeight)
+
+
 class Struct_Position:
 
     def __init__(self, x, y):
@@ -76,6 +96,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_ESCAPE:
                 running = False
+        elif event.type == SDL_M
     pass
 
 
