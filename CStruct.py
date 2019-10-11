@@ -92,11 +92,27 @@ class SBuild_Coord:
         self.nTileStartX = int(3 * self.nTileWidth)
         self.nTileStartY = int(2 * self.nTileHeight)
 
+    def GetTileWidth(self):
+        return self.nTileWidth
+
+    def GetTileHeight(self):
+        return self.nTileWidth
+
+    def GetStartX(self):
+        return self.nTileStartY
+
+    def GetStartY(self):
+        return self.nTileStartY
+
 
 class SBuild_Map:
 
-    def __init__(self):
+    def __init__(self, nSX, nSY, nTW, nTH):
         self.mapBuild = [[0 for x in range(DEFINE.BUILD_MAP_SIZE_Y)] for y in range(DEFINE.BUILD_MAP_SIZE_X)]
+        self.nStartX = nSX
+        self.nStartY = nSY
+        self.nTileWidth = nTW
+        self.nTileHeight = nTH
         for i in range(DEFINE.BUILD_MAP_SIZE_Y):
             for j in range(DEFINE.BUILD_MAP_SIZE_Y):
                 self.mapBuild[i][j] = True
@@ -108,3 +124,9 @@ class SBuild_Map:
         elif y >= DEFINE.BUILD_MAP_SIZE_Y:
             return False
         return self.mapBuild[y][x]
+
+    def tmpDrawTable(self):
+        for y in range(DEFINE.BUILD_MAP_SIZE_Y - 1):
+            for x in range(DEFINE.BUILD_MAP_SIZE_X - 1):
+                pico2d.draw_rectangle(self.nStartX + x*self.nTileWidth, self.nStartY + y*self.nTileHeight,
+                                      self.nStartX + (x+1)*self.nTileWidth, self.nStartY + (y+1)*self.nTileHeight)

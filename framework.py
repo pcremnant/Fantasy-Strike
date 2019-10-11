@@ -1,7 +1,7 @@
 from pico2d import *
 import CObjects as OBJECT
 import CBasicDefines as DEFINE
-import CStruct as struct
+import CStruct as STRUCT
 
 open_canvas(DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
 
@@ -29,11 +29,15 @@ def handle_events():
 build = OBJECT.Obj_Build(400, 300, "64x64_tile.png")
 build.SetObjectImage(1, 64, 64)
 
+buildMap = STRUCT.SBuild_Map(OBJECT.cBuildMap.GetStartX(), OBJECT.cBuildMap.GetStartY(),
+                             OBJECT.cBuildMap.GetTileWidth(), OBJECT.cBuildMap.GetTileHeight())
+
 running = True
 
 while running:
     clear_canvas()
 
+    buildMap.tmpDrawTable()
     build.BuildObject(nMouseX, nMouseY)
     build.DrawObject()
 
