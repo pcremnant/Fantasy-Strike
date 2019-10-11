@@ -124,13 +124,18 @@ class SBuild_Coord:
 class SBuild_Map:
 
     def __init__(self, nSX, nSY, nTW, nTH):
-        self.mapBuild = [[0 for x in range(DEFINE.BUILD_MAP_SIZE_Y)] for y in range(DEFINE.BUILD_MAP_SIZE_X)]
+        self.mapBuild = [[0 for x in range(DEFINE.BUILD_MAP_SIZE_X)] for y in range(DEFINE.BUILD_MAP_SIZE_Y)]
         self.nStartX = nSX
         self.nStartY = nSY
         self.nTileWidth = nTW
         self.nTileHeight = nTH
         for i in range(DEFINE.BUILD_MAP_SIZE_Y):
-            for j in range(DEFINE.BUILD_MAP_SIZE_Y):
+            for j in range(DEFINE.BUILD_MAP_SIZE_X):
+                self.mapBuild[i][j] = True
+
+    def InitTable(self):
+        for i in range(DEFINE.BUILD_MAP_SIZE_Y):
+            for j in range(DEFINE.BUILD_MAP_SIZE_X):
                 self.mapBuild[i][j] = True
 
     # 해당 위치가 건설 가능한 곳인지 체크
@@ -142,8 +147,47 @@ class SBuild_Map:
         return self.mapBuild[y][x]
 
     def tmpDrawTable(self):
-        for y in range(DEFINE.BUILD_MAP_SIZE_Y - 1):
-            for x in range(DEFINE.BUILD_MAP_SIZE_X - 1):
+        for y in range(0, DEFINE.BUILD_MAP_SIZE_Y - 1, 1):
+            for x in range(0, DEFINE.BUILD_MAP_SIZE_X - 1, 1):
                 pico2d.draw_rectangle(self.nStartX + x * self.nTileWidth, self.nStartY + y * self.nTileHeight,
                                       self.nStartX + (x + 1) * self.nTileWidth,
                                       self.nStartY + (y + 1) * self.nTileHeight)
+
+    def BuildObject(self, x, y, sizeX, sizeY):
+        nX = int((x - self.nStartX) / self.nTileWidth)
+        nY = int((y - self.nStartY) / self.nTileHeight)
+
+        # self.mapBuild[nY - 1][nX - 1] = False
+
+        for coordY in range(int(nY - sizeY / 2 + 0.5), int(nY + sizeY / 2 + 0.5), 1):
+            for coordX in range(int(nX - sizeX / 2 + 0.5), int(nX + sizeX / 2 + 0.5), 1):
+                if coordX >= DEFINE.BUILD_MAP_SIZE_X - 1 or coordX < 0:
+                    return False
+                elif coordY >= DEFINE.BUILD_MAP_SIZE_Y - 1 or coordY < 0:
+                    return False
+                else:
+                    self.mapBuild[coordY][coordX] = False
+
+    def BuildPointer(self, x, y, sizeX, sizeY):
+
+        nX = int((x - self.nStartX) / self.nTileWidth)
+        nY = int((y - self.nStartY) / self.nTileHeight)
+
+        for coordY in range(int(nY - sizeY / 2 + 0.5), int(nY + sizeY / 2 + 0.5), 1):
+            for coordX in range(int(nX - sizeX / 2 + 0.5), int(nX + sizeX / 2 + 0.5), 1):
+                if coordX >= DEFINE.BUILD_MAP_SIZE_X - 1 or coordX < 0:
+                    return False
+                elif coordY >= DEFINE.BUILD_MAP_SIZE_Y - 1 or coordY < 0:
+                    return False
+                elif self.mapBuild[coordY][coordX]:
+                    imgTile = SImage("tile_g.png")
+                    imgTile.SetPosition(nX * self.nTileWidth + self.nStartX,
+                                        nY * self.nTileHeight + self.nStartY)
+                    imgTile.SetImageFrame(1, 64, 64)
+                    imgTile.DrawImage_Scaled(self.nTileWidth, self.nTileHeight, sizeX, sizeY)
+                else:
+                    imgTile = SImage("tile_r.png")
+                    imgTile.SetPosition(nX * self.nTileWidth + self.nStartX,
+                                        nY * self.nTileHeight + self.nStartY)
+                    imgTile.SetImageFrame(1, 64, 64)
+                    imgTile.DrawImage_Scaled(self.nTileWidth, self.nTileHeight, sizeX, sizeY)
