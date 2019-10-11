@@ -57,6 +57,14 @@ class SImage:
             self.nCurFrame += 1
             self.nCurFrame = self.nCurFrame % self.nMaxFrame
 
+    def DrawImage_Scaled(self, w, h):  # 이미지 렌더링
+        if self.bIsDraw:
+            self.imgObjectImage.clip_draw(self.nCurFrame * self.nImageWidth, self.nFrameMode * self.nImageHeight,
+                                          self.nImageWidth, self.nImageHeight, self.posImagePosition.GetPositionX() + w/2,
+                                          self.posImagePosition.GetPositionY() + h/2 , w, h)
+            self.nCurFrame += 1
+            self.nCurFrame = self.nCurFrame % self.nMaxFrame
+
     def MovePosition(self, x, y):  # 이미지 위치 이동
         self.posImagePosition.MovePosition(x, y)
 
@@ -82,7 +90,7 @@ class SBuild_Coord:
         return nX * self.nTileWidth + self.nTileStartX
 
     def GetPositionY(self, y):
-        nY = int((y - self.nTileStartY) / self.nTileHeight + 0.5)
+        nY = int((y - self.nTileStartY) / self.nTileHeight)
         return nY * self.nTileHeight + self.nTileStartY
 
     # 빌드 맵 한 칸의 사이즈를 정한다.
@@ -96,10 +104,10 @@ class SBuild_Coord:
         return self.nTileWidth
 
     def GetTileHeight(self):
-        return self.nTileWidth
+        return self.nTileHeight
 
     def GetStartX(self):
-        return self.nTileStartY
+        return self.nTileStartX
 
     def GetStartY(self):
         return self.nTileStartY

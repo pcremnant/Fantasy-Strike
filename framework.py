@@ -22,7 +22,7 @@ def handle_events():
                 running = False
         elif event.type == SDL_MOUSEBUTTONDOWN:
             nMouseX = event.x
-            nMouseY = DEFINE.WINDOW_HEIGHT - event.y - 1
+            nMouseY = DEFINE.WINDOW_HEIGHT - event.y
     pass
 
 

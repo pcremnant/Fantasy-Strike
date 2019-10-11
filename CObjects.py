@@ -18,15 +18,17 @@ cBuildMap = struct.SBuild_Coord(DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
 class Obj:
 
     def __init__(self, x, y, imgPath):
-        self.posObject = struct.SPosition(x, y)
+        tmpX = cBuildMap.GetPositionX(x)
+        tmpY = cBuildMap.GetPositionX(y)
+        self.posObject = struct.SPosition(tmpX, tmpY)
         self.imgObject = struct.SImage(imgPath)
-        self.imgObject.SetPosition(x, y)
+        self.imgObject.SetPosition(tmpX, tmpY)
 
     def SetObjectImage(self, maxFrame, imgWidth, imgHeight):
         self.imgObject.SetImageFrame(maxFrame, imgWidth, imgHeight)
 
     def DrawObject(self):
-        self.imgObject.DrawImage()
+        self.imgObject.DrawImage_Scaled(cBuildMap.GetTileWidth(), cBuildMap.GetTileHeight())
 
     def SetPosition(self, x, y):
         self.posObject = struct.SPosition(x, y)
