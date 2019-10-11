@@ -57,11 +57,19 @@ class SImage:
             self.nCurFrame += 1
             self.nCurFrame = self.nCurFrame % self.nMaxFrame
 
-    def DrawImage_Scaled(self, w, h):  # 이미지 렌더링
+    def DrawImage_Scaled(self, w, h, sizeX, sizeY):  # 이미지 렌더링
         if self.bIsDraw:
+            addW = w
+            addH = h
+            if sizeX % 2 == 0:
+                addW = 0
+            if sizeY % 2 == 0:
+                addH = 0
             self.imgObjectImage.clip_draw(self.nCurFrame * self.nImageWidth, self.nFrameMode * self.nImageHeight,
-                                          self.nImageWidth, self.nImageHeight, self.posImagePosition.GetPositionX() + w/2,
-                                          self.posImagePosition.GetPositionY() + h/2 , w, h)
+                                          self.nImageWidth, self.nImageHeight,
+                                          self.posImagePosition.GetPositionX() + addW / 2,
+                                          self.posImagePosition.GetPositionY() + addH / 2,
+                                          w * sizeX, h * sizeY)
             self.nCurFrame += 1
             self.nCurFrame = self.nCurFrame % self.nMaxFrame
 
@@ -136,5 +144,6 @@ class SBuild_Map:
     def tmpDrawTable(self):
         for y in range(DEFINE.BUILD_MAP_SIZE_Y - 1):
             for x in range(DEFINE.BUILD_MAP_SIZE_X - 1):
-                pico2d.draw_rectangle(self.nStartX + x*self.nTileWidth, self.nStartY + y*self.nTileHeight,
-                                      self.nStartX + (x+1)*self.nTileWidth, self.nStartY + (y+1)*self.nTileHeight)
+                pico2d.draw_rectangle(self.nStartX + x * self.nTileWidth, self.nStartY + y * self.nTileHeight,
+                                      self.nStartX + (x + 1) * self.nTileWidth,
+                                      self.nStartY + (y + 1) * self.nTileHeight)

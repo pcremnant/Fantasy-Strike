@@ -17,18 +17,20 @@ cBuildMap = struct.SBuild_Coord(DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
 
 class Obj:
 
-    def __init__(self, x, y, imgPath):
+    def __init__(self, x, y, sizeX, sizeY, imgPath):
         tmpX = cBuildMap.GetPositionX(x)
         tmpY = cBuildMap.GetPositionX(y)
         self.posObject = struct.SPosition(tmpX, tmpY)
         self.imgObject = struct.SImage(imgPath)
         self.imgObject.SetPosition(tmpX, tmpY)
+        self.nSizeX = sizeX
+        self.nSizeY = sizeY
 
     def SetObjectImage(self, maxFrame, imgWidth, imgHeight):
         self.imgObject.SetImageFrame(maxFrame, imgWidth, imgHeight)
 
     def DrawObject(self):
-        self.imgObject.DrawImage_Scaled(cBuildMap.GetTileWidth(), cBuildMap.GetTileHeight())
+        self.imgObject.DrawImage_Scaled(cBuildMap.GetTileWidth(), cBuildMap.GetTileHeight(), self.nSizeX, self.nSizeY)
 
     def SetPosition(self, x, y):
         self.posObject = struct.SPosition(x, y)
@@ -38,8 +40,8 @@ class Obj:
 class Obj_Build(Obj):
     global cBuildMap
 
-    def __init__(self, x, y, imgPath):
-        super().__init__(x, y, imgPath)
+    def __init__(self, x, y, sizeX, sizeY, imgPath):
+        super().__init__(x, y, sizeX, sizeY ,imgPath)
         # 필요한 자원 리소스들 추가
         self.nResource = 0  # 임시 자원 변수
 

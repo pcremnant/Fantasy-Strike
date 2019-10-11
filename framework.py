@@ -26,7 +26,7 @@ def handle_events():
     pass
 
 
-build = OBJECT.Obj_Build(400, 300, "64x64_tile.png")
+build = OBJECT.Obj_Build(400, 300, 2, 2, "tmpTree.png")
 build.SetObjectImage(1, 64, 64)
 
 buildMap = STRUCT.SBuild_Map(OBJECT.cBuildMap.GetStartX(), OBJECT.cBuildMap.GetStartY(),
@@ -37,9 +37,9 @@ running = True
 while running:
     clear_canvas()
 
-    buildMap.tmpDrawTable()
     build.BuildObject(nMouseX, nMouseY)
     build.DrawObject()
+    buildMap.tmpDrawTable()
 
     update_canvas()
 
