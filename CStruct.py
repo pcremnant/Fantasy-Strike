@@ -1,4 +1,5 @@
 import pico2d
+import CBasicDefines as DEFINE
 
 
 class SPosition:
@@ -23,7 +24,7 @@ class SPosition:
         return self.PosY
 
 
-class SUnit_Staus:
+class SUnitStatus:
 
     def __init__(self):
         self.nHp = 0
@@ -84,9 +85,26 @@ class SBuild_Coord:
         nY = int((y - self.nTileStartY) / self.nTileHeight + 0.5)
         return nY * self.nTileHeight + self.nTileStartY
 
+    # 빌드 맵 한 칸의 사이즈를 정한다.
     def SetTileSize(self, nWinWidth, nWinHeight):
         self.nTileWidth = int(nWinWidth / 32)
         self.nTileHeight = int(nWinHeight / 16)
         self.nTileStartX = int(3 * self.nTileWidth)
         self.nTileStartY = int(2 * self.nTileHeight)
 
+
+class SBuild_Map:
+
+    def __init__(self):
+        self.mapBuild = [[0 for x in range(DEFINE.BUILD_MAP_SIZE_Y)] for y in range(DEFINE.BUILD_MAP_SIZE_X)]
+        for i in range(DEFINE.BUILD_MAP_SIZE_Y):
+            for j in range(DEFINE.BUILD_MAP_SIZE_Y):
+                self.mapBuild[i][j] = True
+
+    # 해당 위치가 건설 가능한 곳인지 체크
+    def CheckBuildable(self, x, y):
+        if x >= DEFINE.BUILD_MAP_SIZE_X:
+            return False
+        elif y >= DEFINE.BUILD_MAP_SIZE_Y:
+            return False
+        return self.mapBuild[y][x]
