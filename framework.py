@@ -28,8 +28,10 @@ def handle_events():
         elif event.type == SDL_MOUSEBUTTONDOWN:
             nClickedMouseX = event.x
             nClickedMouseY = DEFINE.WINDOW_HEIGHT - event.y
-            # buildMap.InitTable()
-            buildMap.BuildObject(nMouseX, nMouseY, 1, 1)
+            if buildMap.CheckBuildable(nClickedMouseX,nClickedMouseY, 2, 2):
+                buildMap.InitTable()
+                buildMap.BuildObject(nClickedMouseX, nClickedMouseY, 2, 2)
+                build.BuildObject(nClickedMouseX, nClickedMouseY)
 
         elif event.type == SDL_MOUSEMOTION:
             nMouseX = event.x
@@ -38,7 +40,7 @@ def handle_events():
     pass
 
 
-build = OBJECT.Obj_Build(400, 300, 1, 1, "tree_A.png")
+build = OBJECT.Obj_Build(400, 300, 2, 2, "tree_A.png")
 build.SetObjectImage(1, 64, 64)
 
 buildMap = STRUCT.SBuild_Map(OBJECT.cBuildMap.GetStartX(), OBJECT.cBuildMap.GetStartY(),
@@ -48,9 +50,7 @@ running = True
 
 while running:
     clear_canvas()
-
-    buildMap.BuildPointer(nMouseX, nMouseY, 1, 1)
-    build.BuildObject(nClickedMouseX, nClickedMouseY)
+    buildMap.BuildPointer(nMouseX, nMouseY, 2, 2)
     build.DrawObject()
     buildMap.tmpDrawTable()
 
