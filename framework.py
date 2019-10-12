@@ -25,10 +25,11 @@ def handle_events():
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_ESCAPE:
                 running = False
+
         elif event.type == SDL_MOUSEBUTTONDOWN:
             nClickedMouseX = event.x
             nClickedMouseY = DEFINE.WINDOW_HEIGHT - event.y
-            if buildMap.CheckBuildable(nClickedMouseX,nClickedMouseY, 2, 2):
+            if buildMap.CheckBuildable(nClickedMouseX, nClickedMouseY, 2, 2):
                 buildMap.InitTable()
                 buildMap.BuildObject(nClickedMouseX, nClickedMouseY, 2, 2)
                 build.BuildObject(nClickedMouseX, nClickedMouseY)
@@ -36,7 +37,6 @@ def handle_events():
         elif event.type == SDL_MOUSEMOTION:
             nMouseX = event.x
             nMouseY = DEFINE.WINDOW_HEIGHT - event.y
-            # buildPointer.GetMousePosition(nMouseX, nMouseY)
     pass
 
 

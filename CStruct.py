@@ -65,13 +65,15 @@ class SImage:
                 addW = 0
             if sizeY % 2 == 0:
                 addH = 0
-            self.imgObjectImage.clip_draw(self.nCurFrame * self.nImageWidth, self.nFrameMode * self.nImageHeight,
+            self.imgObjectImage.clip_draw(int(self.nCurFrame / DEFINE.FRAME_MOVE) * self.nImageWidth,
+                                          self.nFrameMode * self.nImageHeight,
                                           self.nImageWidth, self.nImageHeight,
                                           self.posImagePosition.GetPositionX() + addW / 2,
                                           self.posImagePosition.GetPositionY() + addH / 2,
                                           w * sizeX, h * sizeY)
             self.nCurFrame += 1
-            self.nCurFrame = self.nCurFrame % self.nMaxFrame
+            if self.nCurFrame / DEFINE.FRAME_MOVE >= self.nMaxFrame:
+                self.nCurFrame = 0
 
     def MovePosition(self, x, y):  # 이미지 위치 이동
         self.posImagePosition.MovePosition(x, y)
@@ -83,6 +85,11 @@ class SImage:
         self.nMaxFrame = maxFrame  # 최대 프레임
         self.nImageWidth = imgWidth  # 한 프레임의 너비
         self.nImageHeight = imgHeight  # 한 프레임의 높이
+
+    def SetFrameMode(self, framemode):
+        if framemode < 0:
+            return False
+        self.nFrameMode = framemode
 
 
 class SBuild_Coord:
@@ -143,9 +150,9 @@ class SBuild_Map:
         nX = int((x - self.nStartX) / self.nTileWidth)
         nY = int((y - self.nStartY) / self.nTileHeight)
 
-        if nX - sizeX/2 < 0:
+        if nX - sizeX / 2 < 0:
             return False
-        if nY - sizeY/2 < 0:
+        if nY - sizeY / 2 < 0:
             return False
 
         for coordY in range(int(nY - sizeY / 2 + 0.5), int(nY + sizeY / 2 + 0.5), 1):
