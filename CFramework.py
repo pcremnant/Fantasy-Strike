@@ -4,6 +4,7 @@ import CStruct as STRUCT
 import CObjects as OBJECT
 
 
+# ========================================= main Framework ========================================================
 class CMain:
     def __init__(self, FrameworkType, BgPath):
         self.nFrameworkType = FrameworkType
@@ -51,13 +52,13 @@ class CMain:
         self.imgBackground.DrawImage()
 
     def Update(self):
-        self.handle_events()
         if self.bRunning:
             return self.nFrameworkType
         else:
             return self.nNextFrameworkType
 
 
+# ========================================= battle Framework ========================================================
 class CBattle:
     def __init__(self, FrameworkType, BgPath):
         self.nFrameworkType = FrameworkType
@@ -100,6 +101,7 @@ class CBattle:
         self.imgBackground.DrawImage()
 
 
+# ========================================= build Framework ========================================================
 class CBuild:
     def __init__(self, FrameworkType, BgPath):
         self.nFrameworkType = FrameworkType
@@ -138,13 +140,11 @@ class CBuild:
                     self.build.BuildObject(nClickedMouseX, nClickedMouseY)
 
             elif event.type == SDL_MOUSEMOTION:
-                nMouseX = event.x
-                nMouseY = DEFINE.WINDOW_HEIGHT - event.y
+                self.nMouseX = event.x
+                self.nMouseY = DEFINE.WINDOW_HEIGHT - event.y
         pass
 
     def Update(self):
-        self.handle_events()
-        self.buildMap.BuildPointer(self.nMouseX, self.nMouseY, 2, 2)
         if self.bRunning:
             return self.nFrameworkType
         else:
@@ -161,5 +161,6 @@ class CBuild:
 
     def DrawObjects(self):
         self.imgBackground.DrawImage()
+        self.buildMap.BuildPointer(self.nMouseX, self.nMouseY, 2, 2)
         self.build.DrawObject()
         self.buildMap.tmpDrawTable()
