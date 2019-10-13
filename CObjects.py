@@ -45,6 +45,7 @@ class Obj_Unit(Obj):
         self.imgObject.SetFrameMode(framemode)
         self.imgObject.nCurFrame = 0
 
+
 class Obj_Build(Obj):
     global cBuildMap
 
@@ -57,7 +58,6 @@ class Obj_Build(Obj):
         self.SetPosition(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))
         # self.posObject.SetPosition(posMouse.posX - (posMouse.posX % 16), posMouse.posY - (posMouse.posY % 16))
         # 16픽셀 단위로 이동 가능하게 설정
-
 
 
 class Obj_BuildPointer(Obj):
