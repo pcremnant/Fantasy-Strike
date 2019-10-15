@@ -198,13 +198,13 @@ class SBuild_Map:
         nY = int((y - self.nStartY) / self.nTileHeight)
 
         if self.CheckBuildable(x, y, sizeX, sizeY):
-            imgTile = SImage("tile_g.png")
+            imgTile = SImage("tmpImage/tile_g.png")
             imgTile.SetPosition(nX * self.nTileWidth + self.nStartX,
                                 nY * self.nTileHeight + self.nStartY)
             imgTile.SetImageFrame(1, 64, 64)
             imgTile.DrawImage_Scaled(self.nTileWidth, self.nTileHeight, sizeX, sizeY)
         else:
-            imgTile = SImage("tile_r.png")
+            imgTile = SImage("tmpImage/tile_r.png")
             imgTile.SetPosition(nX * self.nTileWidth + self.nStartX,
                                 nY * self.nTileHeight + self.nStartY)
             imgTile.SetImageFrame(1, 64, 64)

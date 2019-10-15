@@ -116,7 +116,7 @@ class CBuild:
         self.imgBackground.SetPosition(DEFINE.WINDOW_WIDTH / 2, DEFINE.WINDOW_HEIGHT / 2)
         self.nNextFrameworkType = FrameworkType
 
-        self.build = OBJECT.Obj_Build(400, 300, 2, 2, "tree_A.png")
+        self.build = OBJECT.Obj_Build(400, 300, 2, 2, "tmpImage/tree_A.png")
         self.build.SetObjectImage(1, 64, 64)
 
         self.buildMap = STRUCT.SBuild_Map(OBJECT.cBuildMap.GetStartX(), OBJECT.cBuildMap.GetStartY(),
