@@ -1,5 +1,5 @@
 import pico2d
-import CBasicDefines as DEFINE
+from ..define.DEFINE import *
 
 
 class SPosition:
@@ -65,14 +65,14 @@ class SImage:
                 addW = 0
             if sizeY % 2 == 0:
                 addH = 0
-            self.imgObjectImage.clip_draw(int(self.nCurFrame / DEFINE.FRAME_MOVE) * self.nImageWidth,
+            self.imgObjectImage.clip_draw(int(self.nCurFrame / FRAME_MOVE) * self.nImageWidth,
                                           self.nFrameMode * self.nImageHeight,
                                           self.nImageWidth, self.nImageHeight,
                                           self.posImagePosition.GetPositionX() + addW / 2,
                                           self.posImagePosition.GetPositionY() + addH / 2,
                                           w * sizeX, h * sizeY)
             self.nCurFrame += 1
-            if self.nCurFrame / DEFINE.FRAME_MOVE >= self.nMaxFrame:
+            if self.nCurFrame / FRAME_MOVE >= self.nMaxFrame:
                 self.nCurFrame = 0
 
     def MovePosition(self, x, y):  # 이미지 위치 이동
@@ -131,18 +131,18 @@ class SBuild_Coord:
 class SBuild_Map:
 
     def __init__(self, nSX, nSY, nTW, nTH):
-        self.mapBuild = [[0 for x in range(DEFINE.BUILD_MAP_SIZE_X)] for y in range(DEFINE.BUILD_MAP_SIZE_Y)]
+        self.mapBuild = [[0 for x in range(BUILD_MAP_SIZE_X)] for y in range(BUILD_MAP_SIZE_Y)]
         self.nStartX = nSX
         self.nStartY = nSY
         self.nTileWidth = nTW
         self.nTileHeight = nTH
-        for i in range(DEFINE.BUILD_MAP_SIZE_Y):
-            for j in range(DEFINE.BUILD_MAP_SIZE_X):
+        for i in range(BUILD_MAP_SIZE_Y):
+            for j in range(BUILD_MAP_SIZE_X):
                 self.mapBuild[i][j] = True
 
     def InitTable(self):
-        for i in range(DEFINE.BUILD_MAP_SIZE_Y):
-            for j in range(DEFINE.BUILD_MAP_SIZE_X):
+        for i in range(BUILD_MAP_SIZE_Y):
+            for j in range(BUILD_MAP_SIZE_X):
                 self.mapBuild[i][j] = True
 
     # 해당 위치가 건설 가능한 곳인지 체크
@@ -157,9 +157,9 @@ class SBuild_Map:
 
         for coordY in range(int(nY - sizeY / 2 + 0.5), int(nY + sizeY / 2 + 0.5), 1):
             for coordX in range(int(nX - sizeX / 2 + 0.5), int(nX + sizeX / 2 + 0.5), 1):
-                if coordX >= DEFINE.BUILD_MAP_SIZE_X - 1 or coordX < 0:
+                if coordX >= BUILD_MAP_SIZE_X - 1 or coordX < 0:
                     return False
-                elif coordY >= DEFINE.BUILD_MAP_SIZE_Y - 1 or coordY < 0:
+                elif coordY >= BUILD_MAP_SIZE_Y - 1 or coordY < 0:
                     return False
                 elif not self.mapBuild[coordY][coordX]:
                     return False
@@ -167,8 +167,8 @@ class SBuild_Map:
         return True
 
     def tmpDrawTable(self):
-        for y in range(0, DEFINE.BUILD_MAP_SIZE_Y - 1, 1):
-            for x in range(0, DEFINE.BUILD_MAP_SIZE_X - 1, 1):
+        for y in range(0, BUILD_MAP_SIZE_Y - 1, 1):
+            for x in range(0, BUILD_MAP_SIZE_X - 1, 1):
                 pico2d.draw_rectangle(self.nStartX + x * self.nTileWidth, self.nStartY + y * self.nTileHeight,
                                       self.nStartX + (x + 1) * self.nTileWidth,
                                       self.nStartY + (y + 1) * self.nTileHeight)
@@ -184,9 +184,9 @@ class SBuild_Map:
 
         for coordY in range(int(nY - sizeY / 2 + 0.5), int(nY + sizeY / 2 + 0.5), 1):
             for coordX in range(int(nX - sizeX / 2 + 0.5), int(nX + sizeX / 2 + 0.5), 1):
-                if coordX >= DEFINE.BUILD_MAP_SIZE_X - 1 or coordX < 0:
+                if coordX >= BUILD_MAP_SIZE_X - 1 or coordX < 0:
                     return False
-                elif coordY >= DEFINE.BUILD_MAP_SIZE_Y - 1 or coordY < 0:
+                elif coordY >= BUILD_MAP_SIZE_Y - 1 or coordY < 0:
                     return False
                 else:
                     self.mapBuild[coordY][coordX] = False

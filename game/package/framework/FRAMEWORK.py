@@ -1,7 +1,8 @@
 from pico2d import *
-import CBasicDefines as DEFINE
-import CStruct as STRUCT
-import CObjects as OBJECT
+
+from ..define import DEFINE
+from ..object import OBJECT
+from ..struct import STRUCT
 
 
 # ========================================= main Framework ========================================================
