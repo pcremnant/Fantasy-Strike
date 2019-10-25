@@ -1,3 +1,9 @@
+from pico2d import *
+# from ..framework import Main_State
+
+name = "GameFramework"
+
+
 class GameState:
     def __init__(self, state):
         self.enter = state.enter
@@ -48,11 +54,13 @@ def run(start_state):
     global running, stack
     running = True
     stack = [start_state]
-    start_state.enter()
+    stack[-1].enter()
     while running:
+        clear_canvas()
         stack[-1].handle_events()
         stack[-1].update()
         stack[-1].draw()
+        update_canvas()
 
     while len(stack) > 0:
         stack[-1].exit()
