@@ -43,9 +43,9 @@ class build_state:
         self.imgBackground = STRUCT.SImage("tmpImage/battleback10.png")
         self.imgBackground.SetImageFrame(1, DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
         self.imgBackground.SetPosition(DEFINE.WINDOW_WIDTH / 2, DEFINE.WINDOW_HEIGHT / 2)
-        self.trees = [build_object.Obj_Build(400, 300, 2, 2, "tmpImage/tree_A.png")]
-        self.trees[-1].SetObjectImage(1, 64, 64)
-        self.buildMap.BuildObject(self.nClickedMouseX, self.nClickedMouseY, 2, 2)
+        # self.trees = [build_object.Obj_Build(400, 300, 2, 2, "tmpImage/tree_A.png")]
+        # self.trees[-1].SetObjectImage(1, 64, 64)
+        # self.buildMap.BuildObject(400, 300, 2, 2)
 
         pass
 
@@ -55,8 +55,9 @@ class build_state:
     def draw(self):
         self.imgBackground.DrawImage()
         self.buildMap.BuildPointer(self.nMouseX, self.nMouseY, 2, 2)
-        for obj in self.trees:
-            obj.DrawObject()
+        if self.trees:
+            for obj in self.trees:
+                obj.DrawObject()
         self.buildMap.tmpDrawTable()
 
     def pause(self):
@@ -68,7 +69,10 @@ class build_state:
     def update(self):
         if self.buildMap.CheckBuildable(self.nClickedMouseX, self.nClickedMouseY, 2, 2):
             self.buildMap.BuildObject(self.nClickedMouseX, self.nClickedMouseY, 2, 2)
-            self.trees += [build_object.Obj_Build(400, 300, 2, 2, "tmpImage/tree_A.png")]
+            if self.trees:
+                self.trees += [build_object.Obj_Build(400, 300, 2, 2, "tmpImage/tree_A.png")]
+            else:
+                self.trees = [build_object.Obj_Build(400, 300, 2, 2, "tmpImage/tree_A.png")]
             self.trees[-1].SetObjectImage(1, 64, 64)
             self.trees[-1].BuildObject(self.nClickedMouseX, self.nClickedMouseY)
 

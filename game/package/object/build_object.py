@@ -19,6 +19,8 @@ class Obj_Build(Obj):
         # self.posObject.SetPosition(posMouse.posX - (posMouse.posX % 16), posMouse.posY - (posMouse.posY % 16))
         # 16픽셀 단위로 이동 가능하게 설정
 
+    def DrawObject(self):
+        self.imgObject.DrawImage_Scaled(cBuildMap.GetTileWidth(), cBuildMap.GetTileHeight(), self.nSizeX, self.nSizeY)
 
 class Obj_BuildPointer(Obj):
     global cBuildMap

@@ -12,8 +12,6 @@ from ..define import DEFINE
 # 세로 12칸
 # tile_size = Window_Width/32 Window_Height/16 -> 나머지 칸들은 UI가 들어 갈 칸
 
-cBuildMap = STRUCT.SBuild_Coord(DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
-
 
 class Obj:
 
@@ -27,7 +25,7 @@ class Obj:
         self.imgObject.SetImageFrame(maxFrame, imgWidth, imgHeight)
 
     def DrawObject(self):
-        self.imgObject.DrawImage_Scaled(cBuildMap.GetTileWidth(), cBuildMap.GetTileHeight(), self.nSizeX, self.nSizeY)
+        pass
 
     def SetPosition(self, x, y):
         self.posObject = STRUCT.SPosition(x, y)
