@@ -43,10 +43,6 @@ class build_state:
         self.imgBackground = STRUCT.SImage("tmpImage/battleback10.png")
         self.imgBackground.SetImageFrame(1, DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
         self.imgBackground.SetPosition(DEFINE.WINDOW_WIDTH / 2, DEFINE.WINDOW_HEIGHT / 2)
-        # self.trees = [build_object.Obj_Build(400, 300, 2, 2, "tmpImage/tree_A.png")]
-        # self.trees[-1].SetObjectImage(1, 64, 64)
-        # self.buildMap.BuildObject(400, 300, 2, 2)
-
         pass
 
     def exit(self):

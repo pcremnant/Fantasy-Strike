@@ -1,4 +1,4 @@
-from game.package.object.OBJECT import *
+from game.package.object.object import *
 
 
 class Obj_Unit(Obj):

@@ -1,4 +1,4 @@
-from game.package.object.OBJECT import *
+from game.package.object.object import *
 
 cBuildMap = STRUCT.SBuild_Coord(DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
 
