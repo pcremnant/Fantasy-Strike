@@ -1,5 +1,4 @@
 from pico2d import *
-# from ..framework import Main_State
 
 name = "GameFramework"
 
