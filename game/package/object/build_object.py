@@ -3,20 +3,14 @@ from game.package.object.OBJECT import *
 cBuildMap = STRUCT.SBuild_Coord(DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
 
 
-class Obj_Unit(Obj):
-    def __init__(self, x, y, sizeX, sizeY, imgPath):
-        super().__init__(x, y, sizeX, sizeY, imgPath)
-
-    def SetFrameMode(self, action):
-        self.imgObject.SetFrameMode(action)
-        self.imgObject.nCurFrame = 0
-
-
 class Obj_Build(Obj):
     global cBuildMap
 
     def __init__(self, x, y, sizeX, sizeY, imgPath):
-        super().__init__(x, y, sizeX, sizeY, imgPath)
+        super().__init__(sizeX, sizeY, imgPath)
+        self.posObject = STRUCT.SPosition(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))
+        self.imgObject = STRUCT.SImage(imgPath)
+        self.imgObject.SetPosition(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))
         # 필요한 자원 리소스들 추가
         self.nResource = 0  # 임시 자원 변수
 
@@ -30,7 +24,7 @@ class Obj_BuildPointer(Obj):
     global cBuildMap
 
     def __int__(self, x, y, sizeX, sizeY, imgPath):
-        super().__init__(x, y, sizeX, sizeY, imgPath)
+        super().__init__(sizeX, sizeY, imgPath)
 
     def GetMousePosition(self, x, y):
         self.SetPosition(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))

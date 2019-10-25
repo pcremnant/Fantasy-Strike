@@ -1,7 +1,7 @@
 from pico2d import *
 from ..struct import STRUCT
 from ..define import DEFINE
-from ..object import OBJECT
+from ..object import build_object
 from ..framework import game_framework
 
 name = "build_state"
@@ -15,10 +15,10 @@ class build_state:
         self.nMouseY = 0
         self.imgBackground = None
 
-        self.build = None
+        self.trees = None
 
-        self.buildMap = STRUCT.SBuild_Map(OBJECT.cBuildMap.GetStartX(), OBJECT.cBuildMap.GetStartY(),
-                                          OBJECT.cBuildMap.GetTileWidth(), OBJECT.cBuildMap.GetTileHeight())
+        self.buildMap = STRUCT.SBuild_Map(build_object.cBuildMap.GetStartX(), build_object.cBuildMap.GetStartY(),
+                                          build_object.cBuildMap.GetTileWidth(), build_object.cBuildMap.GetTileHeight())
 
     def handle_events(self):
         events = get_events()
@@ -43,8 +43,9 @@ class build_state:
         self.imgBackground = STRUCT.SImage("tmpImage/battleback10.png")
         self.imgBackground.SetImageFrame(1, DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
         self.imgBackground.SetPosition(DEFINE.WINDOW_WIDTH / 2, DEFINE.WINDOW_HEIGHT / 2)
-        self.build = OBJECT.Obj_Build(400, 300, 2, 2, "tmpImage/tree_A.png")
-        self.build.SetObjectImage(1, 64, 64)
+        self.trees = [build_object.Obj_Build(400, 300, 2, 2, "tmpImage/tree_A.png")]
+        self.trees[-1].SetObjectImage(1, 64, 64)
+        self.buildMap.BuildObject(self.nClickedMouseX, self.nClickedMouseY, 2, 2)
 
         pass
 
@@ -54,7 +55,8 @@ class build_state:
     def draw(self):
         self.imgBackground.DrawImage()
         self.buildMap.BuildPointer(self.nMouseX, self.nMouseY, 2, 2)
-        self.build.DrawObject()
+        for obj in self.trees:
+            obj.DrawObject()
         self.buildMap.tmpDrawTable()
 
     def pause(self):
@@ -65,9 +67,10 @@ class build_state:
 
     def update(self):
         if self.buildMap.CheckBuildable(self.nClickedMouseX, self.nClickedMouseY, 2, 2):
-            self.buildMap.InitTable()
             self.buildMap.BuildObject(self.nClickedMouseX, self.nClickedMouseY, 2, 2)
-            self.build.BuildObject(self.nClickedMouseX, self.nClickedMouseY)
+            self.trees += [build_object.Obj_Build(400, 300, 2, 2, "tmpImage/tree_A.png")]
+            self.trees[-1].SetObjectImage(1, 64, 64)
+            self.trees[-1].BuildObject(self.nClickedMouseX, self.nClickedMouseY)
 
 
 BuildState = build_state()
