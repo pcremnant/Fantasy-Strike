@@ -2,6 +2,7 @@ from pico2d import *
 from ..struct import STRUCT
 from ..define import DEFINE
 from ..framework import game_framework
+from ..framework import build_state
 
 name = "main_state"
 
@@ -12,9 +13,7 @@ class main_state:
         self.nClickedMouseY = 0
         self.nMouseX = 0
         self.nMouseY = 0
-        self.imgBackground = STRUCT.SImage("tmpImage/tmpMain.png")
-        self.imgBackground.SetImageFrame(1, DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
-        self.imgBackground.SetPosition(DEFINE.WINDOW_WIDTH / 2, DEFINE.WINDOW_HEIGHT / 2)
+        self.imgBackground = None
 
     def handle_events(self):
         events = get_events()
@@ -28,7 +27,7 @@ class main_state:
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.nClickedMouseX = event.x
                 self.nClickedMouseY = DEFINE.WINDOW_HEIGHT - event.y
-                game_framework.push_state()
+                game_framework.push_state(build_state.BuildState)
 
             elif event.type == SDL_MOUSEMOTION:
                 self.nMouseX = event.x
@@ -36,6 +35,9 @@ class main_state:
         pass
 
     def enter(self):
+        self.imgBackground = STRUCT.SImage("tmpImage/tmpMain.png")
+        self.imgBackground.SetImageFrame(1, DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
+        self.imgBackground.SetPosition(DEFINE.WINDOW_WIDTH / 2, DEFINE.WINDOW_HEIGHT / 2)
         pass
 
     def exit(self):
@@ -52,3 +54,6 @@ class main_state:
 
     def update(self):
         pass
+
+
+MainState = main_state()

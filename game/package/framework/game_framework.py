@@ -33,7 +33,7 @@ def push_state(state):
     if len(stack) > 0:
         stack[-1].pause()
     stack.append(state)
-    stack.enter()
+    state.enter()
 
 
 def pop_state():

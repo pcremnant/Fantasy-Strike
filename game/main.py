@@ -34,6 +34,6 @@ from game.package.framework import main_state
 from game.package.define import DEFINE
 
 open_canvas(DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
-MainState = main_state.main_state()
-game_framework.run(MainState)
+# MainState = main_state.main_state()
+game_framework.run(main_state.MainState)
 close_canvas()
