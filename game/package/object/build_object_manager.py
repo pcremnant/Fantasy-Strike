@@ -1,6 +1,6 @@
 from .build_object import *
 
-build_coord = STRUCT.SBuild_Coord(DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
+build_coord = STRUCT.SBuild_Coord(WINDOW_WIDTH, WINDOW_HEIGHT)
 
 
 class build_object_manager:
@@ -21,7 +21,6 @@ class build_object_manager:
                 self.objects += [obj]
             else:
                 self.objects = [obj]
-            # self.trees[-1].BuildObject(self.nClickedMouseX, self.nClickedMouseY)
 
     def get_mouse_position(self, x, y):
         self.nMouseX = x

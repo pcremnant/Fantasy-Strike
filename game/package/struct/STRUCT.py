@@ -39,8 +39,14 @@ class SUnitStatus:
 
 class SImage:
 
-    def __init__(self, imgPath):
-        self.imgObjectImage = pico2d.load_image(imgPath)  # 이미지 로딩
+    def __init__(self, imgPath, imgType):
+        self.nImgType = imgType
+        if imgType == IMAGE_TYPE_SPRITE:
+            self.imgObjectImage = pico2d.load_image(imgPath)  # 이미지 로딩
+        elif imgType == IMAGE_TYPE_FILES:
+            self.imgObjectImage = []
+            for path in imgPath:
+                self.imgObjectImage.append(pico2d.load_image(path))
         self.nMaxFrame = 0  # 최대 프레임
         self.nCurFrame = 0  # 현재 프레임
         self.nFrameMode = 0  # 현재 이미지의 행동
@@ -51,9 +57,15 @@ class SImage:
 
     def DrawImage(self):  # 이미지 렌더링
         if self.bIsDraw:
-            self.imgObjectImage.clip_draw(self.nCurFrame * self.nImageWidth, self.nFrameMode * self.nImageHeight,
-                                          self.nImageWidth, self.nImageHeight, self.posImagePosition.GetPositionX(),
-                                          self.posImagePosition.GetPositionY())
+            if self.nImgType == IMAGE_TYPE_SPRITE:
+                self.imgObjectImage.clip_draw(self.nCurFrame * self.nImageWidth, self.nFrameMode * self.nImageHeight,
+                                              self.nImageWidth, self.nImageHeight, self.posImagePosition.GetPositionX(),
+                                              self.posImagePosition.GetPositionY())
+            elif self.nImgType == IMAGE_TYPE_FILES:
+                self.imgObjectImage[self.nCurFrame].clip_draw(self.nImageWidth, self.nImageHeight,
+                                                              self.nImageWidth, self.nImageHeight,
+                                                              self.posImagePosition.GetPositionX(),
+                                                              self.posImagePosition.GetPositionY())
             self.nCurFrame += 1
             self.nCurFrame = self.nCurFrame % self.nMaxFrame
 
@@ -65,12 +77,18 @@ class SImage:
                 addW = 0
             if sizeY % 2 == 0:
                 addH = 0
-            self.imgObjectImage.clip_draw(int(self.nCurFrame / FRAME_MOVE) * self.nImageWidth,
-                                          self.nFrameMode * self.nImageHeight,
-                                          self.nImageWidth, self.nImageHeight,
-                                          self.posImagePosition.GetPositionX() + addW / 2,
-                                          self.posImagePosition.GetPositionY() + addH / 2,
-                                          w * sizeX, h * sizeY)
+            if self.nImgType == IMAGE_TYPE_SPRITE:
+                self.imgObjectImage.clip_draw(int(self.nCurFrame / FRAME_MOVE) * self.nImageWidth,
+                                              self.nFrameMode * self.nImageHeight,
+                                              self.nImageWidth, self.nImageHeight,
+                                              self.posImagePosition.GetPositionX() + addW / 2,
+                                              self.posImagePosition.GetPositionY() + addH / 2,
+                                              w * sizeX, h * sizeY)
+            elif self.nImgType == IMAGE_TYPE_FILES:
+                self.imgObjectImage[self.nCurFrame // FRAME_MOVE].clip_draw(0, 0, self.nImageWidth, self.nImageHeight,
+                                                                            self.posImagePosition.GetPositionX() + addW / 2,
+                                                                            self.posImagePosition.GetPositionY() + addH / 2,
+                                                                            w * sizeX, h * sizeY)
             self.nCurFrame += 1
             if self.nCurFrame / FRAME_MOVE >= self.nMaxFrame:
                 self.nCurFrame = 0
@@ -198,13 +216,13 @@ class SBuild_Map:
         nY = int((y - self.nStartY) / self.nTileHeight)
 
         if self.CheckBuildable(x, y, sizeX, sizeY):
-            imgTile = SImage("tmpImage/tile_g.png")
+            imgTile = SImage("tmpImage/tile_g.png", IMAGE_TYPE_SPRITE)
             imgTile.SetPosition(nX * self.nTileWidth + self.nStartX,
                                 nY * self.nTileHeight + self.nStartY)
             imgTile.SetImageFrame(1, 64, 64)
             imgTile.DrawImage_Scaled(self.nTileWidth, self.nTileHeight, sizeX, sizeY)
         else:
-            imgTile = SImage("tmpImage/tile_r.png")
+            imgTile = SImage("tmpImage/tile_r.png", IMAGE_TYPE_SPRITE)
             imgTile.SetPosition(nX * self.nTileWidth + self.nStartX,
                                 nY * self.nTileHeight + self.nStartY)
             imgTile.SetImageFrame(1, 64, 64)

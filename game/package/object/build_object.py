@@ -1,15 +1,15 @@
 from game.package.object.object import *
+from game.package.struct.STRUCT import *
 
-cBuildMap = STRUCT.SBuild_Coord(DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
+cBuildMap = STRUCT.SBuild_Coord(WINDOW_WIDTH, WINDOW_HEIGHT)
 
 
 class Obj_Build(Obj):
     global cBuildMap
 
-    def __init__(self, x, y, sizeX, sizeY, imgPath):
-        super().__init__(sizeX, sizeY, imgPath)
+    def __init__(self, x, y, sizeX, sizeY, imgPath, imgType):
+        super().__init__(sizeX, sizeY, imgPath, imgType)
         self.posObject = STRUCT.SPosition(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))
-        self.imgObject = STRUCT.SImage(imgPath)
         self.imgObject.SetPosition(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))
         # 필요한 자원 리소스들 추가
         self.nResource = 0  # 임시 자원 변수
@@ -25,14 +25,15 @@ class Obj_Build(Obj):
 
 class Obj_Build_Tree(Obj_Build):
     def __init__(self, x, y):
-        super().__init__(x, y, 2, 2, "tmpImage/tree_A.png")
+        super().__init__(x, y, 2, 2, "tmpImage/tree_A.png", IMAGE_TYPE_SPRITE)
         self.SetObjectImage(1, 64, 64)
 
 
 class Obj_Build_tmp(Obj_Build):
     def __init__(self, x, y):
-        super().__init__(x, y, 2, 2, "tmpImage/tmpb.png")
-        self.SetObjectImage(1, 192, 160)
+        imgPath = ["tmpImage/tmpb.png", "tmpImage/tmpb2.png", "tmpImage/tmpb3.png", "tmpImage/tmpb4.png"]
+        super().__init__(x, y, 2, 2, imgPath, IMAGE_TYPE_FILES)
+        self.SetObjectImage(4, 256, 256)
 
 
 class Obj_BuildPointer(Obj):

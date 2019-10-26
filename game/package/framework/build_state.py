@@ -25,20 +25,20 @@ class build_state:
 
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.nClickedMouseX = event.x
-                self.nClickedMouseY = DEFINE.WINDOW_HEIGHT - event.y
+                self.nClickedMouseY = WINDOW_HEIGHT - event.y
                 self.build_manager.get_clicked_mouse_position(self.nClickedMouseX, self.nClickedMouseY)
 
             elif event.type == SDL_MOUSEMOTION:
                 self.nMouseX = event.x
-                self.nMouseY = DEFINE.WINDOW_HEIGHT - event.y
+                self.nMouseY = WINDOW_HEIGHT - event.y
                 self.build_manager.get_mouse_position(self.nMouseX, self.nMouseY)
 
         pass
 
     def enter(self):
-        self.imgBackground = STRUCT.SImage("tmpImage/battleback10.png")
-        self.imgBackground.SetImageFrame(1, DEFINE.WINDOW_WIDTH, DEFINE.WINDOW_HEIGHT)
-        self.imgBackground.SetPosition(DEFINE.WINDOW_WIDTH / 2, DEFINE.WINDOW_HEIGHT / 2)
+        self.imgBackground = STRUCT.SImage("tmpImage/battleback10.png", IMAGE_TYPE_SPRITE)
+        self.imgBackground.SetImageFrame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+        self.imgBackground.SetPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         pass
 
     def exit(self):

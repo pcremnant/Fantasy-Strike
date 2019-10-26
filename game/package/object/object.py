@@ -1,5 +1,4 @@
 from ..struct import STRUCT
-from ..define import DEFINE
 
 # 뭐가 있어야 될까..? 유닛 클래스
 # 1. 좌표값
@@ -15,9 +14,9 @@ from ..define import DEFINE
 
 class Obj:
 
-    def __init__(self, sizeX, sizeY, imgPath):
+    def __init__(self, sizeX, sizeY, imgPath, imgType):
         self.posObject = None
-        self.imgObject = STRUCT.SImage(imgPath)
+        self.imgObject = STRUCT.SImage(imgPath, imgType)
         self.nSizeX = sizeX
         self.nSizeY = sizeY
 
