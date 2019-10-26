@@ -4,24 +4,24 @@ from ..define.DEFINE import *
 
 class SPosition:
 
-    def __init__(self, x, y):
-        self.PosX = x
-        self.PosY = y
+    def __init__(self, nX, nY):
+        self.x = nX
+        self.y = nY
         pass
 
-    def SetPosition(self, x, y):
-        self.PosX = x
-        self.PosY = y
+    def SetPosition(self, nX, nY):
+        self.x = nX
+        self.y = nY
 
-    def MovePosition(self, x, y):
-        self.PosX += x
-        self.PosY -= y
+    def MovePosition(self, nX, nY):
+        self.x += nX
+        self.y -= nY
 
     def GetPositionX(self):
-        return self.PosX
+        return self.x
 
     def GetPositionY(self):
-        return self.PosY
+        return self.y
 
 
 class SUnitStatus:

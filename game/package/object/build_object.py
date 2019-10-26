@@ -22,6 +22,12 @@ class Obj_Build(Obj):
     def DrawObject(self):
         self.imgObject.DrawImage_Scaled(cBuildMap.GetTileWidth(), cBuildMap.GetTileHeight(), self.nSizeX, self.nSizeY)
 
+
+class Obj_Build_Tree(Obj_Build):
+    def __init__(self, x, y):
+        super().__init__(x, y, 2, 2, "tmpImage/tree_A.png")
+
+
 class Obj_BuildPointer(Obj):
     global cBuildMap
 
