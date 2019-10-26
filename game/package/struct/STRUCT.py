@@ -79,17 +79,17 @@ class SImage:
         self.posImagePosition.MovePosition(x, y)
 
     def SetPosition(self, x, y):
-        self.posImagePosition.PosX, self.posImagePosition.PosY = x, y
+        self.posImagePosition.x, self.posImagePosition.y = x, y
 
     def SetImageFrame(self, maxFrame, imgWidth, imgHeight):  # 이미지 초기 세팅
         self.nMaxFrame = maxFrame  # 최대 프레임
         self.nImageWidth = imgWidth  # 한 프레임의 너비
         self.nImageHeight = imgHeight  # 한 프레임의 높이
 
-    def SetFrameMode(self, framemode):
-        if framemode < 0:
+    def SetFrameMode(self, action):
+        if action < 0:
             return False
-        self.nFrameMode = framemode
+        self.nFrameMode = action
 
 
 class SBuild_Coord:

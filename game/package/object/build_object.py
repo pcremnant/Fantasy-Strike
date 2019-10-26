@@ -26,6 +26,7 @@ class Obj_Build(Obj):
 class Obj_Build_Tree(Obj_Build):
     def __init__(self, x, y):
         super().__init__(x, y, 2, 2, "tmpImage/tree_A.png")
+        self.SetObjectImage(1, 64, 64)
 
 
 class Obj_BuildPointer(Obj):

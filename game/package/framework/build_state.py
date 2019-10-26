@@ -1,7 +1,5 @@
 from pico2d import *
-from ..struct import STRUCT
-from ..define import DEFINE
-from ..object import build_object
+from ..object.build_object_manager import *
 from ..framework import game_framework
 
 name = "build_state"
@@ -13,18 +11,14 @@ class build_state:
         self.nClickedMouseY = 0
         self.nMouseX = 0
         self.nMouseY = 0
+        self.build_manager = build_object_manager()
         self.imgBackground = None
-
-        self.trees = None
-
-        self.buildMap = STRUCT.SBuild_Map(build_object.cBuildMap.GetStartX(), build_object.cBuildMap.GetStartY(),
-                                          build_object.cBuildMap.GetTileWidth(), build_object.cBuildMap.GetTileHeight())
 
     def handle_events(self):
         events = get_events()
         for event in events:
             if event.type == SDL_QUIT:
-                game_framework.pop_state()
+                game_framework.quit()
             elif event.type == SDL_KEYDOWN:
                 if event.key == SDLK_ESCAPE:
                     game_framework.pop_state()
@@ -32,10 +26,12 @@ class build_state:
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.nClickedMouseX = event.x
                 self.nClickedMouseY = DEFINE.WINDOW_HEIGHT - event.y
+                self.build_manager.get_clicked_mouse_position(self.nClickedMouseX, self.nClickedMouseY)
 
             elif event.type == SDL_MOUSEMOTION:
                 self.nMouseX = event.x
                 self.nMouseY = DEFINE.WINDOW_HEIGHT - event.y
+                self.build_manager.get_mouse_position(self.nMouseX, self.nMouseY)
 
         pass
 
@@ -50,11 +46,7 @@ class build_state:
 
     def draw(self):
         self.imgBackground.DrawImage()
-        self.buildMap.BuildPointer(self.nMouseX, self.nMouseY, 2, 2)
-        if self.trees:
-            for obj in self.trees:
-                obj.DrawObject()
-        self.buildMap.tmpDrawTable()
+        self.build_manager.draw_object()
 
     def pause(self):
         pass
@@ -63,14 +55,7 @@ class build_state:
         pass
 
     def update(self):
-        if self.buildMap.CheckBuildable(self.nClickedMouseX, self.nClickedMouseY, 2, 2):
-            self.buildMap.BuildObject(self.nClickedMouseX, self.nClickedMouseY, 2, 2)
-            if self.trees:
-                self.trees += [build_object.Obj_Build(400, 300, 2, 2, "tmpImage/tree_A.png")]
-            else:
-                self.trees = [build_object.Obj_Build(400, 300, 2, 2, "tmpImage/tree_A.png")]
-            self.trees[-1].SetObjectImage(1, 64, 64)
-            self.trees[-1].BuildObject(self.nClickedMouseX, self.nClickedMouseY)
+        pass
 
 
 BuildState = build_state()
