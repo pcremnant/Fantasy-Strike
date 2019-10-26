@@ -27,7 +27,7 @@ class main_state:
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.nClickedMouseX = event.x
                 self.nClickedMouseY = WINDOW_HEIGHT - event.y
-                game_framework.push_state(build_state.BuildState)
+                game_framework.change_state(build_state.BuildState)
 
             elif event.type == SDL_MOUSEMOTION:
                 self.nMouseX = event.x

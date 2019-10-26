@@ -34,6 +34,9 @@ class build_object_manager:
 
     def draw_object(self):
         self.build_map.BuildPointer(self.nMouseX, self.nMouseY, 2, 2)
+        self.build_map.tmpDrawTable()
         if self.objects:
             for obj in self.objects:
                 obj.DrawObject()
+
+

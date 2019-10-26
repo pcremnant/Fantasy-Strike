@@ -1,6 +1,7 @@
 from pico2d import *
 from ..object.build_object_manager import *
 from ..framework import game_framework
+from ..framework import main_state
 
 name = "build_state"
 
@@ -21,7 +22,7 @@ class build_state:
                 game_framework.quit()
             elif event.type == SDL_KEYDOWN:
                 if event.key == SDLK_ESCAPE:
-                    game_framework.pop_state()
+                    game_framework.change_state(main_state.MainState)
 
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.nClickedMouseX = event.x

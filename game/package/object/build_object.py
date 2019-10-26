@@ -31,9 +31,9 @@ class Obj_Build_Tree(Obj_Build):
 
 class Obj_Build_tmp(Obj_Build):
     def __init__(self, x, y):
-        imgPath = ["tmpImage/tmpb.png", "tmpImage/tmpb2.png", "tmpImage/tmpb3.png", "tmpImage/tmpb4.png"]
-        super().__init__(x, y, 2, 2, imgPath, IMAGE_TYPE_FILES)
-        self.SetObjectImage(4, 256, 256)
+        imgPath = "tmpImage/tmpb4.png"
+        super().__init__(x, y, 2, 2, imgPath, IMAGE_TYPE_SPRITE)
+        self.SetObjectImage(1, 256, 256)
 
 
 class Obj_BuildPointer(Obj):

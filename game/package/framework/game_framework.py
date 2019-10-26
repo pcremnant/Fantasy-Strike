@@ -24,7 +24,7 @@ def change_state(state):
         stack[-1].exit()
         stack.pop()
     stack.append(state)
-    stack.enter()
+    state.enter()
 
 
 def push_state(state):
