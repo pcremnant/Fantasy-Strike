@@ -30,7 +30,7 @@ class build_object_manager:
     def get_clicked_mouse_position(self, x, y):
         self.nClickedMouseX = x
         self.nClickedMouseY = y
-        obj = Obj_Build_Tree(self.nClickedMouseX, self.nClickedMouseY)
+        obj = Obj_Build_tmp(self.nClickedMouseX, self.nClickedMouseY)
         self.build_object(obj)
 
     def draw_object(self):

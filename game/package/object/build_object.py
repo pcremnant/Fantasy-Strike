@@ -29,6 +29,12 @@ class Obj_Build_Tree(Obj_Build):
         self.SetObjectImage(1, 64, 64)
 
 
+class Obj_Build_tmp(Obj_Build):
+    def __init__(self, x, y):
+        super().__init__(x, y, 2, 2, "tmpImage/tmpb.png")
+        self.SetObjectImage(1, 192, 160)
+
+
 class Obj_BuildPointer(Obj):
     global cBuildMap
 
