@@ -41,11 +41,11 @@ class build_object_manager:
     def draw_object(self):
         if self.select_object is None:
             pass
-        else:
-            self.build_map.BuildPointer(self.nMouseX, self.nMouseY, self.select_object.nSizeX,
-                                        self.select_object.nSizeY)
+        elif self.build_map.BuildPointer(self.nMouseX, self.nMouseY, self.select_object.nSizeX,
+                                         self.select_object.nSizeY):
             self.select_object.BuildObject(self.nMouseX, self.nMouseY)
             self.select_object.DrawObject()
+
         self.build_map.tmpDrawTable()
         if self.objects:
             for obj in self.objects:
@@ -56,11 +56,15 @@ class build_object_manager:
 class build_tree:
     def __init__(self):
         self.image = load_image("tmpImage/tech_bg.png")
+        self.pos = coord_position(BUILD_MAP_SIZE_X + BUILD_MAP_SIZE_X_EDGE, BUILD_MAP_SIZE_Y_EDGE)
         self.tech = [[], []]
         self.layer = 0
-        self.tech[self.layer].append(Obj_Build_Tree(940, 100))
-        self.tech[self.layer].append(Obj_Build_tmp(1000, 100))
-        self.pos = coord_position(BUILD_MAP_SIZE_X + BUILD_MAP_SIZE_X_EDGE, 0)
+        self.tech[self.layer].append(Obj_Build_Tree(self.pos[0] + BUILD_TILE_WIDTH,
+                                                    self.pos[1] + 5 * BUILD_TILE_HEIGHT))
+        self.tech[self.layer].append(Obj_Build_tmp(self.pos[0] + 3 * BUILD_TILE_WIDTH,
+                                                   self.pos[1] + 5 * BUILD_TILE_HEIGHT))
+        self.tech[self.layer].append(Obj_Build_Tent(self.pos[0] + 5 * BUILD_TILE_WIDTH,
+                                                    self.pos[1] + 5 * BUILD_TILE_HEIGHT))
         # 모든 종류의 건물들 레이어 별로 생성
         pass
 
@@ -73,4 +77,3 @@ class build_tree:
                         BUILD_MAP_SIZE_X_EDGE * BUILD_TILE_WIDTH, BUILD_MAP_SIZE_Y_EDGE * BUILD_TILE_HEIGHT)
         for obj in self.tech[self.layer]:
             obj.DrawObject()
-
