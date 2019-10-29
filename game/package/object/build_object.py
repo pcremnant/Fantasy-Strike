@@ -36,6 +36,12 @@ class Obj_Build_tmp(Obj_Build):
         self.SetObjectImage(1, 256, 256)
 
 
+class Obj_Build_Tent(Obj_Build):
+    def __init__(self, x, y):
+        super().__init__(x, y, 2, 3, "tmpImage/tmpTent1.png", IMAGE_TYPE_SPRITE)
+        self.SetObjectImage(1, 256, 256)
+
+
 class Obj_BuildPointer(Obj):
     global cBuildMap
 
@@ -44,4 +50,5 @@ class Obj_BuildPointer(Obj):
 
     def GetMousePosition(self, x, y):
         self.SetPosition(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))
+
 # 마우스 포인터를 받아서 건물을 짓는다

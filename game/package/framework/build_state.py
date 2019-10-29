@@ -1,7 +1,7 @@
 from pico2d import *
 from ..object.build_object_manager import *
 from ..framework import game_framework
-from ..framework import main_state
+from ..framework import states
 
 name = "build_state"
 
@@ -22,7 +22,7 @@ class build_state:
                 game_framework.quit()
             elif event.type == SDL_KEYDOWN:
                 if event.key == SDLK_ESCAPE:
-                    game_framework.change_state(main_state.MainState)
+                    game_framework.change_state(states.MainState)
 
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.nClickedMouseX = event.x
@@ -37,12 +37,18 @@ class build_state:
         pass
 
     def enter(self):
+        self.nClickedMouseX = 0
+        self.nClickedMouseY = 0
+        self.nMouseX = 0
+        self.nMouseY = 0
+        self.build_manager = build_object_manager()
         self.imgBackground = STRUCT.SImage("tmpImage/battleback10.png", IMAGE_TYPE_SPRITE)
         self.imgBackground.SetImageFrame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
         self.imgBackground.SetPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         pass
 
     def exit(self):
+        del self.build_manager
         pass
 
     def draw(self):
@@ -59,4 +65,4 @@ class build_state:
         pass
 
 
-BuildState = build_state()
+

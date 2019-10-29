@@ -2,6 +2,8 @@ from .build_object import *
 
 build_coord = STRUCT.SBuild_Coord(WINDOW_WIDTH, WINDOW_HEIGHT)
 
+event_table = None
+
 
 class build_object_manager:
     def __init__(self):
@@ -13,10 +15,11 @@ class build_object_manager:
         self.nClickedMouseX = None
         self.nClickedMouseY = None
         self.build_tech = build_tree()
+
+        self.select_object = Obj_Build_Tent(self.nMouseX, self.nMouseY)
         pass
 
     def build_object(self, obj):
-        self.build_tech.init_tree()
         if self.build_map.CheckBuildable(obj.posObject.x, obj.posObject.y, obj.nSizeX, obj.nSizeY):
             self.build_map.BuildObject(obj.posObject.x, obj.posObject.y, obj.nSizeX, obj.nSizeY)
             if self.objects:
@@ -31,11 +34,17 @@ class build_object_manager:
     def get_clicked_mouse_position(self, x, y):
         self.nClickedMouseX = x
         self.nClickedMouseY = y
-        obj = Obj_Build_tmp(self.nClickedMouseX, self.nClickedMouseY)
+        obj = Obj_Build_Tent(self.nClickedMouseX, self.nClickedMouseY)
         self.build_object(obj)
 
     def draw_object(self):
-        self.build_map.BuildPointer(self.nMouseX, self.nMouseY, 2, 2)
+        if self.select_object is None:
+            pass
+        else:
+            self.build_map.BuildPointer(self.nMouseX, self.nMouseY, self.select_object.nSizeX,
+                                        self.select_object.nSizeY)
+            self.select_object.BuildObject(self.nMouseX, self.nMouseY)
+            self.select_object.DrawObject()
         self.build_map.tmpDrawTable()
         if self.objects:
             for obj in self.objects:
@@ -47,17 +56,13 @@ class build_tree:
     def __init__(self):
         self.tech = [[], []]
         self.layer = 0
+        self.tech[self.layer].append(Obj_Build_Tree(940, 100))
+        self.tech[self.layer].append(Obj_Build_tmp(1000, 100))
         # 모든 종류의 건물들 레이어 별로 생성
         pass
 
     def select_layer(self):
         pass
-
-    def init_tree(self):
-        self.tech[self.layer].append(Obj_Build_Tree(940, 100))
-        self.tech[self.layer].append(Obj_Build_tmp(1000, 100))
-        # self.tech += [self.layer, Obj_Build_Tree(700, 500)]
-        # self.tech += [self.layer, Obj_Build_tmp(750, 500)]
 
     def draw(self):
         for obj in self.tech[self.layer]:

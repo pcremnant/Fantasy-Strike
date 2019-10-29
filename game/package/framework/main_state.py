@@ -2,6 +2,7 @@ from pico2d import *
 from ..struct import STRUCT
 from ..define.DEFINE import *
 from ..framework import game_framework
+from ..framework import states
 from ..framework import build_state
 
 name = "main_state"
@@ -27,7 +28,8 @@ class main_state:
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.nClickedMouseX = event.x
                 self.nClickedMouseY = WINDOW_HEIGHT - event.y
-                game_framework.change_state(build_state.BuildState)
+
+                game_framework.change_state(states.BuildState)
 
             elif event.type == SDL_MOUSEMOTION:
                 self.nMouseX = event.x
@@ -55,5 +57,3 @@ class main_state:
     def update(self):
         pass
 
-
-MainState = main_state()
