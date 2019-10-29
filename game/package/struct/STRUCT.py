@@ -112,11 +112,11 @@ class SImage:
 
 class SBuild_Coord:
 
-    def __init__(self, nWinWidth, nWinHeight):
-        self.nTileWidth = int(nWinWidth / (BUILD_MAP_SIZE_X + 2 * BUILD_MAP_SIZE_X_EDGE))
-        self.nTileHeight = int(nWinHeight / (BUILD_MAP_SIZE_Y + 2 * BUILD_MAP_SIZE_Y_EDGE))
-        self.nTileStartX = int(BUILD_MAP_SIZE_X_EDGE * self.nTileWidth)
-        self.nTileStartY = int(BUILD_MAP_SIZE_Y_EDGE * self.nTileHeight)
+    def __init__(self):
+        self.nTileWidth = BUILD_TILE_WIDTH
+        self.nTileHeight = BUILD_TILE_HEIGHT
+        self.nTileStartX = BUILD_MAP_SIZE_X_EDGE * BUILD_TILE_WIDTH
+        self.nTileStartY = BUILD_MAP_SIZE_Y_EDGE * BUILD_TILE_HEIGHT
 
     def GetPositionX(self, x):
         nX = int((x - self.nTileStartX) / self.nTileWidth)
@@ -125,13 +125,6 @@ class SBuild_Coord:
     def GetPositionY(self, y):
         nY = int((y - self.nTileStartY) / self.nTileHeight)
         return nY * self.nTileHeight + self.nTileStartY
-
-    # 빌드 맵 한 칸의 사이즈를 정한다.
-    def SetTileSize(self, nWinWidth, nWinHeight):
-        self.nTileWidth = int(nWinWidth / (BUILD_MAP_SIZE_X + 2 * BUILD_MAP_SIZE_X_EDGE))
-        self.nTileHeight = int(nWinHeight / (BUILD_MAP_SIZE_Y + 2 * BUILD_MAP_SIZE_Y_EDGE))
-        self.nTileStartX = int(BUILD_MAP_SIZE_X_EDGE * self.nTileWidth)
-        self.nTileStartY = int(BUILD_MAP_SIZE_Y_EDGE * self.nTileHeight)
 
     def GetTileWidth(self):
         return self.nTileWidth

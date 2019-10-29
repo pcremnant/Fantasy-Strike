@@ -1,7 +1,7 @@
 from game.package.object.object import *
 from game.package.struct.STRUCT import *
 
-cBuildMap = STRUCT.SBuild_Coord(WINDOW_WIDTH, WINDOW_HEIGHT)
+cBuildMap = STRUCT.SBuild_Coord()
 
 
 class Obj_Build(Obj):
