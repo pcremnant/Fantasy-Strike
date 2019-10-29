@@ -12,9 +12,11 @@ class build_object_manager:
         self.nMouseY = 300
         self.nClickedMouseX = None
         self.nClickedMouseY = None
+        self.build_tech = build_tree()
         pass
 
     def build_object(self, obj):
+        self.build_tech.init_tree()
         if self.build_map.CheckBuildable(obj.posObject.x, obj.posObject.y, obj.nSizeX, obj.nSizeY):
             self.build_map.BuildObject(obj.posObject.x, obj.posObject.y, obj.nSizeX, obj.nSizeY)
             if self.objects:
@@ -38,5 +40,25 @@ class build_object_manager:
         if self.objects:
             for obj in self.objects:
                 obj.DrawObject()
+        self.build_tech.draw()
 
 
+class build_tree:
+    def __init__(self):
+        self.tech = [[], []]
+        self.layer = 0
+        # 모든 종류의 건물들 레이어 별로 생성
+        pass
+
+    def select_layer(self):
+        pass
+
+    def init_tree(self):
+        self.tech[self.layer].append(Obj_Build_Tree(940, 100))
+        self.tech[self.layer].append(Obj_Build_tmp(1000, 100))
+        # self.tech += [self.layer, Obj_Build_Tree(700, 500)]
+        # self.tech += [self.layer, Obj_Build_tmp(750, 500)]
+
+    def draw(self):
+        for obj in self.tech[self.layer]:
+            obj.DrawObject()
