@@ -38,7 +38,7 @@ class Obj_Build_tmp(Obj_Build):
 
 class Obj_Build_Tent(Obj_Build):
     def __init__(self, x, y):
-        super().__init__(x, y, 2, 3, "tmpImage/tmpTent1.png", IMAGE_TYPE_SPRITE)
+        super().__init__(x, y, 2, 2, "tmpImage/tmpTent1.png", IMAGE_TYPE_SPRITE)
         self.SetObjectImage(1, 256, 256)
 
 

@@ -191,8 +191,6 @@ class SBuild_Map:
         nX = int((x - self.nStartX) / self.nTileWidth)
         nY = int((y - self.nStartY) / self.nTileHeight)
 
-        bCheck = True
-
         for coordY in range(int(nY - sizeY / 2 + 0.5), int(nY + sizeY / 2 + 0.5), 1):
             for coordX in range(int(nX - sizeX / 2 + 0.5), int(nX + sizeX / 2 + 0.5), 1):
                 if coordX >= BUILD_MAP_SIZE_X - 1 or coordX < 0:
@@ -208,7 +206,11 @@ class SBuild_Map:
         nX = int((x - self.nStartX) / self.nTileWidth)
         nY = int((y - self.nStartY) / self.nTileHeight)
 
-        if self.CheckBuildable(x, y, sizeX, sizeY):
+        if nX >= BUILD_MAP_SIZE_X - 1 or nY >= BUILD_MAP_SIZE_Y - 1:
+            pass
+        elif nX <= 0 or nY <= 0:
+            pass
+        elif self.CheckBuildable(x, y, sizeX, sizeY):
             imgTile = SImage("tmpImage/tile_g.png", IMAGE_TYPE_SPRITE)
             imgTile.SetPosition(nX * self.nTileWidth + self.nStartX,
                                 nY * self.nTileHeight + self.nStartY)
