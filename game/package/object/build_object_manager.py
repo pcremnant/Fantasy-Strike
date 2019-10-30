@@ -31,14 +31,16 @@ class build_object_manager:
         self.nClickedMouseY = None
         self.build_tech = build_tree()
 
-        self.select_object = Obj_Build_Tent(self.nMouseX, self.nMouseY)
+        self.select_object = None
         pass
 
     def build_object(self, obj):
         if obj is None:
             return
-        if self.build_map.CheckBuildable(obj.posObject.x, obj.posObject.y, obj.nSizeX, obj.nSizeY):
-            self.build_map.BuildObject(obj.posObject.x, obj.posObject.y, obj.nSizeX, obj.nSizeY)
+        # if self.build_map.CheckBuildable(obj.posObject.x, obj.posObject.y, obj.nSizeX, obj.nSizeY):
+        #     self.build_map.BuildObject(obj.posObject.x, obj.posObject.y, obj.nSizeX, obj.nSizeY)
+        if self.build_map.CheckBuildable(self.nMouseX, self.nMouseY, obj.nSizeX, obj.nSizeY):
+            self.build_map.BuildObject(self.nMouseX, self.nMouseY, obj.nSizeX, obj.nSizeY)
             if self.objects:
                 self.objects += [obj]
             else:
@@ -54,7 +56,7 @@ class build_object_manager:
         # obj = Obj_Build_Tent(self.nClickedMouseX, self.nClickedMouseY)
         obj = self.select_object
         self.build_object(obj)
-        self.select_object = self.build_tech.select_object(x, y)
+        self.select_object = self.build_tech.select_object(self.nClickedMouseX, self.nClickedMouseY)
 
     def draw_object(self):
         if self.select_object is None:
