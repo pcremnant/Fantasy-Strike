@@ -3,7 +3,21 @@ from pico2d import *
 
 build_coord = STRUCT.SBuild_Coord()
 
-event_table = None
+pos = coord_position(BUILD_MAP_SIZE_X + BUILD_MAP_SIZE_X_EDGE, BUILD_MAP_SIZE_Y_EDGE)
+
+OBJECT_TREE = ((pos[0] + BUILD_TILE_WIDTH, pos[1] + 5 * BUILD_TILE_HEIGHT),
+               (pos[0] + 3 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT))
+OBJECT_TMP = ((pos[0] + 3 * BUILD_TILE_WIDTH, pos[1] + 5 * BUILD_TILE_HEIGHT),
+              (pos[0] + 5 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT))
+OBJECT_TENT = ((pos[0] + 5 * BUILD_TILE_WIDTH, pos[1] + 5 * BUILD_TILE_HEIGHT),
+               (pos[0] + 7 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT))
+
+
+def point_in_box(object_coord, mx, my):
+    if object_coord[0][0] <= mx <= object_coord[1][0] and object_coord[0][1] <= my <= object_coord[1][1]:
+        return True
+    else:
+        return False
 
 
 class build_object_manager:
@@ -37,6 +51,7 @@ class build_object_manager:
         self.nClickedMouseY = y
         obj = Obj_Build_Tent(self.nClickedMouseX, self.nClickedMouseY)
         self.build_object(obj)
+        self.select_object = self.build_tech.select_object(x, y)
 
     def draw_object(self):
         if self.select_object is None:
@@ -65,8 +80,24 @@ class build_tree:
                                                    self.pos[1] + 5 * BUILD_TILE_HEIGHT))
         self.tech[self.layer].append(Obj_Build_Tent(self.pos[0] + 5 * BUILD_TILE_WIDTH,
                                                     self.pos[1] + 5 * BUILD_TILE_HEIGHT))
+        self.object_coord = [OBJECT_TREE, OBJECT_TMP, OBJECT_TENT]
         # 모든 종류의 건물들 레이어 별로 생성
         pass
+
+    def select_object(self, mx, my):
+        count = 0
+        for o in self.object_coord:
+            if point_in_box(o, mx, my):
+                if count == 0:
+                    return Obj_Build_Tree(mx, my)
+                elif count == 1:
+                    return Obj_Build_tmp(mx, my)
+                elif count == 2:
+                    return Obj_Build_Tent(mx, my)
+            else:
+                count += 1
+
+        return None
 
     def select_layer(self):
         pass
@@ -77,3 +108,14 @@ class build_tree:
                         BUILD_MAP_SIZE_X_EDGE * BUILD_TILE_WIDTH, BUILD_MAP_SIZE_Y_EDGE * BUILD_TILE_HEIGHT)
         for obj in self.tech[self.layer]:
             obj.DrawObject()
+
+# OBJECT_TREE, OBJECT_TMP, OBJECT_TENT = range(3)
+
+# object_coord_table = {
+#     ((pos[0] + BUILD_TILE_WIDTH, pos[1] + 5 * BUILD_TILE_HEIGHT),
+#      (pos[0] + 3 * BUILD_TILE_WIDTH - 1, pos[1] + 5 * BUILD_TILE_HEIGHT)): OBJECT_TREE,
+#     ((pos[0] + 3 * BUILD_TILE_WIDTH, pos[1] + 5 * BUILD_TILE_HEIGHT),
+#      (pos[0] + 5 * BUILD_TILE_WIDTH - 1, pos[1] + 5 * BUILD_TILE_HEIGHT)): OBJECT_TMP,
+#     ((pos[0] + 5 * BUILD_TILE_WIDTH, pos[1] + 5 * BUILD_TILE_HEIGHT),
+#      (pos[0] + 7 * BUILD_TILE_WIDTH - 1, pos[1] + 5 * BUILD_TILE_HEIGHT)): OBJECT_TENT
+# }
