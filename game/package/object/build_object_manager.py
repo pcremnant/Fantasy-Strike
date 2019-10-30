@@ -5,12 +5,12 @@ build_coord = STRUCT.SBuild_Coord()
 
 pos = coord_position(BUILD_MAP_SIZE_X + BUILD_MAP_SIZE_X_EDGE, BUILD_MAP_SIZE_Y_EDGE)
 
-OBJECT_TREE = ((pos[0] + BUILD_TILE_WIDTH, pos[1] + 5 * BUILD_TILE_HEIGHT),
-               (pos[0] + 3 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT))
-OBJECT_TMP = ((pos[0] + 3 * BUILD_TILE_WIDTH, pos[1] + 5 * BUILD_TILE_HEIGHT),
-              (pos[0] + 5 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT))
-OBJECT_TENT = ((pos[0] + 5 * BUILD_TILE_WIDTH, pos[1] + 5 * BUILD_TILE_HEIGHT),
-               (pos[0] + 7 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT))
+OBJECT_TREE = ((pos[0], pos[1] + 4 * BUILD_TILE_HEIGHT),
+               (pos[0] + 2 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT))
+OBJECT_TMP = ((pos[0] + 2 * BUILD_TILE_WIDTH, pos[1] + 4 * BUILD_TILE_HEIGHT),
+              (pos[0] + 4 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT))
+OBJECT_TENT = ((pos[0] + 4 * BUILD_TILE_WIDTH, pos[1] + 4 * BUILD_TILE_HEIGHT),
+               (pos[0] + 6 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT))
 
 
 def point_in_box(object_coord, mx, my):
@@ -35,6 +35,8 @@ class build_object_manager:
         pass
 
     def build_object(self, obj):
+        if obj is None:
+            return
         if self.build_map.CheckBuildable(obj.posObject.x, obj.posObject.y, obj.nSizeX, obj.nSizeY):
             self.build_map.BuildObject(obj.posObject.x, obj.posObject.y, obj.nSizeX, obj.nSizeY)
             if self.objects:
@@ -49,7 +51,8 @@ class build_object_manager:
     def get_clicked_mouse_position(self, x, y):
         self.nClickedMouseX = x
         self.nClickedMouseY = y
-        obj = Obj_Build_Tent(self.nClickedMouseX, self.nClickedMouseY)
+        # obj = Obj_Build_Tent(self.nClickedMouseX, self.nClickedMouseY)
+        obj = self.select_object
         self.build_object(obj)
         self.select_object = self.build_tech.select_object(x, y)
 
@@ -109,13 +112,6 @@ class build_tree:
         for obj in self.tech[self.layer]:
             obj.DrawObject()
 
-# OBJECT_TREE, OBJECT_TMP, OBJECT_TENT = range(3)
-
-# object_coord_table = {
-#     ((pos[0] + BUILD_TILE_WIDTH, pos[1] + 5 * BUILD_TILE_HEIGHT),
-#      (pos[0] + 3 * BUILD_TILE_WIDTH - 1, pos[1] + 5 * BUILD_TILE_HEIGHT)): OBJECT_TREE,
-#     ((pos[0] + 3 * BUILD_TILE_WIDTH, pos[1] + 5 * BUILD_TILE_HEIGHT),
-#      (pos[0] + 5 * BUILD_TILE_WIDTH - 1, pos[1] + 5 * BUILD_TILE_HEIGHT)): OBJECT_TMP,
-#     ((pos[0] + 5 * BUILD_TILE_WIDTH, pos[1] + 5 * BUILD_TILE_HEIGHT),
-#      (pos[0] + 7 * BUILD_TILE_WIDTH - 1, pos[1] + 5 * BUILD_TILE_HEIGHT)): OBJECT_TENT
-# }
+        pico2d.draw_rectangle(OBJECT_TREE[0][0], OBJECT_TREE[0][1], OBJECT_TREE[1][0], OBJECT_TREE[1][1])
+        pico2d.draw_rectangle(OBJECT_TMP[0][0], OBJECT_TMP[0][1], OBJECT_TMP[1][0], OBJECT_TMP[1][1])
+        pico2d.draw_rectangle(OBJECT_TENT[0][0], OBJECT_TENT[0][1], OBJECT_TENT[1][0], OBJECT_TENT[1][1])
