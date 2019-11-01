@@ -12,7 +12,8 @@ class Object_Build(Object):
         self.resource = None  # 임시 자원 변수
 
     def build_object_on_tile(self, x, y):
-        self.set_object_position(get_build_tile_position_x(x), get_build_tile_position_y(y))
+        self.set_object_position(get_build_tile_position_x(x) * BUILD_TILE_WIDTH,
+                                 get_build_tile_position_y(y) * BUILD_TILE_HEIGHT)
 
     def draw_object(self):
         self.class_object_image.draw_on_build_map(BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT, self.size_x, self.size_y)

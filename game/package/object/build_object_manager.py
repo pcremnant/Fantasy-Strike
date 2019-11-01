@@ -23,8 +23,7 @@ def point_in_box(object_coord, mx, my):
 class Build_Object_Manager:
     def __init__(self):
         self.objects = None
-        self.build_map = STRUCT.Build_Map(BUILD_TILE_START_X, BUILD_TILE_START_Y,
-                                          BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT)
+        self.build_map = STRUCT.Build_Map()
         self.mouse_x = 400
         self.mouse_y = 300
         self.mouse_clicked_x = None

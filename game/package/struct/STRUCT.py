@@ -115,12 +115,8 @@ class Image:
 
 class Build_Map:
 
-    def __init__(self, nSX, nSY, nTW, nTH):
+    def __init__(self):
         self.build_map = [[0 for x in range(BUILD_MAP_SIZE_X)] for y in range(BUILD_MAP_SIZE_Y)]
-        # self.nStartX = nSX
-        # self.nStartY = nSY
-        # self.nTileWidth = nTW
-        # self.nTileHeight = nTH
         self.init_build_map()
 
     def init_build_map(self):
