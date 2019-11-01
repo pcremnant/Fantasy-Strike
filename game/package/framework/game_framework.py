@@ -3,7 +3,7 @@ from pico2d import *
 name = "GameFramework"
 
 
-class GameState:
+class Game_State:
     def __init__(self, state):
         self.enter = state.enter
         self.exit = state.exit

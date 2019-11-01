@@ -7,7 +7,7 @@ from ..framework import states
 name = "main_state"
 
 
-class main_state:
+class Main_State:
     def __init__(self):
         self.nClickedMouseX = 0
         self.nClickedMouseY = 0

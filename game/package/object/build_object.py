@@ -43,7 +43,7 @@ class Object_Build_Pointer(Object):
     def __int__(self, x, y, sizeX, sizeY, imgPath):
         super().__init__(sizeX, sizeY, imgPath)
 
-    def GetMousePosition(self, x, y):
+    def get_mouse_position(self, x, y):
         self.set_object_position(get_build_tile_position_x(x) * BUILD_TILE_WIDTH,
                                  get_build_tile_position_y(y) * BUILD_TILE_HEIGHT)
 
