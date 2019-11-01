@@ -12,20 +12,20 @@ from ..struct import STRUCT
 # tile_size = Window_Width/32 Window_Height/16 -> 나머지 칸들은 UI가 들어 갈 칸
 
 
-class Obj:
+class Object:
 
     def __init__(self, sizeX, sizeY, imgPath, imgType):
-        self.posObject = None
-        self.imgObject = STRUCT.SImage(imgPath, imgType)
-        self.nSizeX = sizeX
-        self.nSizeY = sizeY
+        self.object_position = None
+        self.class_object_image = STRUCT.SImage(imgPath, imgType)
+        self.size_x = sizeX
+        self.size_y = sizeY
 
-    def SetObjectImage(self, maxFrame, imgWidth, imgHeight):
-        self.imgObject.set_image_frame(maxFrame, imgWidth, imgHeight)
+    def set_object_frame(self, maxFrame, imgWidth, imgHeight):
+        self.class_object_image.set_image_frame(maxFrame, imgWidth, imgHeight)
 
-    def DrawObject(self):
+    def draw_object(self):
         pass
 
-    def SetPosition(self, x, y):
-        self.posObject = STRUCT.SPosition(x, y)
-        self.imgObject.set_position(x, y)
+    def set_object_position(self, x, y):
+        self.object_position = STRUCT.SPosition(x, y)
+        self.class_object_image.set_position(x, y)

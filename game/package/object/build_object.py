@@ -4,51 +4,50 @@ from game.package.struct.STRUCT import *
 # cBuildMap = STRUCT.SBuild_Coord()
 
 
-class Obj_Build(Obj):
+class Object_Build(Object):
     # global cBuildMap
 
     def __init__(self, x, y, sizeX, sizeY, imgPath, imgType):
         super().__init__(sizeX, sizeY, imgPath, imgType)
-        self.posObject = STRUCT.SPosition(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))
-        self.imgObject.set_position(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))
+        self.object_position = STRUCT.SPosition(get_build_tile_position((x, y)))
+        self.class_object_image.set_position(self.object_position.x, self.object_position.y)
         # 필요한 자원 리소스들 추가
         self.nResource = 0  # 임시 자원 변수
 
-    def BuildObject(self, x, y):
-        self.SetPosition(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))
+    def build_object_on_tile(self, x, y):
+        self.set_object_position(get_build_tile_position(x, y))
         # self.posObject.SetPosition(posMouse.posX - (posMouse.posX % 16), posMouse.posY - (posMouse.posY % 16))
         # 16픽셀 단위로 이동 가능하게 설정
 
-    def DrawObject(self):
-        self.imgObject.draw_on_build_map(cBuildMap.GetTileWidth(), cBuildMap.GetTileHeight(), self.nSizeX, self.nSizeY)
+    def draw_object(self):
+        self.class_object_image.draw_on_build_map(BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT, self.size_x, self.size_y)
 
 
-class Obj_Build_Tree(Obj_Build):
+class Object_Build_Tree(Object_Build):
     def __init__(self, x, y):
         super().__init__(x, y, 2, 2, "tmpImage/tree_A.png", IMAGE_TYPE_SPRITE)
-        self.SetObjectImage(1, 64, 64)
+        self.set_object_frame(1, 64, 64)
 
 
-class Obj_Build_tmp(Obj_Build):
+class Object_Build_tmp(Object_Build):
     def __init__(self, x, y):
         imgPath = "tmpImage/tmpb4.png"
         super().__init__(x, y, 2, 2, imgPath, IMAGE_TYPE_SPRITE)
-        self.SetObjectImage(1, 256, 256)
+        self.set_object_frame(1, 256, 256)
 
 
-class Obj_Build_Tent(Obj_Build):
+class Object_Build_Tent(Object_Build):
     def __init__(self, x, y):
         super().__init__(x, y, 2, 2, "tmpImage/tmpTent1.png", IMAGE_TYPE_SPRITE)
-        self.SetObjectImage(1, 256, 256)
+        self.set_object_frame(1, 256, 256)
 
 
-class Obj_BuildPointer(Obj):
-    global cBuildMap
+class Object_Build_Pointer(Object):
 
     def __int__(self, x, y, sizeX, sizeY, imgPath):
         super().__init__(sizeX, sizeY, imgPath)
 
     def GetMousePosition(self, x, y):
-        self.SetPosition(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))
+        self.set_object_position(get_build_tile_position(x, y))
 
 # 마우스 포인터를 받아서 건물을 짓는다
