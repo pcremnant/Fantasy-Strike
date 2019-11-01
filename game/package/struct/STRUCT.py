@@ -116,85 +116,86 @@ class Image:
 class Build_Map:
 
     def __init__(self, nSX, nSY, nTW, nTH):
-        self.mapBuild = [[0 for x in range(BUILD_MAP_SIZE_X)] for y in range(BUILD_MAP_SIZE_Y)]
-        self.nStartX = nSX
-        self.nStartY = nSY
-        self.nTileWidth = nTW
-        self.nTileHeight = nTH
-        for i in range(BUILD_MAP_SIZE_Y):
-            for j in range(BUILD_MAP_SIZE_X):
-                self.mapBuild[i][j] = True
+        self.build_map = [[0 for x in range(BUILD_MAP_SIZE_X)] for y in range(BUILD_MAP_SIZE_Y)]
+        # self.nStartX = nSX
+        # self.nStartY = nSY
+        # self.nTileWidth = nTW
+        # self.nTileHeight = nTH
+        self.init_build_map()
 
-    def InitTable(self):
-        for i in range(BUILD_MAP_SIZE_Y):
-            for j in range(BUILD_MAP_SIZE_X):
-                self.mapBuild[i][j] = True
+    def init_build_map(self):
+        for y in range(BUILD_MAP_SIZE_Y):
+            for x in range(BUILD_MAP_SIZE_X):
+                self.build_map[y][x] = True
 
     # 해당 위치가 건설 가능한 곳인지 체크
-    def CheckBuildable(self, x, y, sizeX, sizeY):
-        nX = int((x - self.nStartX) / self.nTileWidth)
-        nY = int((y - self.nStartY) / self.nTileHeight)
+    def check_is_buildable(self, x, y, size_x, size_y):
+        tile_x = int((x - BUILD_TILE_START_X) / BUILD_TILE_WIDTH)
+        tile_y = int((y - BUILD_TILE_START_Y) / BUILD_TILE_HEIGHT)
 
-        if nX - sizeX / 2 < 0:
+        if tile_x - size_x / 2 < 0:
             return False
-        if nY - sizeY / 2 < 0:
+        if tile_y - size_y / 2 < 0:
             return False
 
-        for coordY in range(int(nY - sizeY / 2 + 0.5), int(nY + sizeY / 2 + 0.5), 1):
-            for coordX in range(int(nX - sizeX / 2 + 0.5), int(nX + sizeX / 2 + 0.5), 1):
-                if coordX >= BUILD_MAP_SIZE_X - 1 or coordX < 0:
+        for coord_y in range(int(tile_y - size_y / 2 + 0.5), int(tile_y + size_y / 2 + 0.5), 1):
+            for coord_x in range(int(tile_x - size_x / 2 + 0.5), int(tile_x + size_x / 2 + 0.5), 1):
+                if coord_x >= BUILD_MAP_SIZE_X - 1 or coord_x < 0:
                     return False
-                elif coordY >= BUILD_MAP_SIZE_Y - 1 or coordY < 0:
+                elif coord_y >= BUILD_MAP_SIZE_Y - 1 or coord_y < 0:
                     return False
-                elif not self.mapBuild[coordY][coordX]:
+                elif not self.build_map[coord_y][coord_x]:
                     return False
 
         return True
 
-    def tmpDrawTable(self):
+    # tmp code : draw build map table ---------------------------------------------------
+    def tmp_draw_table(self):
         for y in range(0, BUILD_MAP_SIZE_Y - 1, 1):
             for x in range(0, BUILD_MAP_SIZE_X - 1, 1):
-                pico2d.draw_rectangle(self.nStartX + x * self.nTileWidth, self.nStartY + y * self.nTileHeight,
-                                      self.nStartX + (x + 1) * self.nTileWidth,
-                                      self.nStartY + (y + 1) * self.nTileHeight)
+                pico2d.draw_rectangle(BUILD_TILE_START_X + x * BUILD_TILE_WIDTH,
+                                      BUILD_TILE_START_Y + y * BUILD_TILE_HEIGHT,
+                                      BUILD_TILE_START_X + (x + 1) * BUILD_TILE_WIDTH,
+                                      BUILD_TILE_START_Y + (y + 1) * BUILD_TILE_HEIGHT)
+    # ------------------------------------------------------------------------------------
 
-    def BuildObject(self, x, y, sizeX, sizeY):
-        if not self.CheckBuildable(x, y, sizeX, sizeY):
+    def build_object(self, x, y, size_x, size_y):
+        if not self.check_is_buildable(x, y, size_x, size_y):
             return False
 
-        nX = int((x - self.nStartX) / self.nTileWidth)
-        nY = int((y - self.nStartY) / self.nTileHeight)
+        tile_x = int((x - BUILD_TILE_START_X) / BUILD_TILE_WIDTH)
+        tile_y = int((y - BUILD_TILE_START_Y) / BUILD_TILE_HEIGHT)
 
-        for coordY in range(int(nY - sizeY / 2 + 0.5), int(nY + sizeY / 2 + 0.5), 1):
-            for coordX in range(int(nX - sizeX / 2 + 0.5), int(nX + sizeX / 2 + 0.5), 1):
-                if coordX >= BUILD_MAP_SIZE_X - 1 or coordX < 0:
+        for coord_y in range(int(tile_y - size_y / 2 + 0.5), int(tile_y + size_y / 2 + 0.5), 1):
+            for coord_x in range(int(tile_x - size_x / 2 + 0.5), int(tile_x + size_x / 2 + 0.5), 1):
+                if coord_x >= BUILD_MAP_SIZE_X - 1 or coord_x < 0:
                     return False
-                elif coordY >= BUILD_MAP_SIZE_Y - 1 or coordY < 0:
+                elif coord_y >= BUILD_MAP_SIZE_Y - 1 or coord_y < 0:
                     return False
                 else:
-                    self.mapBuild[coordY][coordX] = False
+                    self.build_map[coord_y][coord_x] = False
 
         return True
 
-    def BuildPointer(self, x, y, sizeX, sizeY):
-        nX = int((x - self.nStartX) / self.nTileWidth)
-        nY = int((y - self.nStartY) / self.nTileHeight)
+    def build_pointer(self, x, y, size_x, size_y):
+        tile_x = int((x - BUILD_TILE_START_X) / BUILD_TILE_WIDTH)
+        tile_y = int((y - BUILD_TILE_START_Y) / BUILD_TILE_HEIGHT)
 
-        if nX >= BUILD_MAP_SIZE_X - 1 or nY >= BUILD_MAP_SIZE_Y - 1:
+        if tile_x >= BUILD_MAP_SIZE_X - 1 or tile_y >= BUILD_MAP_SIZE_Y - 1:
             return False
-        elif nX <= 0 or nY <= 0:
+        elif tile_x <= 0 or tile_y <= 0:
             return False
-        elif self.CheckBuildable(x, y, sizeX, sizeY):
+        elif self.check_is_buildable(x, y, size_x, size_y):
             imgTile = Image("tmpImage/tile_g.png", IMAGE_TYPE_SPRITE)
-            imgTile.set_position(nX * self.nTileWidth + self.nStartX,
-                                 nY * self.nTileHeight + self.nStartY)
+            imgTile.set_position(tile_x * BUILD_TILE_WIDTH + BUILD_TILE_START_X,
+                                 tile_y * BUILD_TILE_HEIGHT + BUILD_TILE_START_Y)
             imgTile.set_image_frame(1, 64, 64)
-            imgTile.draw_on_build_map(self.nTileWidth, self.nTileHeight, sizeX, sizeY)
+            imgTile.draw_on_build_map(BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT, size_x, size_y)
         else:
             imgTile = Image("tmpImage/tile_r.png", IMAGE_TYPE_SPRITE)
-            imgTile.set_position(nX * self.nTileWidth + self.nStartX,
-                                 nY * self.nTileHeight + self.nStartY)
+            imgTile.set_position(tile_x * BUILD_TILE_WIDTH + BUILD_TILE_START_X,
+                                 tile_y * BUILD_TILE_HEIGHT + BUILD_TILE_START_Y)
             imgTile.set_image_frame(1, 64, 64)
-            imgTile.draw_on_build_map(self.nTileWidth, self.nTileHeight, sizeX, sizeY)
+            imgTile.draw_on_build_map(BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT, size_x, size_y)
 
         return True

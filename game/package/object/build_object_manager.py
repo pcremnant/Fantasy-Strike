@@ -37,8 +37,8 @@ class Build_Object_Manager:
     def build_object(self, selected_object):
         if selected_object is None:
             return
-        if self.build_map.CheckBuildable(self.mouse_x, self.mouse_y, selected_object.size_x, selected_object.size_y):
-            self.build_map.BuildObject(self.mouse_x, self.mouse_y, selected_object.size_x, selected_object.size_y)
+        if self.build_map.check_is_buildable(self.mouse_x, self.mouse_y, selected_object.size_x, selected_object.size_y):
+            self.build_map.build_object(self.mouse_x, self.mouse_y, selected_object.size_x, selected_object.size_y)
             if self.objects:
                 self.objects += [selected_object]
             else:
@@ -58,12 +58,12 @@ class Build_Object_Manager:
     def draw_object(self):
         if self.select_object is None:
             pass
-        elif self.build_map.BuildPointer(self.mouse_x, self.mouse_y, self.select_object.size_x,
-                                         self.select_object.size_y):
+        elif self.build_map.build_pointer(self.mouse_x, self.mouse_y, self.select_object.size_x,
+                                          self.select_object.size_y):
             self.select_object.build_object_on_tile(self.mouse_x, self.mouse_y)
             self.select_object.draw_object()
 
-        self.build_map.tmpDrawTable()
+        self.build_map.tmp_draw_table()
         if self.objects:
             for obj in self.objects:
                 obj.draw_object()
