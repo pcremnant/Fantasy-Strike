@@ -36,7 +36,7 @@ class Main_State:
         pass
 
     def enter(self):
-        self.imgBackground = STRUCT.Image("tmpImage/tmpMain.png", IMAGE_TYPE_SPRITE)
+        self.imgBackground = STRUCT.Image("resource/background/main_state.png", IMAGE_TYPE_SPRITE)
         self.imgBackground.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
         self.imgBackground.set_position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         pass

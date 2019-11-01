@@ -3,8 +3,8 @@ from game.package.struct.STRUCT import *
 
 
 class Object_Build(Object):
-    def __init__(self, x, y, sizeX, sizeY, imgPath, imgType):
-        super().__init__(sizeX, sizeY, imgPath, imgType)
+    def __init__(self, x, y, size_x, size_y, image_path, image_type):
+        super().__init__(size_x, size_y, image_path, image_type)
         self.object_position = STRUCT.Position(get_build_tile_position_x(x), get_build_tile_position_y(y))
         temp_position = change_coord_from_build_to_screen(self.object_position.x, self.object_position.y)
         self.class_object_image.set_position(temp_position[0], temp_position[1])
@@ -19,29 +19,32 @@ class Object_Build(Object):
         self.class_object_image.draw_on_build_map(BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT, self.size_x, self.size_y)
 
 
-class Object_Build_Tree(Object_Build):
-    def __init__(self, x, y):
-        super().__init__(x, y, 2, 2, "tmpImage/tree_A.png", IMAGE_TYPE_SPRITE)
-        self.set_object_frame(1, 64, 64)
+# tmp object -----------------------------------------------------------------
+# class Object_Build_Tree(Object_Build):
+#     def __init__(self, x, y):
+#         super().__init__(x, y, 2, 2, "tmpImage/tree_A.png", IMAGE_TYPE_SPRITE)
+#         self.set_object_frame(1, 64, 64)
+#
+#
+# ------------------------------------------------------------------------------
 
-
-class Object_Build_tmp(Object_Build):
+class Object_Build_BasicWarrior(Object_Build):
     def __init__(self, x, y):
-        imgPath = "tmpImage/tmpb4.png"
+        imgPath = "resource/object/build/basic_warrior.png"
         super().__init__(x, y, 2, 2, imgPath, IMAGE_TYPE_SPRITE)
         self.set_object_frame(1, 256, 256)
 
 
-class Object_Build_Tent(Object_Build):
+class Object_Build_BasicTent(Object_Build):
     def __init__(self, x, y):
-        super().__init__(x, y, 2, 2, "tmpImage/tmpTent1.png", IMAGE_TYPE_SPRITE)
+        super().__init__(x, y, 2, 2, "resource/object/build/basic_tent.png", IMAGE_TYPE_SPRITE)
         self.set_object_frame(1, 256, 256)
 
 
 class Object_Build_Pointer(Object):
 
-    def __int__(self, x, y, sizeX, sizeY, imgPath):
-        super().__init__(sizeX, sizeY, imgPath)
+    def __int__(self, x, y, size_x, size_y, image_path):
+        super().__init__(size_x, size_y, image_path)
 
     def get_mouse_position(self, x, y):
         self.set_object_position(get_build_tile_position_x(x) * BUILD_TILE_WIDTH,

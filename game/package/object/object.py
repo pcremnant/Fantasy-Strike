@@ -15,14 +15,14 @@ from ..struct import STRUCT
 
 class Object:
 
-    def __init__(self, sizeX, sizeY, imgPath, imgType):
+    def __init__(self, size_x, size_y, image_path, image_type):
         self.object_position = None
-        self.class_object_image = STRUCT.Image(imgPath, imgType)
-        self.size_x = sizeX
-        self.size_y = sizeY
+        self.class_object_image = STRUCT.Image(image_path, image_type)
+        self.size_x = size_x
+        self.size_y = size_y
 
-    def set_object_frame(self, maxFrame, imgWidth, imgHeight):
-        self.class_object_image.set_image_frame(maxFrame, imgWidth, imgHeight)
+    def set_object_frame(self, max_frame, image_width, image_height):
+        self.class_object_image.set_image_frame(max_frame, image_width, image_height)
 
     def draw_object(self):
         pass

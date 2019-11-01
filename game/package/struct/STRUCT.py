@@ -81,19 +81,19 @@ class Image:
             if size_y % 2 == 0:
                 addH = 0
             if self.image_type == IMAGE_TYPE_SPRITE:
-                self.object_image.clip_draw(int(self.current_frame / FRAME_MOVE) * self.image_width,
+                self.object_image.clip_draw((self.current_frame // SUB_FRAME) * self.image_width,
                                             self.mode_frame * self.image_height,
                                             self.image_width, self.image_height,
                                             self.image_position.get_position_x() + addW / 2,
                                             self.image_position.get_position_y() + addH / 2,
                                             w * size_x, h * size_y)
             elif self.image_type == IMAGE_TYPE_FILES:
-                self.object_image[self.current_frame // FRAME_MOVE].clip_draw(0, 0, self.image_width, self.image_height,
+                self.object_image[self.current_frame // SUB_FRAME].clip_draw(0, 0, self.image_width, self.image_height,
                                                                               self.image_position.get_position_x() + addW / 2,
                                                                               self.image_position.get_position_y() + addH / 2,
                                                                               w * size_x, h * size_y)
             self.current_frame += 1
-            if self.current_frame / FRAME_MOVE >= self.max_frame:
+            if self.current_frame / SUB_FRAME >= self.max_frame:
                 self.current_frame = 0
 
     def move_position(self, x, y):  # 이미지 위치 이동
