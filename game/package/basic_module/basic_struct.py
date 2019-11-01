@@ -1,5 +1,5 @@
 import pico2d
-from ..define.DEFINE import *
+from game.package.basic_module.basic_define import *
 
 
 class Position:

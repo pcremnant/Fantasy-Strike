@@ -1,6 +1,6 @@
 from pico2d import *
-from ..struct import STRUCT
-from ..define.DEFINE import *
+from game.package.basic_module import basic_struct
+from ..basic_module.basic_define import *
 from ..framework import game_framework
 from ..framework import states
 
@@ -9,11 +9,11 @@ name = "main_state"
 
 class Main_State:
     def __init__(self):
-        self.nClickedMouseX = 0
-        self.nClickedMouseY = 0
-        self.nMouseX = 0
-        self.nMouseY = 0
-        self.imgBackground = None
+        self.mouse_clicked_x = 0
+        self.mouse_clicked_y = 0
+        self.mouse_x = 0
+        self.mouse_y = 0
+        self.background_image = None
 
     def handle_events(self):
         events = get_events()
@@ -25,27 +25,27 @@ class Main_State:
                     game_framework.quit()
 
             elif event.type == SDL_MOUSEBUTTONDOWN:
-                self.nClickedMouseX = event.x
-                self.nClickedMouseY = WINDOW_HEIGHT - event.y
+                self.mouse_clicked_x = event.x
+                self.mouse_clicked_y = WINDOW_HEIGHT - event.y
 
                 game_framework.change_state(states.BuildState)
 
             elif event.type == SDL_MOUSEMOTION:
-                self.nMouseX = event.x
-                self.nMouseY = WINDOW_HEIGHT - event.y
+                self.mouse_x = event.x
+                self.mouse_y = WINDOW_HEIGHT - event.y
         pass
 
     def enter(self):
-        self.imgBackground = STRUCT.Image("resource/background/main_state.png", IMAGE_TYPE_SPRITE)
-        self.imgBackground.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
-        self.imgBackground.set_position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
+        self.background_image = basic_struct.Image("resource/background/main_state.png", IMAGE_TYPE_SPRITE)
+        self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+        self.background_image.set_position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         pass
 
     def exit(self):
         pass
 
     def draw(self):
-        self.imgBackground.draw_image()
+        self.background_image.draw_image()
 
     def pause(self):
         pass

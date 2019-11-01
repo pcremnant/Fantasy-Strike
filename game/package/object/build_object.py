@@ -1,11 +1,11 @@
 from game.package.object.object import *
-from game.package.struct.STRUCT import *
+from game.package.basic_module.basic_struct import *
 
 
 class Object_Build(Object):
     def __init__(self, x, y, size_x, size_y, image_path, image_type):
         super().__init__(size_x, size_y, image_path, image_type)
-        self.object_position = STRUCT.Position(get_build_tile_position_x(x), get_build_tile_position_y(y))
+        self.object_position = Position(get_build_tile_position_x(x), get_build_tile_position_y(y))
         temp_position = change_coord_from_build_to_screen(self.object_position.x, self.object_position.y)
         self.class_object_image.set_position(temp_position[0], temp_position[1])
         # 필요한 자원 리소스들 추가
@@ -18,15 +18,6 @@ class Object_Build(Object):
     def draw_object(self):
         self.class_object_image.draw_on_build_map(BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT, self.size_x, self.size_y)
 
-
-# tmp object -----------------------------------------------------------------
-# class Object_Build_Tree(Object_Build):
-#     def __init__(self, x, y):
-#         super().__init__(x, y, 2, 2, "tmpImage/tree_A.png", IMAGE_TYPE_SPRITE)
-#         self.set_object_frame(1, 64, 64)
-#
-#
-# ------------------------------------------------------------------------------
 
 class Object_Build_BasicWarrior(Object_Build):
     def __init__(self, x, y):

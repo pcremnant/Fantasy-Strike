@@ -41,8 +41,8 @@ class Build_State:
         self.mouse_x = 0
         self.mouse_y = 0
         self.build_manager = Build_Object_Manager()
-        self.background_image = STRUCT.Image("resource/background/build_state.png", IMAGE_TYPE_SPRITE)
-        self.background_image.set_image_frame(1, 1920, 1200)
+        self.background_image = basic_struct.Image("resource/background/build_state.png", IMAGE_TYPE_SPRITE)
+        self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
         self.background_image.set_position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         pass
 
