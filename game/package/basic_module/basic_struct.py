@@ -17,15 +17,6 @@ class Position:
         self.x += nX
         self.y -= nY
 
-    def get_position_x(self):
-        return self.x
-
-    def get_position_y(self):
-        return self.y
-
-    def get_position(self):
-        return self.x, self.y
-
 
 class Unit_Status:
 
@@ -45,11 +36,11 @@ class Image:
     def __init__(self, imgPath, imgType):
         self.image_type = imgType
         if imgType == IMAGE_TYPE_SPRITE:
-            self.object_image = pico2d.load_image(imgPath)
+            self.image = pico2d.load_image(imgPath)
         elif imgType == IMAGE_TYPE_FILES:
-            self.object_image = []
+            self.image = []
             for path in imgPath:
-                self.object_image.append(pico2d.load_image(path))
+                self.image.append(pico2d.load_image(path))
         self.max_frame = 0
         self.current_frame = 0
         self.mode_frame = 0
@@ -60,11 +51,11 @@ class Image:
     def draw_image(self, x, y):
         if self.is_draw:
             if self.image_type == IMAGE_TYPE_SPRITE:
-                self.object_image.clip_draw(self.current_frame * self.image_width, self.mode_frame * self.image_height,
-                                            self.image_width, self.image_height, x, y)
+                self.image.clip_draw(self.current_frame * self.image_width, self.mode_frame * self.image_height,
+                                     self.image_width, self.image_height, x, y)
             elif self.image_type == IMAGE_TYPE_FILES:
-                self.object_image[self.current_frame].clip_draw(self.image_width, self.image_height,
-                                                                self.image_width, self.image_height, x, y)
+                self.image[self.current_frame].clip_draw(self.image_width, self.image_height,
+                                                         self.image_width, self.image_height, x, y)
             self.current_frame += 1
             self.current_frame = self.current_frame % self.max_frame
 
@@ -77,14 +68,14 @@ class Image:
             if size_y % 2 == 0:
                 addH = 0
             if self.image_type == IMAGE_TYPE_SPRITE:
-                self.object_image.clip_draw((self.current_frame // SUB_FRAME) * self.image_width,
-                                            self.mode_frame * self.image_height,
-                                            self.image_width, self.image_height,
-                                            x + addW / 2, y + addH / 2, w * size_x, h * size_y)
+                self.image.clip_draw((self.current_frame // SUB_FRAME) * self.image_width,
+                                     self.mode_frame * self.image_height,
+                                     self.image_width, self.image_height,
+                                     x + addW / 2, y + addH / 2, w * size_x, h * size_y)
             elif self.image_type == IMAGE_TYPE_FILES:
-                self.object_image[self.current_frame // SUB_FRAME].clip_draw(0, 0, self.image_width, self.image_height,
-                                                                             x + addW / 2, y + addH / 2,
-                                                                             w * size_x, h * size_y)
+                self.image[self.current_frame // SUB_FRAME].clip_draw(0, 0, self.image_width, self.image_height,
+                                                                      x + addW / 2, y + addH / 2,
+                                                                      w * size_x, h * size_y)
             self.current_frame += 1
             if self.current_frame / SUB_FRAME >= self.max_frame:
                 self.current_frame = 0
