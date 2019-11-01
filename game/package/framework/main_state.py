@@ -38,15 +38,15 @@ class main_state:
 
     def enter(self):
         self.imgBackground = STRUCT.SImage("tmpImage/tmpMain.png", IMAGE_TYPE_SPRITE)
-        self.imgBackground.SetImageFrame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
-        self.imgBackground.SetPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
+        self.imgBackground.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+        self.imgBackground.set_position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         pass
 
     def exit(self):
         pass
 
     def draw(self):
-        self.imgBackground.DrawImage()
+        self.imgBackground.draw_image()
 
     def pause(self):
         pass

@@ -21,11 +21,11 @@ class Obj:
         self.nSizeY = sizeY
 
     def SetObjectImage(self, maxFrame, imgWidth, imgHeight):
-        self.imgObject.SetImageFrame(maxFrame, imgWidth, imgHeight)
+        self.imgObject.set_image_frame(maxFrame, imgWidth, imgHeight)
 
     def DrawObject(self):
         pass
 
     def SetPosition(self, x, y):
         self.posObject = STRUCT.SPosition(x, y)
-        self.imgObject.SetPosition(x, y)
+        self.imgObject.set_position(x, y)

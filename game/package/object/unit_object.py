@@ -6,5 +6,5 @@ class Obj_Unit(Obj):
         super().__init__(sizeX, sizeY, imgPath)
 
     def SetFrameMode(self, action):
-        self.imgObject.SetFrameMode(action)
+        self.imgObject.set_frame_mode(action)
         self.imgObject.nCurFrame = 0

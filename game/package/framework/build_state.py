@@ -43,8 +43,8 @@ class build_state:
         self.nMouseY = 0
         self.build_manager = build_object_manager()
         self.imgBackground = STRUCT.SImage("tmpImage/battleback10.png", IMAGE_TYPE_SPRITE)
-        self.imgBackground.SetImageFrame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
-        self.imgBackground.SetPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
+        self.imgBackground.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+        self.imgBackground.set_position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         pass
 
     def exit(self):
@@ -52,7 +52,7 @@ class build_state:
         pass
 
     def draw(self):
-        self.imgBackground.DrawImage()
+        self.imgBackground.draw_image()
         self.build_manager.draw_object()
 
     def pause(self):

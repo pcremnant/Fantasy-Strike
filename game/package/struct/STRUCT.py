@@ -40,74 +40,74 @@ class SUnitStatus:
 class SImage:
 
     def __init__(self, imgPath, imgType):
-        self.nImgType = imgType
+        self.image_type = imgType
         if imgType == IMAGE_TYPE_SPRITE:
-            self.imgObjectImage = pico2d.load_image(imgPath)  # 이미지 로딩
+            self.object_image = pico2d.load_image(imgPath)  # 이미지 로딩
         elif imgType == IMAGE_TYPE_FILES:
-            self.imgObjectImage = []
+            self.object_image = []
             for path in imgPath:
-                self.imgObjectImage.append(pico2d.load_image(path))
-        self.nMaxFrame = 0  # 최대 프레임
-        self.nCurFrame = 0  # 현재 프레임
-        self.nFrameMode = 0  # 현재 이미지의 행동
-        self.nImageWidth = 0  # 한 프레임의 너비
-        self.nImageHeight = 0  # 한 프레임의 높이
-        self.posImagePosition = SPosition(0, 0)  # 이미지의 화면상 위치
-        self.bIsDraw = True  # 이미지 렌더링 여부
+                self.object_image.append(pico2d.load_image(path))
+        self.max_frame = 0  # 최대 프레임
+        self.current_frame = 0  # 현재 프레임
+        self.mode_frame = 0  # 현재 이미지의 행동
+        self.image_width = 0  # 한 프레임의 너비
+        self.image_height = 0  # 한 프레임의 높이
+        self.image_position = SPosition(0, 0)  # 이미지의 화면상 위치
+        self.is_draw = True  # 이미지 렌더링 여부
 
-    def DrawImage(self):  # 이미지 렌더링
-        if self.bIsDraw:
-            if self.nImgType == IMAGE_TYPE_SPRITE:
-                self.imgObjectImage.clip_draw(self.nCurFrame * self.nImageWidth, self.nFrameMode * self.nImageHeight,
-                                              self.nImageWidth, self.nImageHeight, self.posImagePosition.GetPositionX(),
-                                              self.posImagePosition.GetPositionY())
-            elif self.nImgType == IMAGE_TYPE_FILES:
-                self.imgObjectImage[self.nCurFrame].clip_draw(self.nImageWidth, self.nImageHeight,
-                                                              self.nImageWidth, self.nImageHeight,
-                                                              self.posImagePosition.GetPositionX(),
-                                                              self.posImagePosition.GetPositionY())
-            self.nCurFrame += 1
-            self.nCurFrame = self.nCurFrame % self.nMaxFrame
+    def draw_image(self):  # 이미지 렌더링
+        if self.is_draw:
+            if self.image_type == IMAGE_TYPE_SPRITE:
+                self.object_image.clip_draw(self.current_frame * self.image_width, self.mode_frame * self.image_height,
+                                            self.image_width, self.image_height, self.image_position.GetPositionX(),
+                                            self.image_position.GetPositionY())
+            elif self.image_type == IMAGE_TYPE_FILES:
+                self.object_image[self.current_frame].clip_draw(self.image_width, self.image_height,
+                                                                self.image_width, self.image_height,
+                                                                self.image_position.GetPositionX(),
+                                                                self.image_position.GetPositionY())
+            self.current_frame += 1
+            self.current_frame = self.current_frame % self.max_frame
 
-    def DrawImage_Scaled(self, w, h, sizeX, sizeY):  # 이미지 렌더링
-        if self.bIsDraw:
+    def draw_on_build_map(self, w, h, size_x, size_y):  # 이미지 렌더링
+        if self.is_draw:
             addW = w
             addH = h
-            if sizeX % 2 == 0:
+            if size_x % 2 == 0:
                 addW = 0
-            if sizeY % 2 == 0:
+            if size_y % 2 == 0:
                 addH = 0
-            if self.nImgType == IMAGE_TYPE_SPRITE:
-                self.imgObjectImage.clip_draw(int(self.nCurFrame / FRAME_MOVE) * self.nImageWidth,
-                                              self.nFrameMode * self.nImageHeight,
-                                              self.nImageWidth, self.nImageHeight,
-                                              self.posImagePosition.GetPositionX() + addW / 2,
-                                              self.posImagePosition.GetPositionY() + addH / 2,
-                                              w * sizeX, h * sizeY)
-            elif self.nImgType == IMAGE_TYPE_FILES:
-                self.imgObjectImage[self.nCurFrame // FRAME_MOVE].clip_draw(0, 0, self.nImageWidth, self.nImageHeight,
-                                                                            self.posImagePosition.GetPositionX() + addW / 2,
-                                                                            self.posImagePosition.GetPositionY() + addH / 2,
-                                                                            w * sizeX, h * sizeY)
-            self.nCurFrame += 1
-            if self.nCurFrame / FRAME_MOVE >= self.nMaxFrame:
-                self.nCurFrame = 0
+            if self.image_type == IMAGE_TYPE_SPRITE:
+                self.object_image.clip_draw(int(self.current_frame / FRAME_MOVE) * self.image_width,
+                                            self.mode_frame * self.image_height,
+                                            self.image_width, self.image_height,
+                                            self.image_position.GetPositionX() + addW / 2,
+                                            self.image_position.GetPositionY() + addH / 2,
+                                            w * size_x, h * size_y)
+            elif self.image_type == IMAGE_TYPE_FILES:
+                self.object_image[self.current_frame // FRAME_MOVE].clip_draw(0, 0, self.image_width, self.image_height,
+                                                                              self.image_position.GetPositionX() + addW / 2,
+                                                                              self.image_position.GetPositionY() + addH / 2,
+                                                                              w * size_x, h * size_y)
+            self.current_frame += 1
+            if self.current_frame / FRAME_MOVE >= self.max_frame:
+                self.current_frame = 0
 
-    def MovePosition(self, x, y):  # 이미지 위치 이동
-        self.posImagePosition.MovePosition(x, y)
+    def move_position(self, x, y):  # 이미지 위치 이동
+        self.image_position.MovePosition(x, y)
 
-    def SetPosition(self, x, y):
-        self.posImagePosition.x, self.posImagePosition.y = x, y
+    def set_position(self, x, y):
+        self.image_position.x, self.image_position.y = x, y
 
-    def SetImageFrame(self, maxFrame, imgWidth, imgHeight):  # 이미지 초기 세팅
-        self.nMaxFrame = maxFrame  # 최대 프레임
-        self.nImageWidth = imgWidth  # 한 프레임의 너비
-        self.nImageHeight = imgHeight  # 한 프레임의 높이
+    def set_image_frame(self, maxFrame, imgWidth, imgHeight):  # 이미지 초기 세팅
+        self.max_frame = maxFrame  # 최대 프레임
+        self.image_width = imgWidth  # 한 프레임의 너비
+        self.image_height = imgHeight  # 한 프레임의 높이
 
-    def SetFrameMode(self, action):
+    def set_frame_mode(self, action):
         if action < 0:
             return False
-        self.nFrameMode = action
+        self.mode_frame = action
 
 
 class SBuild_Coord:
@@ -212,15 +212,15 @@ class SBuild_Map:
             return False
         elif self.CheckBuildable(x, y, sizeX, sizeY):
             imgTile = SImage("tmpImage/tile_g.png", IMAGE_TYPE_SPRITE)
-            imgTile.SetPosition(nX * self.nTileWidth + self.nStartX,
-                                nY * self.nTileHeight + self.nStartY)
-            imgTile.SetImageFrame(1, 64, 64)
-            imgTile.DrawImage_Scaled(self.nTileWidth, self.nTileHeight, sizeX, sizeY)
+            imgTile.set_position(nX * self.nTileWidth + self.nStartX,
+                                 nY * self.nTileHeight + self.nStartY)
+            imgTile.set_image_frame(1, 64, 64)
+            imgTile.draw_on_build_map(self.nTileWidth, self.nTileHeight, sizeX, sizeY)
         else:
             imgTile = SImage("tmpImage/tile_r.png", IMAGE_TYPE_SPRITE)
-            imgTile.SetPosition(nX * self.nTileWidth + self.nStartX,
-                                nY * self.nTileHeight + self.nStartY)
-            imgTile.SetImageFrame(1, 64, 64)
-            imgTile.DrawImage_Scaled(self.nTileWidth, self.nTileHeight, sizeX, sizeY)
+            imgTile.set_position(nX * self.nTileWidth + self.nStartX,
+                                 nY * self.nTileHeight + self.nStartY)
+            imgTile.set_image_frame(1, 64, 64)
+            imgTile.draw_on_build_map(self.nTileWidth, self.nTileHeight, sizeX, sizeY)
 
         return True

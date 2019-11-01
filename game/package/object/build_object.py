@@ -10,7 +10,7 @@ class Obj_Build(Obj):
     def __init__(self, x, y, sizeX, sizeY, imgPath, imgType):
         super().__init__(sizeX, sizeY, imgPath, imgType)
         self.posObject = STRUCT.SPosition(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))
-        self.imgObject.SetPosition(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))
+        self.imgObject.set_position(cBuildMap.GetPositionX(x), cBuildMap.GetPositionY(y))
         # 필요한 자원 리소스들 추가
         self.nResource = 0  # 임시 자원 변수
 
@@ -20,7 +20,7 @@ class Obj_Build(Obj):
         # 16픽셀 단위로 이동 가능하게 설정
 
     def DrawObject(self):
-        self.imgObject.DrawImage_Scaled(cBuildMap.GetTileWidth(), cBuildMap.GetTileHeight(), self.nSizeX, self.nSizeY)
+        self.imgObject.draw_on_build_map(cBuildMap.GetTileWidth(), cBuildMap.GetTileHeight(), self.nSizeX, self.nSizeY)
 
 
 class Obj_Build_Tree(Obj_Build):
