@@ -118,8 +118,8 @@ class SBuild_Coord:
     def __init__(self):
         self.nTileWidth = BUILD_TILE_WIDTH
         self.nTileHeight = BUILD_TILE_HEIGHT
-        self.nTileStartX = BUILD_MAP_SIZE_X_EDGE * BUILD_TILE_WIDTH
-        self.nTileStartY = BUILD_MAP_SIZE_Y_EDGE * BUILD_TILE_HEIGHT
+        self.nTileStartX = BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH
+        self.nTileStartY = BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT
 
     def GetPositionX(self, x):
         nX = int((x - self.nTileStartX) / self.nTileWidth)

@@ -3,7 +3,7 @@ from pico2d import *
 
 build_coord = STRUCT.SBuild_Coord()
 
-pos = coord_position(BUILD_MAP_SIZE_X + BUILD_MAP_SIZE_X_EDGE, BUILD_MAP_SIZE_Y_EDGE)
+pos = coord_position(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
 
 OBJECT_TREE = ((pos[0], pos[1] + 4 * BUILD_TILE_HEIGHT),
                (pos[0] + 2 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT))
@@ -76,7 +76,7 @@ class build_object_manager:
 class build_tree:
     def __init__(self):
         self.image = load_image("tmpImage/tech_bg.png")
-        self.pos = coord_position(BUILD_MAP_SIZE_X + BUILD_MAP_SIZE_X_EDGE, BUILD_MAP_SIZE_Y_EDGE)
+        self.pos = coord_position(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
         self.tech = [[], []]
         self.layer = 0
         self.tech[self.layer].append(Obj_Build_Tree(self.pos[0] + BUILD_TILE_WIDTH,
@@ -108,9 +108,9 @@ class build_tree:
         pass
 
     def draw(self):
-        self.image.draw(self.pos[0] + BUILD_MAP_SIZE_X_EDGE * BUILD_TILE_WIDTH / 2,
-                        self.pos[1] + BUILD_MAP_SIZE_Y_EDGE * BUILD_TILE_HEIGHT / 2,
-                        BUILD_MAP_SIZE_X_EDGE * BUILD_TILE_WIDTH, BUILD_MAP_SIZE_Y_EDGE * BUILD_TILE_HEIGHT)
+        self.image.draw(self.pos[0] + BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH / 2,
+                        self.pos[1] + BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT / 2,
+                        BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH, BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT)
         for obj in self.tech[self.layer]:
             obj.DrawObject()
 
