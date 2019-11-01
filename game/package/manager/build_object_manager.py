@@ -5,11 +5,11 @@ from pico2d import *
 # this code will be moved to basic_module module of build object
 pos = change_coord_from_build_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
 
-OBJECT_BASIC_WARRIOR = pos[0], pos[1] + 4 * BUILD_TILE_HEIGHT, \
-                       pos[0] + 2 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT
+OBJECT_BASIC_WARRIOR = pos[0] + 1 * BUILD_TILE_WIDTH, pos[1] + 3 * BUILD_TILE_HEIGHT, \
+                       pos[0] + 3 * BUILD_TILE_WIDTH - 1, pos[1] + 5 * BUILD_TILE_HEIGHT
 
-OBJECT_BASIC_TENT = pos[0] + 2 * BUILD_TILE_WIDTH, pos[1] + 4 * BUILD_TILE_HEIGHT, \
-                    pos[0] + 4 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT
+OBJECT_BASIC_TENT = pos[0] + 3 * BUILD_TILE_WIDTH, pos[1] + 3 * BUILD_TILE_HEIGHT, \
+                    pos[0] + 5 * BUILD_TILE_WIDTH - 1, pos[1] + 5 * BUILD_TILE_HEIGHT
 
 
 # checking mouse point in object's collision box
@@ -78,18 +78,17 @@ class Build_Object_Manager:
 # build manager selects object in Build_Table
 class Build_Table:
     def __init__(self):
-        self.image = load_image("tmpImage/tech_bg.png")
+        self.image = load_image("resource/UI/build_table.png")
         self.position = change_coord_from_build_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
         self.table = [[], []]
         self.layer = 0  # build layer will be added
 
-        # tmp code : position[0] = position.x / position[1] = position.y ---------------------------------------
-        self.table[self.layer].append(Object_Build_BasicWarrior(self.position[0] + BUILD_TILE_WIDTH,
-                                                                self.position[1] + 5 * BUILD_TILE_HEIGHT))
-        self.table[self.layer].append(Object_Build_BasicTent(self.position[0] + 3 * BUILD_TILE_WIDTH,
-                                                             self.position[1] + 5 * BUILD_TILE_HEIGHT))
-
+        # tmp code ------------------------------------------------------------------------------------------------
         self.object_coord = [OBJECT_BASIC_WARRIOR, OBJECT_BASIC_TENT]  # position of build objects
+        self.table[self.layer].append(Object_Build_BasicWarrior(self.object_coord[0][2],
+                                                                (self.object_coord[0][1] + self.object_coord[0][3])/2))
+        self.table[self.layer].append(Object_Build_BasicTent(self.object_coord[1][2],
+                                                                (self.object_coord[1][1] + self.object_coord[1][3])/2))
         # ----------------------------------------------------------------------------------------------------------
         pass
 
@@ -117,13 +116,8 @@ class Build_Table:
             obj.draw_object()
 
         # tmp code : draw collision box ---------------------------------------------------
-        # pico2d.draw_rectangle(OBJECT_BASIC_WARRIOR[0][0], OBJECT_BASIC_WARRIOR[0][1], OBJECT_BASIC_WARRIOR[1][0],
-        #                       OBJECT_BASIC_WARRIOR[1][1])
-        # pico2d.draw_rectangle(OBJECT_BASIC_TENT[0][0], OBJECT_BASIC_TENT[0][1], OBJECT_BASIC_TENT[1][0],
-        #                       OBJECT_BASIC_TENT[1][1])
         pico2d.draw_rectangle(self.object_coord[0][0], self.object_coord[0][1],
                               self.object_coord[0][2], self.object_coord[0][3])
         pico2d.draw_rectangle(self.object_coord[1][0], self.object_coord[1][1],
                               self.object_coord[1][2], self.object_coord[1][3])
-        # pico2d.draw_rectangle(self.table[1])
         # --------------------------------------------------------------------------------

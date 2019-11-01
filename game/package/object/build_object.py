@@ -4,7 +4,8 @@ from game.package.basic_module.basic_struct import *
 
 class Object_Build(Object):
     def __init__(self, x, y, size_x, size_y, image_path, image_type):
-        super().__init__(size_x, size_y, image_path, image_type)
+        super().__init__(size_x, size_y)
+        self.class_object_image = basic_struct.Image(image_path, image_type)
         self.object_position = Position(get_build_tile_position_x(x), get_build_tile_position_y(y))
         temp_position = change_coord_from_build_to_screen(self.object_position.x, self.object_position.y)
         self.class_object_image.set_position(temp_position[0], temp_position[1])
@@ -35,7 +36,7 @@ class Object_Build_BasicTent(Object_Build):
 class Object_Build_Pointer(Object):
 
     def __int__(self, x, y, size_x, size_y, image_path):
-        super().__init__(size_x, size_y, image_path)
+        super().__init__(size_x, size_y)
 
     def get_mouse_position(self, x, y):
         self.set_object_position(get_build_tile_position_x(x) * BUILD_TILE_WIDTH,

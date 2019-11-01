@@ -4,9 +4,9 @@ from game.package.basic_module import basic_struct
 # parent class
 class Object:
 
-    def __init__(self, size_x, size_y, image_path, image_type):
+    def __init__(self, size_x, size_y):
         self.object_position = None
-        self.class_object_image = basic_struct.Image(image_path, image_type)
+        self.class_object_image = None
         self.size_x = size_x
         self.size_y = size_y
 
