@@ -9,30 +9,33 @@ class SPosition:
         self.y = nY
         pass
 
-    def SetPosition(self, nX, nY):
+    def set_position(self, nX, nY):
         self.x = nX
         self.y = nY
 
-    def MovePosition(self, nX, nY):
+    def move_position(self, nX, nY):
         self.x += nX
         self.y -= nY
 
-    def GetPositionX(self):
+    def get_position_x(self):
         return self.x
 
-    def GetPositionY(self):
+    def get_position_y(self):
         return self.y
+
+    def get_position(self):
+        return self.x, self.y
 
 
 class SUnitStatus:
 
     def __init__(self):
-        self.nHp = 0
-        self.nAttack = 0
-        self.nSpeed = 0
-        self.nDefend = 0
-        self.nAttackRange = 0
-        self.nAttackSpeed = 0
+        self.hp = 0
+        self.attack_damage = 0
+        self.move_speed = 0
+        self.defence = 0
+        self.attack_range = 0
+        self.attack_speed = 0
         # add more status
         pass
 
@@ -59,13 +62,13 @@ class SImage:
         if self.is_draw:
             if self.image_type == IMAGE_TYPE_SPRITE:
                 self.object_image.clip_draw(self.current_frame * self.image_width, self.mode_frame * self.image_height,
-                                            self.image_width, self.image_height, self.image_position.GetPositionX(),
-                                            self.image_position.GetPositionY())
+                                            self.image_width, self.image_height, self.image_position.get_position_x(),
+                                            self.image_position.get_position_y())
             elif self.image_type == IMAGE_TYPE_FILES:
                 self.object_image[self.current_frame].clip_draw(self.image_width, self.image_height,
                                                                 self.image_width, self.image_height,
-                                                                self.image_position.GetPositionX(),
-                                                                self.image_position.GetPositionY())
+                                                                self.image_position.get_position_x(),
+                                                                self.image_position.get_position_y())
             self.current_frame += 1
             self.current_frame = self.current_frame % self.max_frame
 
@@ -81,20 +84,20 @@ class SImage:
                 self.object_image.clip_draw(int(self.current_frame / FRAME_MOVE) * self.image_width,
                                             self.mode_frame * self.image_height,
                                             self.image_width, self.image_height,
-                                            self.image_position.GetPositionX() + addW / 2,
-                                            self.image_position.GetPositionY() + addH / 2,
+                                            self.image_position.get_position_x() + addW / 2,
+                                            self.image_position.get_position_y() + addH / 2,
                                             w * size_x, h * size_y)
             elif self.image_type == IMAGE_TYPE_FILES:
                 self.object_image[self.current_frame // FRAME_MOVE].clip_draw(0, 0, self.image_width, self.image_height,
-                                                                              self.image_position.GetPositionX() + addW / 2,
-                                                                              self.image_position.GetPositionY() + addH / 2,
+                                                                              self.image_position.get_position_x() + addW / 2,
+                                                                              self.image_position.get_position_y() + addH / 2,
                                                                               w * size_x, h * size_y)
             self.current_frame += 1
             if self.current_frame / FRAME_MOVE >= self.max_frame:
                 self.current_frame = 0
 
     def move_position(self, x, y):  # 이미지 위치 이동
-        self.image_position.MovePosition(x, y)
+        self.image_position.move_position(x, y)
 
     def set_position(self, x, y):
         self.image_position.x, self.image_position.y = x, y
