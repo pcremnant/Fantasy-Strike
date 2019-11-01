@@ -1,6 +1,7 @@
 from .build_object import *
 from pico2d import *
 
+# tmp code : object list to show on right side -----------------------------------------
 pos = change_coord_from_build_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
 
 OBJECT_TREE = ((pos[0], pos[1] + 4 * BUILD_TILE_HEIGHT),
@@ -9,6 +10,7 @@ OBJECT_TMP = ((pos[0] + 2 * BUILD_TILE_WIDTH, pos[1] + 4 * BUILD_TILE_HEIGHT),
               (pos[0] + 4 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT))
 OBJECT_TENT = ((pos[0] + 4 * BUILD_TILE_WIDTH, pos[1] + 4 * BUILD_TILE_HEIGHT),
                (pos[0] + 6 * BUILD_TILE_WIDTH - 1, pos[1] + 6 * BUILD_TILE_HEIGHT))
+# --------------------------------------------------------------------------------------
 
 
 def point_in_box(object_coord, mx, my):
@@ -18,29 +20,29 @@ def point_in_box(object_coord, mx, my):
         return False
 
 
-class build_object_manager:
+class Build_Object_Manager:
     def __init__(self):
         self.objects = None
-        self.build_map = STRUCT.SBuild_Map(BUILD_TILE_START_X, BUILD_TILE_START_Y,
-                                           BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT)
+        self.build_map = STRUCT.Build_Map(BUILD_TILE_START_X, BUILD_TILE_START_Y,
+                                          BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT)
         self.mouse_x = 400
         self.mouse_y = 300
         self.mouse_clicked_x = None
         self.mouse_clicked_y = None
-        self.build_tech = build_tree()
+        self.build_tech = Build_Tree()
 
         self.select_object = None
         pass
 
-    def build_object(self, obj):
-        if obj is None:
+    def build_object(self, selected_object):
+        if selected_object is None:
             return
-        if self.build_map.CheckBuildable(self.mouse_x, self.mouse_y, obj.nSizeX, obj.nSizeY):
-            self.build_map.BuildObject(self.mouse_x, self.mouse_y, obj.nSizeX, obj.nSizeY)
+        if self.build_map.CheckBuildable(self.mouse_x, self.mouse_y, selected_object.size_x, selected_object.size_y):
+            self.build_map.BuildObject(self.mouse_x, self.mouse_y, selected_object.size_x, selected_object.size_y)
             if self.objects:
-                self.objects += [obj]
+                self.objects += [selected_object]
             else:
-                self.objects = [obj]
+                self.objects = [selected_object]
 
     def get_mouse_position(self, x, y):
         self.mouse_x = x
@@ -49,16 +51,15 @@ class build_object_manager:
     def get_clicked_mouse_position(self, x, y):
         self.mouse_clicked_x = x
         self.mouse_clicked_y = y
-        # obj = Obj_Build_Tent(self.nClickedMouseX, self.nClickedMouseY)
-        obj = self.select_object
-        self.build_object(obj)
+        selected_object = self.select_object
+        self.build_object(selected_object)
         self.select_object = self.build_tech.select_object(self.mouse_clicked_x, self.mouse_clicked_y)
 
     def draw_object(self):
         if self.select_object is None:
             pass
-        elif self.build_map.BuildPointer(self.mouse_x, self.mouse_y, self.select_object.nSizeX,
-                                         self.select_object.nSizeY):
+        elif self.build_map.BuildPointer(self.mouse_x, self.mouse_y, self.select_object.size_x,
+                                         self.select_object.size_y):
             self.select_object.build_object_on_tile(self.mouse_x, self.mouse_y)
             self.select_object.draw_object()
 
@@ -69,12 +70,13 @@ class build_object_manager:
         self.build_tech.draw()
 
 
-class build_tree:
+class Build_Tree:
     def __init__(self):
         self.image = load_image("tmpImage/tech_bg.png")
         self.position = change_coord_from_build_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
         self.tech = [[], []]
         self.layer = 0
+        # tmp code : position[0] = position.x / position[1] = position.y ----------------------------
         self.tech[self.layer].append(Object_Build_Tree(self.position[0] + BUILD_TILE_WIDTH,
                                                        self.position[1] + 5 * BUILD_TILE_HEIGHT))
         self.tech[self.layer].append(Object_Build_tmp(self.position[0] + 3 * BUILD_TILE_WIDTH,
@@ -82,6 +84,7 @@ class build_tree:
         self.tech[self.layer].append(Object_Build_Tent(self.position[0] + 5 * BUILD_TILE_WIDTH,
                                                        self.position[1] + 5 * BUILD_TILE_HEIGHT))
         self.object_coord = [OBJECT_TREE, OBJECT_TMP, OBJECT_TENT]
+        # --------------------------------------------------------------------------------------------
         # 모든 종류의 건물들 레이어 별로 생성
         pass
 

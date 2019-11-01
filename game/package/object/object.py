@@ -16,7 +16,7 @@ class Object:
 
     def __init__(self, sizeX, sizeY, imgPath, imgType):
         self.object_position = None
-        self.class_object_image = STRUCT.SImage(imgPath, imgType)
+        self.class_object_image = STRUCT.Image(imgPath, imgType)
         self.size_x = sizeX
         self.size_y = sizeY
 
@@ -27,5 +27,5 @@ class Object:
         pass
 
     def set_object_position(self, x, y):
-        self.object_position = STRUCT.SPosition(x, y)
+        self.object_position = STRUCT.Position(x, y)
         self.class_object_image.set_position(x, y)

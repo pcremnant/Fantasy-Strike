@@ -12,7 +12,7 @@ class build_state:
         self.nClickedMouseY = 0
         self.nMouseX = 0
         self.nMouseY = 0
-        self.build_manager = build_object_manager()
+        self.build_manager = Build_Object_Manager()
         self.imgBackground = None
 
     def handle_events(self):
@@ -41,8 +41,8 @@ class build_state:
         self.nClickedMouseY = 0
         self.nMouseX = 0
         self.nMouseY = 0
-        self.build_manager = build_object_manager()
-        self.imgBackground = STRUCT.SImage("tmpImage/battleback10.png", IMAGE_TYPE_SPRITE)
+        self.build_manager = Build_Object_Manager()
+        self.imgBackground = STRUCT.Image("tmpImage/battleback10.png", IMAGE_TYPE_SPRITE)
         self.imgBackground.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
         self.imgBackground.set_position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         pass

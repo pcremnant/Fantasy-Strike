@@ -3,7 +3,6 @@ from ..struct import STRUCT
 from ..define.DEFINE import *
 from ..framework import game_framework
 from ..framework import states
-from ..framework import build_state
 
 name = "main_state"
 
@@ -37,7 +36,7 @@ class main_state:
         pass
 
     def enter(self):
-        self.imgBackground = STRUCT.SImage("tmpImage/tmpMain.png", IMAGE_TYPE_SPRITE)
+        self.imgBackground = STRUCT.Image("tmpImage/tmpMain.png", IMAGE_TYPE_SPRITE)
         self.imgBackground.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
         self.imgBackground.set_position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         pass
