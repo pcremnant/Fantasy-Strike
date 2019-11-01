@@ -43,7 +43,7 @@ class Build_State:
         self.build_manager = Build_Object_Manager()
         self.background_image = basic_struct.Image("resource/background/build_state.png", IMAGE_TYPE_SPRITE)
         self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
-        self.background_image.set_position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
+        # self.background_image.set_position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         pass
 
     def exit(self):
@@ -51,7 +51,7 @@ class Build_State:
         pass
 
     def draw(self):
-        self.background_image.draw_image()
+        self.background_image.draw_image(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         self.build_manager.draw_object()
 
     def pause(self):

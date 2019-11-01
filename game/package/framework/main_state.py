@@ -38,14 +38,14 @@ class Main_State:
     def enter(self):
         self.background_image = basic_struct.Image("resource/background/main_state.png", IMAGE_TYPE_SPRITE)
         self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
-        self.background_image.set_position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
+        # self.background_image.set_position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         pass
 
     def exit(self):
         pass
 
     def draw(self):
-        self.background_image.draw_image()
+        self.background_image.draw_image(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
 
     def pause(self):
         pass

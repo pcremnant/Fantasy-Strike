@@ -6,9 +6,11 @@ class Object_Build(Object):
     def __init__(self, x, y, size_x, size_y, image_path, image_type):
         super().__init__(size_x, size_y)
         self.class_object_image = basic_struct.Image(image_path, image_type)
-        self.object_position = Position(get_build_tile_position_x(x), get_build_tile_position_y(y))
-        temp_position = change_coord_from_build_to_screen(self.object_position.x, self.object_position.y)
-        self.class_object_image.set_position(temp_position[0], temp_position[1])
+        # self.set_object_position()
+        self.object_position = Position(get_build_tile_position_x(x) * BUILD_TILE_WIDTH,
+                                        get_build_tile_position_y(y) * BUILD_TILE_HEIGHT)
+        # temp_position = change_coord_from_build_to_screen(self.object_position.x, self.object_position.y)
+        # self.class_object_image.set_position(temp_position[0], temp_position[1])
         # 필요한 자원 리소스들 추가
         self.resource = None  # 임시 자원 변수
 
@@ -17,7 +19,8 @@ class Object_Build(Object):
                                  get_build_tile_position_y(y) * BUILD_TILE_HEIGHT)
 
     def draw_object(self):
-        self.class_object_image.draw_on_build_map(BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT, self.size_x, self.size_y)
+        self.class_object_image.draw_on_map(self.object_position.x, self.object_position.y,
+                                            BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT, self.size_x, self.size_y)
 
 
 class Object_Build_BasicWarrior(Object_Build):

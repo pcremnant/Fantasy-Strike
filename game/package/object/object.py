@@ -18,4 +18,4 @@ class Object:
 
     def set_object_position(self, x, y):
         self.object_position = basic_struct.Position(x, y)
-        self.class_object_image.set_position(x, y)
+        # self.class_object_image.set_position(x, y)
