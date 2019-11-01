@@ -1,7 +1,7 @@
 from .build_object import *
 from pico2d import *
 
-build_coord = STRUCT.SBuild_Coord()
+# build_coord = STRUCT.SBuild_Coord()
 
 pos = coord_position(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
 
@@ -23,8 +23,8 @@ def point_in_box(object_coord, mx, my):
 class build_object_manager:
     def __init__(self):
         self.objects = None
-        self.build_map = STRUCT.SBuild_Map(build_coord.GetStartX(), build_coord.GetStartY(),
-                                           build_coord.GetTileWidth(), build_coord.GetTileHeight())
+        self.build_map = STRUCT.SBuild_Map(get_build_tile_start_x(), get_build_tile_start_y(),
+                                           BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT)
         self.nMouseX = 400
         self.nMouseY = 300
         self.nClickedMouseX = None
@@ -37,8 +37,6 @@ class build_object_manager:
     def build_object(self, obj):
         if obj is None:
             return
-        # if self.build_map.CheckBuildable(obj.posObject.x, obj.posObject.y, obj.nSizeX, obj.nSizeY):
-        #     self.build_map.BuildObject(obj.posObject.x, obj.posObject.y, obj.nSizeX, obj.nSizeY)
         if self.build_map.CheckBuildable(self.nMouseX, self.nMouseY, obj.nSizeX, obj.nSizeY):
             self.build_map.BuildObject(self.nMouseX, self.nMouseY, obj.nSizeX, obj.nSizeY)
             if self.objects:

@@ -1,11 +1,11 @@
 from game.package.object.object import *
 from game.package.struct.STRUCT import *
 
-cBuildMap = STRUCT.SBuild_Coord()
+# cBuildMap = STRUCT.SBuild_Coord()
 
 
 class Obj_Build(Obj):
-    global cBuildMap
+    # global cBuildMap
 
     def __init__(self, x, y, sizeX, sizeY, imgPath, imgType):
         super().__init__(sizeX, sizeY, imgPath, imgType)

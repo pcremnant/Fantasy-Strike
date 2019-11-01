@@ -33,3 +33,11 @@ def get_build_tile_position(current_position):
     build_tile_position = (int((current_position.x - BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH) / BUILD_TILE_WIDTH),
                            int((current_position.y - BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT) / BUILD_TILE_HEIGHT))
     return build_tile_position
+
+
+def get_build_tile_start_x():
+    return BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH
+
+
+def get_build_tile_start_y():
+    return BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT

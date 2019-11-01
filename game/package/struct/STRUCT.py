@@ -113,33 +113,33 @@ class SImage:
         self.mode_frame = action
 
 
-class SBuild_Coord:
-
-    def __init__(self):
-        self.nTileWidth = BUILD_TILE_WIDTH
-        self.nTileHeight = BUILD_TILE_HEIGHT
-        self.nTileStartX = BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH
-        self.nTileStartY = BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT
-
-    def GetPositionX(self, x):
-        nX = int((x - self.nTileStartX) / self.nTileWidth)
-        return nX * self.nTileWidth + self.nTileStartX
-
-    def GetPositionY(self, y):
-        nY = int((y - self.nTileStartY) / self.nTileHeight)
-        return nY * self.nTileHeight + self.nTileStartY
-
-    def GetTileWidth(self):
-        return self.nTileWidth
-
-    def GetTileHeight(self):
-        return self.nTileHeight
-
-    def GetStartX(self):
-        return self.nTileStartX
-
-    def GetStartY(self):
-        return self.nTileStartY
+# class SBuild_Coord:
+#
+#     def __init__(self):
+#         self.nTileWidth = BUILD_TILE_WIDTH
+#         self.nTileHeight = BUILD_TILE_HEIGHT
+#         self.nTileStartX = BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH
+#         self.nTileStartY = BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT
+#
+#     def GetPositionX(self, x):
+#         nX = int((x - self.nTileStartX) / self.nTileWidth)
+#         return nX * self.nTileWidth + self.nTileStartX
+#
+#     def GetPositionY(self, y):
+#         nY = int((y - self.nTileStartY) / self.nTileHeight)
+#         return nY * self.nTileHeight + self.nTileStartY
+#
+#     def GetTileWidth(self):
+#         return self.nTileWidth
+#
+#     def GetTileHeight(self):
+#         return self.nTileHeight
+#
+#     def GetStartX(self):
+#         return self.nTileStartX
+#
+#     def GetStartY(self):
+#         return self.nTileStartY
 
 
 class SBuild_Map:
