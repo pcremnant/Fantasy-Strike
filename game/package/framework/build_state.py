@@ -22,6 +22,8 @@ class Build_State:
             elif event.type == SDL_KEYDOWN:
                 if event.key == SDLK_ESCAPE:
                     game_framework.change_state(states.MainState)
+                elif event.key == SDLK_q:
+                    game_framework.change_state(states.BattleState)
 
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.mouse_clicked_x = event.x
