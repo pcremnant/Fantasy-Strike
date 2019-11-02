@@ -41,7 +41,7 @@ class Battle_State:
         self.mouse_clicked_y = 0
         self.mouse_x = 0
         self.mouse_y = 0
-        self.background_image = basic_struct.Image("resource/background/build_state.png", IMAGE_TYPE_SPRITE)
+        self.background_image = basic_struct.Image("resource/background/battle_state.png", IMAGE_TYPE_SPRITE)
         self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
         pass
 

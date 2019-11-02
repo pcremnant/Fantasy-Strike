@@ -22,6 +22,8 @@ class Build_State:
             elif event.type == SDL_KEYDOWN:
                 if event.key == SDLK_ESCAPE:
                     game_framework.change_state(states.MainState)
+                    del self.build_manager
+                    self.build_manager = None
                 elif event.key == SDLK_q:
                     game_framework.change_state(states.BattleState)
 
@@ -42,13 +44,14 @@ class Build_State:
         self.mouse_clicked_y = 0
         self.mouse_x = 0
         self.mouse_y = 0
-        self.build_manager = Build_Object_Manager()
+        if self.build_manager is None:
+            self.build_manager = Build_Object_Manager()
         self.background_image = basic_struct.Image("resource/background/build_state.png", IMAGE_TYPE_SPRITE)
         self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
         pass
 
     def exit(self):
-        del self.build_manager
+        # del self.build_manager
         pass
 
     def draw(self):
