@@ -56,7 +56,7 @@ class Build_Object_Manager:
         self.build_object(selected_object)
         self.select_object = self.build_tech.select_object(self.mouse_clicked_x, self.mouse_clicked_y)
 
-    def draw_object(self):
+    def draw(self):
         if self.select_object is None:
             pass  # do nothing
         elif self.build_map.build_pointer(self.mouse_x, self.mouse_y, self.select_object.size_x,
@@ -86,9 +86,10 @@ class Build_Table:
         # tmp code ------------------------------------------------------------------------------------------------
         self.object_coord = [OBJECT_BASIC_WARRIOR, OBJECT_BASIC_TENT]  # position of build objects
         self.table[self.layer].append(Object_Build_BasicWarrior(self.object_coord[0][2],
-                                                                (self.object_coord[0][1] + self.object_coord[0][3])/2))
+                                                                (self.object_coord[0][1] + self.object_coord[0][
+                                                                    3]) / 2))
         self.table[self.layer].append(Object_Build_BasicTent(self.object_coord[1][2],
-                                                                (self.object_coord[1][1] + self.object_coord[1][3])/2))
+                                                             (self.object_coord[1][1] + self.object_coord[1][3]) / 2))
         # ----------------------------------------------------------------------------------------------------------
         pass
 

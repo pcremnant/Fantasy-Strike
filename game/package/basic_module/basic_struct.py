@@ -51,13 +51,17 @@ class Image:
     def draw_image(self, x, y):
         if self.is_draw:
             if self.image_type == IMAGE_TYPE_SPRITE:
-                self.image.clip_draw(self.current_frame * self.image_width, self.mode_frame * self.image_height,
+                self.image.clip_draw((self.current_frame//SUB_FRAME) * self.image_width,
+                                     self.mode_frame * self.image_height,
                                      self.image_width, self.image_height, x, y)
             elif self.image_type == IMAGE_TYPE_FILES:
-                self.image[self.current_frame].clip_draw(self.image_width, self.image_height,
+                self.image[self.current_frame//SUB_FRAME].clip_draw(0, 0,
                                                          self.image_width, self.image_height, x, y)
+            # self.current_frame += 1
+            # self.current_frame = self.current_frame % self.max_frame
             self.current_frame += 1
-            self.current_frame = self.current_frame % self.max_frame
+            if self.current_frame / SUB_FRAME >= self.max_frame:
+                self.current_frame = 0
 
     def draw_on_map(self, x, y, w, h, size_x, size_y):
         if self.is_draw:

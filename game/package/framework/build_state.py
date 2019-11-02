@@ -51,7 +51,7 @@ class Build_State:
 
     def draw(self):
         self.background_image.draw_image(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
-        self.build_manager.draw_object()
+        self.build_manager.draw()
 
     def pause(self):
         pass
