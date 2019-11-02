@@ -25,13 +25,8 @@ class Object_Unit(Object):
     def draw(self):
         self.class_object_image[self.object_frame_mode].draw_image(self.object_position.x, self.object_position.y)
 
-    def set_frame_mode(self, action):
-        pass
-        # self.class_object_image.set_frame_mode(action)
-        # self.class_object_image.nCurFrame = 0
 
-
-# tmp code
+# tmp unit (for test)
 class Object_Unit_Warrior(Object_Unit):
     def __init__(self, x, y):
         super().__init__(x, y, 2, 2)
@@ -39,6 +34,7 @@ class Object_Unit_Warrior(Object_Unit):
         image_path_table = []
         image_type_table = []
 
+        # test code
         if __name__ == '__main__':
             image_path_table.append([
                 'warrior/move_top_1.png',

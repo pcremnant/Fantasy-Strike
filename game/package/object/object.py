@@ -18,8 +18,8 @@ class Object:
         else:
             self.class_object_image[frame_mode].set_image_frame(max_frame, image_width, image_height)
 
-    # def draw_object(self):
-    #     pass
+    def draw_object(self):
+        pass
 
     def set_object_position(self, x, y):
         self.object_position = basic_struct.Position(x, y)

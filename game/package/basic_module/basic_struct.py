@@ -63,10 +63,10 @@ class Image:
             if self.current_frame / SUB_FRAME >= self.max_frame:
                 self.current_frame = 0
 
-    def draw_on_map(self, x, y, w, h, size_x, size_y):
+    def draw_on_map(self, x, y, map_width, map_height, size_x, size_y):
         if self.is_draw:
-            addW = w
-            addH = h
+            addW = map_width
+            addH = map_height
             if size_x % 2 == 0:
                 addW = 0
             if size_y % 2 == 0:
@@ -75,11 +75,11 @@ class Image:
                 self.image.clip_draw((self.current_frame // SUB_FRAME) * self.image_width,
                                      self.mode_frame * self.image_height,
                                      self.image_width, self.image_height,
-                                     x + addW / 2, y + addH / 2, w * size_x, h * size_y)
+                                     x + addW / 2, y + addH / 2, map_width * size_x, map_height * size_y)
             elif self.image_type == IMAGE_TYPE_FILES:
                 self.image[self.current_frame // SUB_FRAME].clip_draw(0, 0, self.image_width, self.image_height,
                                                                       x + addW / 2, y + addH / 2,
-                                                                      w * size_x, h * size_y)
+                                                                      map_width * size_x, map_height * size_y)
             self.current_frame += 1
             if self.current_frame / SUB_FRAME >= self.max_frame:
                 self.current_frame = 0
