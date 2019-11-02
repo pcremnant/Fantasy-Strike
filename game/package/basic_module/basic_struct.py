@@ -51,12 +51,12 @@ class Image:
     def draw_image(self, x, y):
         if self.is_draw:
             if self.image_type == IMAGE_TYPE_SPRITE:
-                self.image.clip_draw((self.current_frame//SUB_FRAME) * self.image_width,
+                self.image.clip_draw((self.current_frame // SUB_FRAME) * self.image_width,
                                      self.mode_frame * self.image_height,
                                      self.image_width, self.image_height, x, y)
             elif self.image_type == IMAGE_TYPE_FILES:
-                self.image[self.current_frame//SUB_FRAME].clip_draw(0, 0,
-                                                         self.image_width, self.image_height, x, y)
+                self.image[self.current_frame // SUB_FRAME].clip_draw(0, 0,
+                                                                      self.image_width, self.image_height, x, y)
             # self.current_frame += 1
             # self.current_frame = self.current_frame % self.max_frame
             self.current_frame += 1
@@ -177,3 +177,15 @@ class Build_Map:
                                 BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT, size_x, size_y)
 
         return True
+
+
+class Unit_Map:
+
+    def __init__(self):
+        self.unit_map = [[0 for x in range(UNIT_MAP_SIZE_X)] for y in range(UNIT_MAP_SIZE_Y)]
+        self.init_unit_map()
+
+    def init_unit_map(self):
+        for y in range(UNIT_MAP_SIZE_Y):
+            for x in range(UNIT_MAP_SIZE_X):
+                self.unit_map[y][x] = True
