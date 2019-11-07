@@ -1,9 +1,9 @@
-from game.package.object.build_object import *
+from game.package.object.building import *
 from pico2d import *
 
 # tmp code : object list to show on right side -----------------------------------------
 # this code will be moved to basic_module module of build object
-pos = change_coord_from_build_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
+pos = change_coord_from_buildmap_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
 
 OBJECT_BASIC_WARRIOR = pos[0] + 1 * BUILD_TILE_WIDTH, pos[1] + 3 * BUILD_TILE_HEIGHT, \
                        pos[0] + 3 * BUILD_TILE_WIDTH - 1, pos[1] + 5 * BUILD_TILE_HEIGHT
@@ -79,17 +79,17 @@ class Build_Object_Manager:
 class Build_Table:
     def __init__(self):
         self.image = load_image("resource/UI/build_table.png")
-        self.position = change_coord_from_build_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
+        self.position = change_coord_from_buildmap_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
         self.table = [[], []]
         self.layer = 0  # build layer will be added
 
         # tmp code ------------------------------------------------------------------------------------------------
         self.object_coord = [OBJECT_BASIC_WARRIOR, OBJECT_BASIC_TENT]  # position of build objects
-        self.table[self.layer].append(Object_Build_BasicWarrior(self.object_coord[0][2],
-                                                                (self.object_coord[0][1] + self.object_coord[0][
+        self.table[self.layer].append(Building_BasicWarrior(self.object_coord[0][2],
+                                                            (self.object_coord[0][1] + self.object_coord[0][
                                                                     3]) / 2))
-        self.table[self.layer].append(Object_Build_BasicTent(self.object_coord[1][2],
-                                                             (self.object_coord[1][1] + self.object_coord[1][3]) / 2))
+        self.table[self.layer].append(Building_BasicTent(self.object_coord[1][2],
+                                                         (self.object_coord[1][1] + self.object_coord[1][3]) / 2))
         # ----------------------------------------------------------------------------------------------------------
         pass
 
@@ -98,9 +98,9 @@ class Build_Table:
         for o in self.object_coord:
             if point_in_box(o, mx, my):
                 if count == 0:
-                    return Object_Build_BasicWarrior(mx, my)
+                    return Building_BasicWarrior(mx, my)
                 elif count == 1:
-                    return Object_Build_BasicTent(mx, my)
+                    return Building_BasicTent(mx, my)
             else:
                 count += 1
 

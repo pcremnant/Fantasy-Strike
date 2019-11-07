@@ -7,19 +7,19 @@ FRAME_MODE_NONE = -1
 class Object:
 
     def __init__(self, size_x, size_y):
-        self.object_position = None
-        self.class_object_image = None
+        self.position = None
+        self.image_class = None
         self.size_x = size_x
         self.size_y = size_y
 
     def set_object_frame(self, frame_mode, max_frame, image_width, image_height):
         if frame_mode == FRAME_MODE_NONE:
-            self.class_object_image.set_image_frame(max_frame, image_width, image_height)
+            self.image_class.set_image_frame(max_frame, image_width, image_height)
         else:
-            self.class_object_image[frame_mode].set_image_frame(max_frame, image_width, image_height)
+            self.image_class[frame_mode].set_image_frame(max_frame, image_width, image_height)
 
     def draw_object(self):
         pass
 
     def set_object_position(self, x, y):
-        self.object_position = basic_struct.Position(x, y)
+        self.position = basic_struct.Position(x, y)

@@ -2,7 +2,7 @@ from game.package.object.object import *
 from game.package.basic_module.basic_struct import *
 
 
-class Object_Build(Object):
+class Building(Object):
     def __init__(self, x, y, size_x, size_y, image_path, image_type):
         super().__init__(size_x, size_y)
         self.class_object_image = basic_struct.Image(image_path, image_type)
@@ -21,20 +21,20 @@ class Object_Build(Object):
                                             BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT, self.size_x, self.size_y)
 
 
-class Object_Build_BasicWarrior(Object_Build):
+class Building_BasicWarrior(Building):
     def __init__(self, x, y):
         imgPath = "resource/object/build/basic_warrior.png"
         super().__init__(x, y, 2, 2, imgPath, IMAGE_TYPE_SPRITE)
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 256)
 
 
-class Object_Build_BasicTent(Object_Build):
+class Building_BasicTent(Building):
     def __init__(self, x, y):
         super().__init__(x, y, 2, 2, "resource/object/build/basic_tent.png", IMAGE_TYPE_SPRITE)
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 256)
 
 
-class Object_Build_Pointer(Object):
+class Building_Pointer(Object):
 
     def __int__(self, x, y, size_x, size_y, image_path):
         super().__init__(size_x, size_y)
