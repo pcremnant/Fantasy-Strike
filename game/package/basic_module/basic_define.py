@@ -54,18 +54,21 @@ UNIT_MAP_START_Y = UNIT_MAP_EDGE_Y * UNIT_TILE_HEIGHT
 UNIT_MAP_END_X = UNIT_MAP_START_X + UNIT_MAP_SIZE_X * UNIT_TILE_WIDTH
 UNIT_MAP_END_Y = UNIT_MAP_START_Y + UNIT_MAP_SIZE_Y * UNIT_TILE_HEIGHT
 
+UNIT_TEAM_PLAYER = 1
+UNIT_TEAM_ENEMY = 2
+
 
 def change_coord_from_unitmap_to_screen(x, y):  # get unit object's tile position and then transform to window position
     return x * UNIT_TILE_WIDTH, y * UNIT_TILE_HEIGHT
 
 
 def get_unit_tile_position_x(current_position_x):
-    unit_tile_x = int(current_position_x / UNIT_TILE_WIDTH)
+    unit_tile_x = int((current_position_x - UNIT_MAP_EDGE_X*UNIT_TILE_WIDTH) / UNIT_TILE_WIDTH)
     return unit_tile_x
 
 
 def get_unit_tile_position_y(current_position_y):
-    unit_tile_y = int(current_position_y / UNIT_TILE_HEIGHT)
+    unit_tile_y = int((current_position_y - UNIT_MAP_EDGE_Y * UNIT_TILE_HEIGHT) / UNIT_TILE_HEIGHT)
     return unit_tile_y
 
 
