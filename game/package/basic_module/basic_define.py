@@ -14,9 +14,11 @@ BUILD_TILE_HEIGHT = WINDOW_HEIGHT // (BUILD_MAP_SIZE_Y + 2 * BUILD_MAP_EDGE_Y)
 BUILD_TILE_START_X = BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH
 BUILD_TILE_START_Y = BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT
 
+BUILDING_TYPE_BASIC_WARRIOR = 1
+BUILDING_TYPE_BASIC_TENT = 2
 
-def change_coord_from_buildmap_to_screen(x,
-                                         y):  # get build object's tile position and then transform to window position
+
+def change_coord_from_buildmap_to_screen(x, y):     # get building's tile position and then transform to window position
     return x * BUILD_TILE_WIDTH, y * BUILD_TILE_HEIGHT
 
 

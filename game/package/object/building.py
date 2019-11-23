@@ -5,9 +5,9 @@ from game.package.basic_module.basic_struct import *
 class Building(Object):
     def __init__(self, x, y, size_x, size_y, image_path, image_type):
         super().__init__(size_x, size_y)
-        self.class_object_image = basic_struct.Image(image_path, image_type)
-        self.object_position = Position(get_build_tile_position_x(x) * BUILD_TILE_WIDTH,
-                                        get_build_tile_position_y(y) * BUILD_TILE_HEIGHT)
+        self.image_class = basic_struct.Image(image_path, image_type)
+        self.position = Position(get_build_tile_position_x(x) * BUILD_TILE_WIDTH,
+                                 get_build_tile_position_y(y) * BUILD_TILE_HEIGHT)
 
         # 필요한 자원 리소스들 추가
         self.resource = None  # 임시 자원 변수
@@ -17,8 +17,8 @@ class Building(Object):
                                  get_build_tile_position_y(y) * BUILD_TILE_HEIGHT)
 
     def draw_object(self):
-        self.class_object_image.draw_on_map(self.object_position.x, self.object_position.y,
-                                            BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT, self.size_x, self.size_y)
+        self.image_class.draw_on_map(self.position.x, self.position.y,
+                                     BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT, self.size_x, self.size_y)
 
 
 class Building_BasicWarrior(Building):

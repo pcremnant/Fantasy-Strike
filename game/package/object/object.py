@@ -11,6 +11,7 @@ class Object:
         self.image_class = None
         self.size_x = size_x
         self.size_y = size_y
+        self.type = None
 
     def set_object_frame(self, frame_mode, max_frame, image_width, image_height):
         if frame_mode == FRAME_MODE_NONE:

@@ -1,6 +1,5 @@
 from game.package.object.object import *
 from game.package.basic_module.basic_struct import *
-from pico2d import *
 
 # tmp code : unit define module will be added ----------------------------------------------
 UNIT_FRAME_MOVE_UP = 0
@@ -19,15 +18,7 @@ class Unit(Object):
         self.image_class = []  # image list [frame_mode]
         self.frame_mode = None
         self.position = basic_struct.Position(x, y)
-        # unit status
-        self.max_hp = None
-        self.current_hp = None
-        self.move_speed = None
-        self.attack_power = None
-        self.attack_speed = None
-        self.attack_range = None
-        # self.
-
+        self.status = None
         pass
 
     def draw(self):
@@ -83,4 +74,5 @@ class Unit_Warrior(Unit):
         self.set_object_frame(UNIT_FRAME_MOVE_LEFT, 4, 64, 64)
         self.set_object_frame(UNIT_FRAME_MOVE_RIGHT, 4, 64, 64)
 
+        self.status = basic_struct.Status(100, 1, 3, 1, 1)
         pass

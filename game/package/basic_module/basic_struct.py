@@ -4,29 +4,29 @@ from game.package.basic_module.basic_define import *
 
 class Position:
 
-    def __init__(self, nX, nY):
-        self.x = nX
-        self.y = nY
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
         pass
 
-    def set_position(self, nX, nY):
-        self.x = nX
-        self.y = nY
+    def set_position(self, x, y):
+        self.x = x
+        self.y = y
 
-    def move_position(self, nX, nY):
-        self.x += nX
-        self.y -= nY
+    def move_position(self, x, y):
+        self.x += x
+        self.y -= y
 
 
-class Unit_Status:
+class Status:
 
-    def __init__(self):
-        self.hp = 0
-        self.attack_damage = 0
-        self.move_speed = 0
-        self.defence = 0
-        self.attack_range = 0
-        self.attack_speed = 0
+    def __init__(self, max_hp, move_speed, attack_power, attack_speed, attack_range):
+        self.max_hp = max_hp
+        self.current_hp = self.max_hp
+        self.move_speed = move_speed
+        self.attack_power = attack_power
+        self.attack_speed = attack_speed
+        self.attack_range = attack_range
         # add more status
         pass
 

@@ -23,9 +23,9 @@ def point_in_box(object_coord, mx, my):
 # --------------------------------------------------------------------------------------
 
 # manage all of build object
-class Build_Object_Manager:
+class BuildingManager:
     def __init__(self):
-        self.objects = []  # object list
+        self.buildings = []  # object list
         self.build_map = basic_struct.Build_Map()  # map of build objects
         self.mouse_x = 400  # current mouse position
         self.mouse_y = 300
@@ -43,7 +43,7 @@ class Build_Object_Manager:
         if self.build_map.check_is_buildable(self.mouse_x, self.mouse_y, selected_object.size_x,
                                              selected_object.size_y):
             self.build_map.build_object(self.mouse_x, self.mouse_y, selected_object.size_x, selected_object.size_y)
-            self.objects.append(selected_object)
+            self.buildings.append(selected_object)
 
     def get_mouse_position(self, x, y):
         self.mouse_x = x
@@ -67,10 +67,10 @@ class Build_Object_Manager:
         # tmp code : draw build map ------------------------------------
         self.build_map.tmp_draw_table()
         # --------------------------------------------------------------
-
-        if self.objects:
-            for obj in self.objects:
+        if self.buildings:
+            for obj in self.buildings:
                 obj.draw_object()
+
         self.build_tech.draw()  # draw build objects on right side
 
 
@@ -78,7 +78,7 @@ class Build_Object_Manager:
 # build manager selects object in Build_Table
 class Build_Table:
     def __init__(self):
-        self.image = load_image("resource/UI/build_table.png")
+        self.table_image = load_image("resource/UI/build_table.png")
         self.position = change_coord_from_buildmap_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
         self.table = [[], []]
         self.layer = 0  # build layer will be added
@@ -86,8 +86,7 @@ class Build_Table:
         # tmp code ------------------------------------------------------------------------------------------------
         self.object_coord = [OBJECT_BASIC_WARRIOR, OBJECT_BASIC_TENT]  # position of build objects
         self.table[self.layer].append(Building_BasicWarrior(self.object_coord[0][2],
-                                                            (self.object_coord[0][1] + self.object_coord[0][
-                                                                    3]) / 2))
+                                                            (self.object_coord[0][1] + self.object_coord[0][3]) / 2))
         self.table[self.layer].append(Building_BasicTent(self.object_coord[1][2],
                                                          (self.object_coord[1][1] + self.object_coord[1][3]) / 2))
         # ----------------------------------------------------------------------------------------------------------
@@ -110,9 +109,9 @@ class Build_Table:
         pass
 
     def draw(self):
-        self.image.draw(self.position[0] + BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH / 2,
-                        self.position[1] + BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT / 2,
-                        BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH, BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT)
+        self.table_image.draw(self.position[0] + BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH / 2,
+                              self.position[1] + BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT / 2,
+                              BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH, BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT)
         for obj in self.table[self.layer]:
             obj.draw_object()
 
