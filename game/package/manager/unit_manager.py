@@ -1,3 +1,5 @@
+import game.package.basic_module.unit_map
+from game.package.basic_module.basic_define import draw_unit_map
 from game.package.object.unit import *
 from game.package.framework import states
 
@@ -6,13 +8,13 @@ class UnitManager:
     def __init__(self):
         self.activated_units = []  # object list
         self.prepared_units = []  #
-        self.unit_map = basic_struct.Unit_Map()
+        self.unit_map = game.package.basic_module.unit_map.Unit_Map()
         # self.unit_for_test = Unit_Warrior(100, 100)
         self.create_timer = 1000
         self.current_timer = 0
 
     def draw(self):
-        self.unit_map.tmp_draw_table()
+        draw_unit_map()
         for unit in self.activated_units:
             unit.draw()
         # self.unit_for_test.draw()
@@ -40,6 +42,7 @@ class UnitManager:
                 basic_warrior_counter += 1
             elif building.type == BUILDING_TYPE_BASIC_TENT:
                 basic_tent_counter += 1
-        self.prepared_units = [Unit_Warrior(random.randint(200,600), random.randint(200,400)) for i in range(basic_warrior_counter)]
+        self.prepared_units = [Unit_Warrior(random.randint(200, 600), random.randint(200, 400)) for i in
+                               range(basic_warrior_counter)]
 
     pass

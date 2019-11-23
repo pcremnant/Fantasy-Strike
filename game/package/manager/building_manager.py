@@ -1,3 +1,5 @@
+import game.package.basic_module.building_map
+from game.package.basic_module.basic_define import draw_building_map
 from game.package.object.building import *
 from pico2d import *
 
@@ -26,7 +28,7 @@ def point_in_box(object_coord, mx, my):
 class BuildingManager:
     def __init__(self):
         self.buildings = []  # object list
-        self.build_map = basic_struct.Build_Map()  # map of build objects
+        self.build_map = game.package.basic_module.building_map.Build_Map()  # map of build objects
         self.mouse_x = 400  # current mouse position
         self.mouse_y = 300
         self.mouse_clicked_x = None  # mouse position when clicked
@@ -59,13 +61,13 @@ class BuildingManager:
     def draw(self):
         if self.select_object is None:
             pass  # do nothing
-        elif self.build_map.build_pointer(self.mouse_x, self.mouse_y, self.select_object.size_x,
-                                          self.select_object.size_y):
+        elif self.build_map.show_is_buildable(self.mouse_x, self.mouse_y, self.select_object.size_x,
+                                              self.select_object.size_y):
             self.select_object.build_object_on_tile(self.mouse_x, self.mouse_y)
             self.select_object.draw()
 
         # tmp code : draw build map ------------------------------------
-        self.build_map.tmp_draw_table()
+        draw_building_map()
         # --------------------------------------------------------------
         if self.buildings:
             for obj in self.buildings:

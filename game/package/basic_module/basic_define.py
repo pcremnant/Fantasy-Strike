@@ -1,3 +1,5 @@
+import pico2d
+
 WINDOW_WIDTH, WINDOW_HEIGHT = 1024, 768
 
 # for image struct
@@ -32,6 +34,15 @@ def get_build_tile_position_y(current_position_y):
     return build_tile_y
 
 
+def draw_building_map():
+    for y in range(0, BUILD_MAP_SIZE_Y - 1, 1):
+        for x in range(0, BUILD_MAP_SIZE_X - 1, 1):
+            pico2d.draw_rectangle(BUILD_TILE_START_X + x * BUILD_TILE_WIDTH,
+                                  BUILD_TILE_START_Y + y * BUILD_TILE_HEIGHT,
+                                  BUILD_TILE_START_X + (x + 1) * BUILD_TILE_WIDTH,
+                                  BUILD_TILE_START_Y + (y + 1) * BUILD_TILE_HEIGHT)
+
+
 # for unit objects
 UNIT_MAP_SIZE_X, UNIT_MAP_SIZE_Y = 20, 15
 UNIT_MAP_EDGE_X, UNIT_MAP_EDGE_Y = 2, 2
@@ -56,6 +67,15 @@ def get_unit_tile_position_x(current_position_x):
 def get_unit_tile_position_y(current_position_y):
     unit_tile_y = int(current_position_y / UNIT_TILE_HEIGHT)
     return unit_tile_y
+
+
+def draw_unit_map():
+    for y in range(0, UNIT_MAP_SIZE_Y, 1):
+        for x in range(0, UNIT_MAP_SIZE_X, 1):
+            pico2d.draw_rectangle(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH,
+                                  UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT,
+                                  UNIT_MAP_START_X + (x + 1) * UNIT_TILE_WIDTH,
+                                  UNIT_MAP_START_Y + (y + 1) * UNIT_TILE_HEIGHT)
 
 
 # for framework
