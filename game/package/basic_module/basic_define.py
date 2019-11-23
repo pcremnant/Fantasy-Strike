@@ -63,13 +63,23 @@ def change_coord_from_unitmap_to_screen(x, y):  # get unit object's tile positio
 
 
 def get_unit_tile_position_x(current_position_x):
-    unit_tile_x = int((current_position_x - UNIT_MAP_EDGE_X*UNIT_TILE_WIDTH) / UNIT_TILE_WIDTH)
-    return unit_tile_x
+    unit_tile_x = int((current_position_x - UNIT_MAP_EDGE_X * UNIT_TILE_WIDTH) / UNIT_TILE_WIDTH)
+    if unit_tile_x < 0:
+        return 0
+    elif unit_tile_x >= UNIT_MAP_SIZE_X - 1:
+        return UNIT_MAP_SIZE_X - 1
+    else:
+        return unit_tile_x
 
 
 def get_unit_tile_position_y(current_position_y):
     unit_tile_y = int((current_position_y - UNIT_MAP_EDGE_Y * UNIT_TILE_HEIGHT) / UNIT_TILE_HEIGHT)
-    return unit_tile_y
+    if unit_tile_y < 0:
+        return 0
+    elif unit_tile_y >= UNIT_MAP_SIZE_Y - 1:
+        return UNIT_MAP_SIZE_Y - 1
+    else:
+        return unit_tile_y
 
 
 def draw_unit_map():

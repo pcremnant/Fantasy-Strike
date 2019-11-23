@@ -45,9 +45,13 @@ class Battle_State:
         self.mouse_y = 0
         self.background_image = basic_struct.Image("resource/background/battle_state.png", IMAGE_TYPE_SPRITE)
         self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+        if self.unit_manager is None:
+            self.unit_manager = UnitManager()
         pass
 
     def exit(self):
+        del self.unit_manager
+        self.unit_manager = None
         pass
 
     def draw(self):

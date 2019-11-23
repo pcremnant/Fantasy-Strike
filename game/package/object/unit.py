@@ -19,7 +19,8 @@ class Unit(Object):
         super().__init__(size_x, size_y)
         self.image_class = []  # image list [frame_mode]
         self.frame_mode = None
-        self.position = basic_struct.Position(x, y)
+        self.position_on_window = basic_struct.Position(x, y)
+        self.position_on_tile = basic_struct.Position(get_unit_tile_position_x(x), get_unit_tile_position_y(y))
         self.status = None
         self.direction = None
         self.team = None
@@ -28,7 +29,7 @@ class Unit(Object):
         pass
 
     def draw(self):
-        self.image_class[self.frame_mode].draw_image(self.position.x, self.position.y)
+        self.image_class[self.frame_mode].draw_image(self.position_on_window.x, self.position_on_window.y)
 
     def change_frame_mode(self):
         if abs(self.direction.x) >= abs(self.direction.y):
@@ -57,7 +58,8 @@ class Unit(Object):
             min_distance = 0
             index_counter = 0
             for enemy in enemy_units:
-                distance = (self.position.x - enemy.position.x) ** 2 + (self.position.y - enemy.position.y) ** 2
+                distance = (self.position_on_window.x - enemy.position_on_window.x) ** 2 + (
+                            self.position_on_window.y - enemy.position_on_window.y) ** 2
                 if index_counter == 0:
                     min_distance = distance
                     min_distance_index = index_counter
@@ -66,13 +68,14 @@ class Unit(Object):
                         min_distance_index = index_counter
                 index_counter += 1
 
-        self.target_x = enemy_units[min_distance_index].position.x
-        self.target_y = enemy_units[min_distance_index].position.y
+        self.target_x = enemy_units[min_distance_index].position_on_window.x
+        self.target_y = enemy_units[min_distance_index].position_on_window.y
 
     def set_normalized_direction(self):
-        direction_x = self.target_x - self.position.x
-        direction_y = self.target_y - self.position.y
-        direction_size = math.sqrt((self.position.x - self.target_x) ** 2 + (self.position.y - self.target_y) ** 2)
+        direction_x = self.target_x - self.position_on_window.x
+        direction_y = self.target_y - self.position_on_window.y
+        direction_size = math.sqrt(
+            (self.position_on_window.x - self.target_x) ** 2 + (self.position_on_window.y - self.target_y) ** 2)
         self.direction.x = direction_x / direction_size
         self.direction.y = direction_y / direction_size
 
@@ -80,16 +83,19 @@ class Unit(Object):
         self.change_frame_mode()
         self.set_normalized_direction()
 
-        self.position.move_position(self.direction)
+        self.position_on_window.move_position(self.direction.x, self.direction.y)
 
-        if self.position.x > UNIT_MAP_END_X:
-            self.position.x -= self.direction.x * 2
-        if self.position.x < UNIT_MAP_START_X:
-            self.position.x -= self.direction.x * 2
-        if self.position.y > UNIT_MAP_END_Y:
-            self.position.y -= self.direction.y * 2
-        if self.position.y < UNIT_MAP_START_Y:
-            self.position.y -= self.direction.y * 2
+        self.position_on_tile.set_position(get_unit_tile_position_x(self.position_on_window.x),
+                                           get_unit_tile_position_y(self.position_on_window.y))
+
+        if self.position_on_window.x > UNIT_MAP_END_X:
+            self.position_on_window.x -= self.direction.x * 2
+        if self.position_on_window.x < UNIT_MAP_START_X:
+            self.position_on_window.x -= self.direction.x * 2
+        if self.position_on_window.y > UNIT_MAP_END_Y:
+            self.position_on_window.y -= self.direction.y * 2
+        if self.position_on_window.y < UNIT_MAP_START_Y:
+            self.position_on_window.y -= self.direction.y * 2
 
 
 # tmp unit (for test)

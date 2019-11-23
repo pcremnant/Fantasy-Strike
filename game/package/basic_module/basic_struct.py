@@ -12,17 +12,10 @@ class Position:
         self.x = x
         self.y = y
 
-    def set_position(self, position):
-        self.x = position.x
-        self.y = position.y
-
     def move_position(self, x, y):
         self.x += x
-        self.y -= y
+        self.y += y
 
-    def move_position(self, position):
-        self.x += position.x
-        self.y += position.y
 
 class Status:
 

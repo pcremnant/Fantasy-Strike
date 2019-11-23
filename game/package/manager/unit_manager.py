@@ -20,13 +20,15 @@ class UnitManager:
     def update(self):
         for unit in self.activated_units:
             unit.set_target(self.activated_units)
-            unit.update()
+            self.unit_map.update_unit_map(self.activated_units)
+            if self.unit_map.is_movable(unit):
+                unit.update()
+
         self.current_timer += 1
         if self.current_timer >= self.create_timer:
             self.prepare_unit()
             self.create_unit()
             self.current_timer = 0
-        self.unit_map.update_unit_map(self.activated_units)
         pass
 
     def create_unit(self):
