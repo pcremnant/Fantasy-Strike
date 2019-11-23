@@ -19,16 +19,30 @@ class Unit(Object):
         self.frame_mode = None
         self.position = basic_struct.Position(x, y)
         self.status = None
+        self.direction = None
         pass
 
     def draw(self):
         self.image_class[self.frame_mode].draw_image(self.position.x, self.position.y)
 
+    def change_frame_mode(self):
+        if abs(self.direction.x) >= abs(self.direction.y):
+            if self.direction.x >= 0:
+                self.frame_mode = UNIT_FRAME_MOVE_RIGHT
+            else:
+                self.frame_mode = UNIT_FRAME_MOVE_LEFT
+        else:
+            if self.direction.y >= 0:
+                self.frame_mode = UNIT_FRAME_MOVE_UP
+            else:
+                self.frame_mode = UNIT_FRAME_MOVE_DOWN
+
 
 # tmp unit (for test)
 class Unit_Warrior(Unit):
     def __init__(self, x, y):
-        super().__init__(x, y, 2, 2)
+        super().__init__(x, y, 1, 1)
+        self.direction = basic_struct.Position(0, 1)
         self.frame_mode = UNIT_FRAME_MOVE_RIGHT
         image_path_list = []
         image_type_list = []

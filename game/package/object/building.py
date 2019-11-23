@@ -16,13 +16,14 @@ class Building(Object):
         self.set_object_position(get_build_tile_position_x(x) * BUILD_TILE_WIDTH,
                                  get_build_tile_position_y(y) * BUILD_TILE_HEIGHT)
 
-    def draw_object(self):
+    def draw(self):
         self.image_class.draw_on_map(self.position.x, self.position.y,
                                      BUILD_TILE_WIDTH, BUILD_TILE_HEIGHT, self.size_x, self.size_y)
 
 
 class Building_BasicWarrior(Building):
     def __init__(self, x, y):
+        self.type = BUILDING_TYPE_BASIC_WARRIOR
         imgPath = "resource/object/build/basic_warrior.png"
         super().__init__(x, y, 2, 2, imgPath, IMAGE_TYPE_SPRITE)
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 256)
@@ -30,6 +31,7 @@ class Building_BasicWarrior(Building):
 
 class Building_BasicTent(Building):
     def __init__(self, x, y):
+        self.type = BUILDING_TYPE_BASIC_TENT
         super().__init__(x, y, 2, 2, "resource/object/build/basic_tent.png", IMAGE_TYPE_SPRITE)
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 256)
 

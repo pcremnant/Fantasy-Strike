@@ -11,7 +11,7 @@ class Game_State:
         self.resume = state.resume
         self.handle_events = state.handle_events
         self.update = state.update
-        self.draw = state.draw_object
+        self.draw = state.draw
 
 
 running = None

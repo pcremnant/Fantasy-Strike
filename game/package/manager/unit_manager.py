@@ -1,14 +1,17 @@
 from game.package.object.unit import *
-from game.package.framework.states import get_building_manager
+from game.package.framework.states import *
+
 
 class UnitManager:
     def __init__(self):
-        self.activated_units = []   # object list
-        self.prepared_units = []    #
+        self.activated_units = []  # object list
+        self.prepared_units = []  #
         self.unit_map = basic_struct.Unit_Map()
+        self.unit_for_test = Unit_Warrior(100, 100)
 
     def draw(self):
         self.unit_map.tmp_draw_table()
+        self.unit_for_test.draw()
 
     def update(self):
         pass
@@ -28,5 +31,3 @@ class UnitManager:
         self.prepared_units = [Unit_Warrior() for i in range(basic_warrior_counter)]
 
     pass
-
-

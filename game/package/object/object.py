@@ -19,7 +19,7 @@ class Object:
         else:
             self.image_class[frame_mode].set_image_frame(max_frame, image_width, image_height)
 
-    def draw_object(self):
+    def draw(self):
         pass
 
     def set_object_position(self, x, y):
