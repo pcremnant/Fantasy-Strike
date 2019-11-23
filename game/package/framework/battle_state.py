@@ -1,5 +1,4 @@
 from ..framework import game_framework
-from ..framework import states
 from pico2d import *
 from game.package.manager.unit_manager import *
 
@@ -24,9 +23,9 @@ class Battle_State:
                 game_framework.quit()
             elif event.type == SDL_KEYDOWN:
                 if event.key == SDLK_ESCAPE:
-                    game_framework.change_state(states.MainState)
+                    return HANDLE_EVENT_QUIT_STATE
                 elif event.key == SDLK_q:
-                    game_framework.change_state(states.BuildState)
+                    return HANDLE_EVENT_CHANGE_STATE
 
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.mouse_clicked_x = event.x
@@ -35,6 +34,7 @@ class Battle_State:
             elif event.type == SDL_MOUSEMOTION:
                 self.mouse_x = event.x
                 self.mouse_y = WINDOW_HEIGHT - event.y
+            return HANDLE_EVENT_NONE
 
         pass
 

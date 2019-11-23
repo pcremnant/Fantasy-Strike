@@ -18,7 +18,7 @@ BUILDING_TYPE_BASIC_WARRIOR = 1
 BUILDING_TYPE_BASIC_TENT = 2
 
 
-def change_coord_from_buildmap_to_screen(x, y):     # get building's tile position and then transform to window position
+def change_coord_from_buildmap_to_screen(x, y):  # get building's tile position and then transform to window position
     return x * BUILD_TILE_WIDTH, y * BUILD_TILE_HEIGHT
 
 
@@ -56,3 +56,10 @@ def get_unit_tile_position_x(current_position_x):
 def get_unit_tile_position_y(current_position_y):
     unit_tile_y = int(current_position_y / UNIT_TILE_HEIGHT)
     return unit_tile_y
+
+
+# for framework
+
+HANDLE_EVENT_CHANGE_STATE = 1
+HANDLE_EVENT_QUIT_STATE = -1
+HANDLE_EVENT_NONE = 0

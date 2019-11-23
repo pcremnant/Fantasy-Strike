@@ -24,13 +24,13 @@ class Main_State:
                 if event.key == SDLK_ESCAPE:
                     game_framework.quit()
                 else:
-                    game_framework.change_state(states.BuildState)
+                    game_framework.change_state(states.GameState)
             # tmp code : button for selection will be added --------------------------------------------
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.mouse_clicked_x = event.x
                 self.mouse_clicked_y = WINDOW_HEIGHT - event.y
 
-                game_framework.change_state(states.BuildState)
+                game_framework.change_state(states.GameState)
             # ------------------------------------------------------------------------------------------
             elif event.type == SDL_MOUSEMOTION:
                 self.mouse_x = event.x

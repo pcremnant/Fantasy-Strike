@@ -21,11 +21,9 @@ class Build_State:
                 game_framework.quit()
             elif event.type == SDL_KEYDOWN:
                 if event.key == SDLK_ESCAPE:
-                    game_framework.change_state(states.MainState)
-                    del self.building_manager
-                    self.building_manager = None
+                    return HANDLE_EVENT_QUIT_STATE
                 elif event.key == SDLK_q:
-                    game_framework.change_state(states.BattleState)
+                    return HANDLE_EVENT_CHANGE_STATE
 
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.mouse_clicked_x = event.x
@@ -37,6 +35,7 @@ class Build_State:
                 self.mouse_y = WINDOW_HEIGHT - event.y
                 self.building_manager.get_mouse_position(self.mouse_x, self.mouse_y)
 
+            return HANDLE_EVENT_NONE
         pass
 
     def enter(self):
@@ -51,7 +50,8 @@ class Build_State:
         pass
 
     def exit(self):
-        # del self.build_manager
+        del self.building_manager
+        self.building_manager = None
         pass
 
     def draw(self):
