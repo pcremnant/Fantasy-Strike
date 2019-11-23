@@ -23,16 +23,16 @@ class Building(Object):
 
 class Building_BasicWarrior(Building):
     def __init__(self, x, y):
-        self.type = BUILDING_TYPE_BASIC_WARRIOR
         imgPath = "resource/object/build/basic_warrior.png"
         super().__init__(x, y, 2, 2, imgPath, IMAGE_TYPE_SPRITE)
+        self.type = BUILDING_TYPE_BASIC_WARRIOR
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 256)
 
 
 class Building_BasicTent(Building):
     def __init__(self, x, y):
-        self.type = BUILDING_TYPE_BASIC_TENT
         super().__init__(x, y, 2, 2, "resource/object/build/basic_tent.png", IMAGE_TYPE_SPRITE)
+        self.type = BUILDING_TYPE_BASIC_TENT
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 256)
 
 
