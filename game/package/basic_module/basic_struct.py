@@ -193,7 +193,7 @@ class Unit_Map:
     def tmp_draw_table(self):
         for y in range(0, UNIT_MAP_SIZE_Y, 1):
             for x in range(0, UNIT_MAP_SIZE_X, 1):
-                pico2d.draw_rectangle(UNIT_TILE_START_X + x * UNIT_TILE_WIDTH,
-                                      UNIT_TILE_START_Y + y * UNIT_TILE_HEIGHT,
-                                      UNIT_TILE_START_X + (x + 1) * UNIT_TILE_WIDTH,
-                                      UNIT_TILE_START_Y + (y + 1) * UNIT_TILE_HEIGHT)
+                pico2d.draw_rectangle(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH,
+                                      UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT,
+                                      UNIT_MAP_START_X + (x + 1) * UNIT_TILE_WIDTH,
+                                      UNIT_MAP_START_Y + (y + 1) * UNIT_TILE_HEIGHT)

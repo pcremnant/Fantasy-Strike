@@ -14,6 +14,7 @@ class UnitManager:
         self.unit_for_test.draw()
 
     def update(self):
+        self.unit_for_test.update()
         pass
 
     def create_unit(self):

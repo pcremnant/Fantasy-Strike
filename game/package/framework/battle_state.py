@@ -62,4 +62,5 @@ class Battle_State:
         pass
 
     def update(self):
+        self.unit_manager.update()
         pass

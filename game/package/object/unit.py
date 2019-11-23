@@ -1,5 +1,6 @@
 from game.package.object.object import *
 from game.package.basic_module.basic_struct import *
+import random
 
 # tmp code : unit define module will be added ----------------------------------------------
 UNIT_FRAME_MOVE_UP = 0
@@ -37,6 +38,32 @@ class Unit(Object):
             else:
                 self.frame_mode = UNIT_FRAME_MOVE_DOWN
 
+    def update(self):
+        self.change_frame_mode()
+
+        self.position.x += self.direction.x
+        self.position.y += self.direction.y
+
+        if self.position.x > UNIT_MAP_END_X:
+            self.position.x -= self.direction.x * 2
+            self.direction.x = random.randint(-1, 1)
+            self.direction.y = random.randint(-1, 1)
+        if self.position.x < UNIT_MAP_START_X:
+            self.position.x -= self.direction.x * 2
+            self.direction.x = random.randint(-1, 1)
+            self.direction.y = random.randint(-1, 1)
+        if self.position.y > UNIT_MAP_END_Y:
+            self.position.y -= self.direction.y * 2
+            self.direction.x = random.randint(-1, 1)
+            self.direction.y = random.randint(-1, 1)
+        if self.position.y < UNIT_MAP_START_Y:
+            self.position.y -= self.direction.y * 2
+            self.direction.x = random.randint(-1, 1)
+            self.direction.y = random.randint(-1, 1)
+
+        if self.direction.x == 0 and self.direction.y == 0:
+            self.direction.x = random.randint(-1, 1)
+            self.direction.y = random.randint(-1, 1)
 
 # tmp unit (for test)
 class Unit_Warrior(Unit):
