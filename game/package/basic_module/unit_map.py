@@ -37,11 +37,4 @@ class Unit_Map:
             return True
         else:
             return self.unit_map[get_unit_tile_position_y(moved_position.y)][get_unit_tile_position_x(moved_position.x)]
-        # if self.unit_map[get_unit_tile_position_y(moved_position.y)][get_unit_tile_position_x(moved_position.x)]:
-        #     return True
-        # else:
-        #     direction = unit.direction
-        #     direction.x *= -1
-        #     direction.y *= -1
-        #     unit.position.move_position(direction)
-        #     return False
+

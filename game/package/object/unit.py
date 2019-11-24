@@ -59,7 +59,7 @@ class Unit(Object):
             index_counter = 0
             for enemy in enemy_units:
                 distance = (self.position_on_window.x - enemy.position_on_window.x) ** 2 + (
-                            self.position_on_window.y - enemy.position_on_window.y) ** 2
+                        self.position_on_window.y - enemy.position_on_window.y) ** 2
                 if index_counter == 0:
                     min_distance = distance
                     min_distance_index = index_counter
@@ -72,12 +72,10 @@ class Unit(Object):
         self.target_y = enemy_units[min_distance_index].position_on_window.y
 
     def set_normalized_direction(self):
-        direction_x = self.target_x - self.position_on_window.x
-        direction_y = self.target_y - self.position_on_window.y
-        direction_size = math.sqrt(
-            (self.position_on_window.x - self.target_x) ** 2 + (self.position_on_window.y - self.target_y) ** 2)
-        self.direction.x = direction_x / direction_size
-        self.direction.y = direction_y / direction_size
+        degree = math.atan2(self.target_y - self.position_on_window.y, self.target_x - self.position_on_window.x)
+
+        self.direction.x = math.cos(degree) * self.status.move_speed
+        self.direction.y = math.sin(degree) * self.status.move_speed
 
     def update(self):
         self.change_frame_mode()
@@ -100,6 +98,12 @@ class Unit(Object):
 
 # tmp unit (for test)
 class Unit_Warrior(Unit):
+    MAX_HP = 100
+    MOVE_SPEED = 0.5
+    ATTACK_POWER = 3
+    ATTACK_RANGE = 1
+    ATTACK_SPEED = 1
+
     def __init__(self, x, y, team):
         super().__init__(x, y, 1, 1)
         self.direction = basic_struct.Position(0, 1)
@@ -149,13 +153,21 @@ class Unit_Warrior(Unit):
         self.set_object_frame(UNIT_FRAME_MOVE_LEFT, 4, 64, 64)
         self.set_object_frame(UNIT_FRAME_MOVE_RIGHT, 4, 64, 64)
 
-        self.status = basic_struct.Status(100, 1, 3, 1, 1)
+        self.status = basic_struct.Status(Unit_Warrior.MAX_HP, Unit_Warrior.MOVE_SPEED, Unit_Warrior.ATTACK_POWER,
+                                          Unit_Warrior.ATTACK_SPEED, Unit_Warrior.ATTACK_RANGE)
         pass
 
 
 class Unit_Enemy(Unit):
+    MAX_HP = 80
+    MOVE_SPEED = 0.3
+    ATTACK_POWER = 2
+    ATTACK_RANGE = 1
+    ATTACK_SPEED = 1
+
     def __init__(self, x, y, team):
         super().__init__(x, y, 1, 1)
+        self.speed = 0.3
         self.direction = basic_struct.Position(0, -1)
         self.frame_mode = UNIT_FRAME_MOVE_DOWN
         self.team = team
@@ -191,5 +203,6 @@ class Unit_Enemy(Unit):
         self.set_object_frame(UNIT_FRAME_MOVE_LEFT, 1, 64, 64)
         self.set_object_frame(UNIT_FRAME_MOVE_RIGHT, 1, 64, 64)
 
-        self.status = basic_struct.Status(100, 1, 3, 1, 1)
+        self.status = basic_struct.Status(Unit_Enemy.MAX_HP, Unit_Enemy.MOVE_SPEED, Unit_Enemy.ATTACK_POWER,
+                                          Unit_Enemy.ATTACK_SPEED, Unit_Enemy.ATTACK_RANGE)
         pass
