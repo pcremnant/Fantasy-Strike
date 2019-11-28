@@ -22,11 +22,11 @@ class UnitManager:
             unit.set_target(self.activated_units)
             self.unit_map.update_unit_map(self.activated_units)
             unit.update(self.unit_map.is_movable(unit))
-            if unit.is_attack:
+            if unit.is_attacking:
                 unit.attack(self.activated_units)
 
         for unit in self.activated_units:
-            if not unit.is_alive:
+            if not unit.is_living:
                 self.activated_units.remove(unit)
 
         self.current_timer += 1

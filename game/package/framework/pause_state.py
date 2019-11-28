@@ -1,19 +1,17 @@
 from ..framework import game_framework
+from ..basic_module.basic_define import *
+from ..basic_module import basic_struct
 from pico2d import *
-from game.package.manager.unit_manager import *
 
 name = "battle_state"
 
 
-class Battle_State:
+class Pause_State:
     def __init__(self):
         self.mouse_clicked_x = 0
         self.mouse_clicked_y = 0
         self.mouse_x = 0
         self.mouse_y = 0
-
-        self.unit_manager = UnitManager()
-        # self.unit_map = basic_struct.Unit_Map() # tmp code : to test unit_map
         self.background_image = None
 
     def handle_events(self):
@@ -23,9 +21,9 @@ class Battle_State:
                 game_framework.quit()
             elif event.type == SDL_KEYDOWN:
                 if event.key == SDLK_ESCAPE:
-                    return HANDLE_EVENT_ENTER_PAUSE
-                elif event.key == SDLK_q:
-                    return HANDLE_EVENT_CHANGE_STATE
+                    return HANDLE_EVENT_QUIT_STATE
+                elif event.key == SDLK_SPACE:
+                    return HANDLE_EVENT_EXIT_PAUSE
 
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.mouse_clicked_x = event.x
@@ -43,21 +41,15 @@ class Battle_State:
         self.mouse_clicked_y = 0
         self.mouse_x = 0
         self.mouse_y = 0
-        self.background_image = basic_struct.Image("resource/background/battle_state.png", IMAGE_TYPE_SPRITE)
-        self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
-        if self.unit_manager is None:
-            self.unit_manager = UnitManager()
+        self.background_image = basic_struct.Image("resource/background/pause.png", IMAGE_TYPE_SPRITE)
+        self.background_image.set_image_frame(1, WINDOW_WIDTH - 100, WINDOW_HEIGHT - 100)
         pass
 
     def exit(self):
-        del self.unit_manager
-        self.unit_manager = None
         pass
 
     def draw(self):
         self.background_image.draw_image(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
-        self.unit_manager.draw()
-        # self.unit_map.tmp_draw_table()
 
     def pause(self):
         pass
@@ -66,5 +58,4 @@ class Battle_State:
         pass
 
     def update(self):
-        self.unit_manager.update()
         pass

@@ -30,8 +30,8 @@ class Unit(Object):
         self.target_y = None
         self.is_in_attack_range = False
         self.is_able_to_attack = True
-        self.is_attack = False
-        self.is_alive = True
+        self.is_attacking = False
+        self.is_living = True
         self.attack_delay_counter = 0
         pass
 
@@ -118,7 +118,7 @@ class Unit(Object):
                         unit.is_alive = False
         self.is_in_attack_range = False
         self.is_able_to_attack = False
-        self.is_attack = False
+        self.is_attacking = False
 
     def update(self, is_movable):
         self.change_frame_mode()
@@ -136,9 +136,9 @@ class Unit(Object):
                 if self.image_class[self.frame_mode].current_frame == self.image_class[
                     self.frame_mode].max_frame * SUB_FRAME - 1:
                     self.is_able_to_attack = False
-                    self.is_attack = True
+                    self.is_attacking = True
                 else:
-                    self.is_attack = False
+                    self.is_attacking = False
 
         elif is_movable:
             self.position_on_window.move_position(self.direction.x, self.direction.y)
