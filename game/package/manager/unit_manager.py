@@ -48,8 +48,9 @@ class UnitManager:
                 elif unit.team == UNIT_TEAM_ENEMY:
                     is_enemy_living = True
 
-        # temp
+        # test code ---
         is_player_living = True
+        # ----------
         if is_player_living and is_enemy_living:
             self.winner = None
         elif is_player_living:

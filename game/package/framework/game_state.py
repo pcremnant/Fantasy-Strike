@@ -20,7 +20,7 @@ class Game_State:
             get_event = self.pause_state.handle_events()
         else:
             get_event = self.current_state.handle_events()
-
+#
         if get_event == HANDLE_EVENT_NONE:
             pass
         elif get_event == HANDLE_EVENT_CHANGE_STATE:
@@ -68,6 +68,7 @@ class Game_State:
         else:
             self.build_state.update()
             self.battle_state.update()
+
             if self.battle_state.unit_manager.winner == 'player':
                 states.ResultState.winner = 'victory'
                 game_framework.change_state(states.ResultState)

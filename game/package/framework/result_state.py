@@ -10,9 +10,9 @@ MENU_INDEX_VICTORY = 0
 MENU_INDEX_DEFEAT = 1
 MENU_INDEX_DRAW = 2
 
-RESULT_STATE_VICTORY = [WINDOW_WIDTH // 2, WINDOW_HEIGHT//2, 452, 166, 'resource/UI/result_victory.png']
-RESULT_STATE_DEFEAT = [WINDOW_WIDTH // 2, WINDOW_HEIGHT//2, 387, 173, 'resource/UI/result_defeat.png']
-RESULT_STATE_DRAW = [WINDOW_WIDTH // 2, WINDOW_HEIGHT//2, 310, 109, 'resource/UI/result_draw.png']
+RESULT_STATE_VICTORY = [WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, 452, 166, 'resource/UI/result_victory.png']
+RESULT_STATE_DEFEAT = [WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, 387, 173, 'resource/UI/result_defeat.png']
+RESULT_STATE_DRAW = [WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, 310, 109, 'resource/UI/result_draw.png']
 
 
 class Result_State:
@@ -20,6 +20,10 @@ class Result_State:
         self.mouse_x = 0
         self.mouse_y = 0
         self.background_image = None
+        self.background_image_defeat = None
+        self.background_image_victory = None
+        self.background_image_draw = None
+
         self.winner = None
         self.menu_victory = None
         self.menu_defeat = None
@@ -46,8 +50,18 @@ class Result_State:
 
     def enter(self):
         self.timer = 0
-        self.background_image = basic_struct.Image("resource/background/main_state.png", IMAGE_TYPE_SPRITE)
-        self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+        if self.background_image_defeat is None:
+            self.background_image_defeat = basic_struct.Image('resource/background/result_state_defeat.png',
+                                                              IMAGE_TYPE_SPRITE)
+            self.background_image_defeat.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+        if self.background_image_victory is None:
+            self.background_image_victory = basic_struct.Image('resource/background/result_state_victory.png',
+                                                               IMAGE_TYPE_SPRITE)
+            self.background_image_victory.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+        if self.background_image_draw is None:
+            self.background_image_draw = basic_struct.Image('resource/background/result_state_draw.png', IMAGE_TYPE_SPRITE)
+            self.background_image_draw.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+
         if self.menu_victory is None:
             self.menu_victory = basic_struct.Menu(*RESULT_STATE_VICTORY)
         if self.menu_defeat is None:
@@ -57,10 +71,13 @@ class Result_State:
 
         if self.winner == 'victory':
             self.menu = self.menu_victory
+            self.background_image = self.background_image_victory
         elif self.winner == 'defeat':
             self.menu = self.menu_defeat
+            self.background_image = self.background_image_defeat
         elif self.winner == 'draw':
             self.menu = self.menu_draw
+            self.background_image = self.background_image_draw
         pass
 
     def exit(self):
@@ -81,6 +98,6 @@ class Result_State:
 
     def update(self):
         self.timer += 1
-        if self.timer > 300:
+        if self.timer > 1000:
             game_framework.change_state(states.MainState)
         pass

@@ -13,7 +13,6 @@ class Battle_State:
         self.mouse_y = 0
 
         self.unit_manager = UnitManager()
-        # self.unit_map = basic_struct.Unit_Map() # tmp code : to test unit_map
         self.background_image = None
 
     def handle_events(self):
@@ -58,7 +57,6 @@ class Battle_State:
     def draw(self):
         self.background_image.draw_image(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         self.unit_manager.draw()
-        # self.unit_map.tmp_draw_table()
 
     def pause(self):
         pass
