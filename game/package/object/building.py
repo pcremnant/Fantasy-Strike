@@ -1,6 +1,6 @@
 from game.package.object.object import *
 from game.package.basic_module.basic_struct import *
-
+from game.package.basic_module.basic_define import *
 
 class Building(Object):
     def __init__(self, x, y, size_x, size_y, image_path, image_type):

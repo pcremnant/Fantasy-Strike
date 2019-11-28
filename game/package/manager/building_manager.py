@@ -1,11 +1,11 @@
 import game.package.basic_module.building_map
-from game.package.basic_module.basic_define import draw_building_map
 from game.package.object.building import *
+from game.package.basic_module.basic_define import *
 from pico2d import *
 
 # tmp code : object list to show on right side -----------------------------------------
 # this code will be moved to basic_module module of build object
-pos = change_coord_from_buildmap_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
+pos = change_coord_from_building_map_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
 
 OBJECT_BASIC_WARRIOR = pos[0] + 1 * BUILD_TILE_WIDTH, pos[1] + 3 * BUILD_TILE_HEIGHT, \
                        pos[0] + 3 * BUILD_TILE_WIDTH - 1, pos[1] + 5 * BUILD_TILE_HEIGHT
@@ -81,7 +81,7 @@ class BuildingManager:
 class Build_Table:
     def __init__(self):
         self.table_image = load_image("resource/UI/build_table.png")
-        self.position = change_coord_from_buildmap_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
+        self.position = change_coord_from_building_map_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
         self.table = [[], []]
         self.layer = 0  # build layer will be added
 

@@ -20,7 +20,7 @@ BUILDING_TYPE_BASIC_WARRIOR = 1
 BUILDING_TYPE_BASIC_TENT = 2
 
 
-def change_coord_from_buildmap_to_screen(x, y):  # get building's tile position and then transform to window position
+def change_coord_from_building_map_to_screen(x, y):  # get building's tile position and then transform to window position
     return x * BUILD_TILE_WIDTH, y * BUILD_TILE_HEIGHT
 
 
