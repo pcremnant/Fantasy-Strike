@@ -32,6 +32,7 @@ class Unit(Object):
         self.is_able_to_attack = True
         self.is_attacking = False
         self.is_living = True
+        self.is_castle = None
         self.attack_delay_counter = 0
         pass
 
@@ -114,8 +115,8 @@ class Unit(Object):
                 if unit.position_on_tile.x == get_unit_tile_position_x(
                         self.target_x) and unit.position_on_tile.y == get_unit_tile_position_y(self.target_y):
                     unit.status.current_hp -= self.status.attack_power
-                    if unit.status.current_hp <= 0:
-                        unit.is_alive = False
+                    if unit.status.current_hp < 1:
+                        unit.is_living = False
         self.is_in_attack_range = False
         self.is_able_to_attack = False
         self.is_attacking = False
@@ -169,6 +170,7 @@ class Unit_Warrior(Unit):
         self.direction = basic_struct.Position(0, 1)
         self.frame_mode = UNIT_FRAME_MOVE_TOP
         self.team = team
+        self.is_castle = False
         image_path_list = []
         image_type_list = []
 
@@ -242,6 +244,7 @@ class Unit_Enemy(Unit):
         self.direction = basic_struct.Position(0, -1)
         self.frame_mode = UNIT_FRAME_MOVE_DOWN
         self.team = team
+        self.is_castle = False
         image_path_list = []
         image_type_list = []
 
@@ -297,6 +300,7 @@ class Unit_EnemyCastle(Unit):
         self.direction = basic_struct.Position(0, -1)
         self.frame_mode = UNIT_FRAME_MOVE_DOWN
         self.team = team
+        self.is_castle = True
         image_path_list = []
         image_type_list = []
 

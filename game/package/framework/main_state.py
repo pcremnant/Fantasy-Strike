@@ -54,11 +54,13 @@ class Main_State:
         pass
 
     def enter(self):
-        self.background_image = basic_struct.Image("resource/background/main_state.png", IMAGE_TYPE_SPRITE)
-        self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
-        self.menu.append(basic_struct.Menu(*MAIN_STATE_TITLE))
-        self.menu.append(basic_struct.Menu(*MAIN_STATE_START))
-        self.menu.append(basic_struct.Menu(*MAIN_STATE_EXIT))
+        if self.background_image is None:
+            self.background_image = basic_struct.Image("resource/background/main_state.png", IMAGE_TYPE_SPRITE)
+            self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+        if len(self.menu) == 0:
+            self.menu.append(basic_struct.Menu(*MAIN_STATE_TITLE))
+            self.menu.append(basic_struct.Menu(*MAIN_STATE_START))
+            self.menu.append(basic_struct.Menu(*MAIN_STATE_EXIT))
         pass
 
     def exit(self):

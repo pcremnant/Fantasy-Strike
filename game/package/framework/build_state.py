@@ -45,8 +45,9 @@ class Build_State:
         self.mouse_y = 0
         if self.building_manager is None:
             self.building_manager = BuildingManager()
-        self.background_image = basic_struct.Image("resource/background/build_state.png", IMAGE_TYPE_SPRITE)
-        self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+        if self.background_image is None:
+            self.background_image = basic_struct.Image("resource/background/build_state.png", IMAGE_TYPE_SPRITE)
+            self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
         pass
 
     def exit(self):

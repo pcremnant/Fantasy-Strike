@@ -63,11 +63,15 @@ class Pause_State:
     def enter(self):
         self.mouse_x = 0
         self.mouse_y = 0
-        self.background_image = basic_struct.Image("resource/background/pause_state.png", IMAGE_TYPE_SPRITE)
-        self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
-        self.menu.append(basic_struct.Menu(*PAUSE_STATE_PAUSE))
-        self.menu.append(basic_struct.Menu(*PAUSE_STATE_RESUME))
-        self.menu.append(basic_struct.Menu(*PAUSE_STATE_QUIT))
+        if self.background_image is None:
+            self.background_image = basic_struct.Image("resource/background/pause_state.png", IMAGE_TYPE_SPRITE)
+            self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+
+        if len(self.menu) == 0:
+            self.menu.append(basic_struct.Menu(*PAUSE_STATE_PAUSE))
+            self.menu.append(basic_struct.Menu(*PAUSE_STATE_RESUME))
+            self.menu.append(basic_struct.Menu(*PAUSE_STATE_QUIT))
+
         pass
 
     def exit(self):

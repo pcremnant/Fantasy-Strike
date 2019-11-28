@@ -43,8 +43,9 @@ class Battle_State:
         self.mouse_clicked_y = 0
         self.mouse_x = 0
         self.mouse_y = 0
-        self.background_image = basic_struct.Image("resource/background/battle_state.png", IMAGE_TYPE_SPRITE)
-        self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+        if self.background_image is None:
+            self.background_image = basic_struct.Image("resource/background/battle_state.png", IMAGE_TYPE_SPRITE)
+            self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
         if self.unit_manager is None:
             self.unit_manager = UnitManager()
         pass

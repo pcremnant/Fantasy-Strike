@@ -11,6 +11,7 @@ class UnitManager:
         self.create_timer = 1000
         self.current_timer = 0
         self.activated_units += [Unit_EnemyCastle(WINDOW_WIDTH // 2, get_unit_tile_position_y(WINDOW_HEIGHT) * UNIT_TILE_HEIGHT, UNIT_TEAM_ENEMY)]
+        self.winner = None
 
     def draw(self):
         for unit in self.activated_units:
@@ -28,6 +29,7 @@ class UnitManager:
         for unit in self.activated_units:
             if not unit.is_living:
                 self.activated_units.remove(unit)
+                del unit
 
         self.current_timer += 1
         if self.current_timer >= self.create_timer:
@@ -36,6 +38,26 @@ class UnitManager:
             self.current_timer = 0
 
         self.activated_units.sort(key=lambda x: x.position_on_tile.y, reverse=True)
+
+        is_player_living = False
+        is_enemy_living = False
+        for unit in self.activated_units:
+            if unit.is_castle:
+                if unit.team == UNIT_TEAM_PLAYER:
+                    is_player_living = True
+                elif unit.team == UNIT_TEAM_ENEMY:
+                    is_enemy_living = True
+
+        # temp
+        is_player_living = True
+        if is_player_living and is_enemy_living:
+            self.winner = None
+        elif is_player_living:
+            self.winner = 'player'
+        elif is_enemy_living:
+            self.winner = 'enemy'
+        else:
+            self.winner = 'draw'
         pass
 
     def create_unit(self):
