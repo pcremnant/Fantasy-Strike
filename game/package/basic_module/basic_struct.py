@@ -106,7 +106,6 @@ class Menu:
 
     def draw(self):
         if self.is_selected:
-            self.image.draw_image(self.x, self.y)
             self.image.image.clip_draw(0, 0, self.width, self.height, self.x, self.y, self.width + 100,
                                        self.height + 20)
             # draw_rectangle(self.x - self.width / 2, self.y - self.height / 2, self.x + self.width / 2,

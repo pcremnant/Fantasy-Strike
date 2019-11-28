@@ -1,5 +1,3 @@
-# from game.package.basic_module.basic_define import BUILD_MAP_SIZE_X, BUILD_MAP_SIZE_Y, BUILD_TILE_START_X, \
-#    BUILD_TILE_WIDTH, BUILD_TILE_START_Y, BUILD_TILE_HEIGHT, IMAGE_TYPE_SPRITE
 from game.package.basic_module.basic_define import *
 from game.package.basic_module.basic_struct import Image
 

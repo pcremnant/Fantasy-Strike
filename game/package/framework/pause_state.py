@@ -9,9 +9,9 @@ MENU_INDEX_PAUSE = 0
 MENU_INDEX_RESUME = 1
 MENU_INDEX_QUIT = 2
 
-PAUSE_STATE_PAUSE = [WINDOW_WIDTH // 2, WINDOW_HEIGHT - 100, 500, 130]
-PAUSE_STATE_RESUME = [WINDOW_WIDTH // 2, WINDOW_HEIGHT - 400, 500, 130]
-PAUSE_STATE_QUIT = [WINDOW_WIDTH // 2, WINDOW_HEIGHT - 600, 500, 130]
+PAUSE_STATE_PAUSE = [WINDOW_WIDTH // 2, WINDOW_HEIGHT - 100, 500, 130, 'resource/UI/pause.png']
+PAUSE_STATE_RESUME = [WINDOW_WIDTH // 2, WINDOW_HEIGHT - 400, 500, 130, 'resource/UI/pause_resume.png']
+PAUSE_STATE_QUIT = [WINDOW_WIDTH // 2, WINDOW_HEIGHT - 600, 500, 130, 'resource/UI/pause_quit.png']
 
 
 # position / width / height / image
@@ -65,9 +65,9 @@ class Pause_State:
         self.mouse_y = 0
         self.background_image = basic_struct.Image("resource/background/pause_state.png", IMAGE_TYPE_SPRITE)
         self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
-        self.menu.append(basic_struct.Menu(*PAUSE_STATE_PAUSE, 'resource/UI/pause.png'))
-        self.menu.append(basic_struct.Menu(*PAUSE_STATE_RESUME, 'resource/UI/pause_resume.png'))
-        self.menu.append(basic_struct.Menu(*PAUSE_STATE_QUIT, 'resource/UI/pause_quit.png'))
+        self.menu.append(basic_struct.Menu(*PAUSE_STATE_PAUSE))
+        self.menu.append(basic_struct.Menu(*PAUSE_STATE_RESUME))
+        self.menu.append(basic_struct.Menu(*PAUSE_STATE_QUIT))
         pass
 
     def exit(self):
