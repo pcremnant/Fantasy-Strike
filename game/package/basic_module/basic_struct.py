@@ -17,6 +17,12 @@ class Position:
         self.y += y
 
 
+class Resource:
+    def __init__(self, wood=0, stone=0):
+        self.wood = wood
+        self.stone = stone
+
+
 class Status:
 
     def __init__(self, max_hp, move_speed, attack_power, attack_speed, attack_range):
@@ -26,7 +32,6 @@ class Status:
         self.attack_power = attack_power
         self.attack_speed = attack_speed
         self.attack_range = attack_range
-        # add more status
         pass
 
 

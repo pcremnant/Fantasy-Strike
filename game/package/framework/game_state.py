@@ -6,6 +6,7 @@ from ..framework import pause_state
 from ..framework import states
 
 
+
 class Game_State:
     def __init__(self):
         self.build_state = build_state.Build_State()
@@ -13,6 +14,8 @@ class Game_State:
         self.pause_state = pause_state.Pause_State()
         self.current_state = self.build_state
         self.is_pause_state = False
+        self.font = load_font('tmp.ttf', 36)
+        self.current_resource = None
 
     def handle_events(self):
         get_event = None
@@ -20,7 +23,7 @@ class Game_State:
             get_event = self.pause_state.handle_events()
         else:
             get_event = self.current_state.handle_events()
-#
+        #
         if get_event == HANDLE_EVENT_NONE:
             pass
         elif get_event == HANDLE_EVENT_CHANGE_STATE:
@@ -55,6 +58,10 @@ class Game_State:
         self.current_state.draw()
         if self.is_pause_state:
             self.pause_state.draw()
+        self.font.draw(WINDOW_WIDTH - 200, WINDOW_HEIGHT - 50, '(%(wood)d / %(stone)d)' %
+                       {'wood': self.build_state.current_resource.wood,
+                        'stone': self.build_state.current_resource.stone}, (0, 255, 0))
+        # self.font.draw(WINDOW_WIDTH - 100, WINDOW_HEIGHT - 50,  '(Time: %3.2f)' % get_time(),  (255, 255, 0))
 
     def pause(self):
         pass

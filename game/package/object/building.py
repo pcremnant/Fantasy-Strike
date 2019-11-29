@@ -2,6 +2,7 @@ from game.package.object.object import *
 from game.package.basic_module.basic_struct import *
 from game.package.basic_module.basic_define import *
 
+
 class Building(Object):
     def __init__(self, x, y, size_x, size_y, image_path, image_type):
         super().__init__(size_x, size_y)
@@ -10,7 +11,7 @@ class Building(Object):
                                  get_build_tile_position_y(y) * BUILD_TILE_HEIGHT)
 
         # 필요한 자원 리소스들 추가
-        self.resource = None  # 임시 자원 변수
+        self.require_resource = None  # 임시 자원 변수
 
     def build_object_on_tile(self, x, y):
         self.set_object_position(get_build_tile_position_x(x) * BUILD_TILE_WIDTH,
@@ -27,6 +28,7 @@ class Building_BasicWarrior(Building):
         super().__init__(x, y, 2, 2, imgPath, IMAGE_TYPE_SPRITE)
         self.type = BUILDING_TYPE_BASIC_WARRIOR
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 256)
+        self.require_resource = basic_struct.Resource(10, 10)
 
 
 class Building_BasicTent(Building):
@@ -34,6 +36,7 @@ class Building_BasicTent(Building):
         super().__init__(x, y, 2, 2, "resource/object/build/basic_tent.png", IMAGE_TYPE_SPRITE)
         self.type = BUILDING_TYPE_BASIC_TENT
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 256)
+        self.require_resource = basic_struct.Resource(10, 0)
 
 
 class Building_Pointer(Object):

@@ -39,23 +39,27 @@ class BuildingManager:
         pass
 
     # build selected object on build map
-    def build_object(self, selected_object):
+    def build_object(self, selected_object, current_resource):
         if selected_object is None:
             return  # return nothing
-        if self.build_map.check_is_buildable(self.mouse_x, self.mouse_y, selected_object.size_x,
-                                             selected_object.size_y):
-            self.build_map.build_object(self.mouse_x, self.mouse_y, selected_object.size_x, selected_object.size_y)
-            self.buildings.append(selected_object)
-
+        elif current_resource.wood >= selected_object.require_resource.wood and current_resource.stone >= selected_object.require_resource.stone:
+            if self.build_map.check_is_buildable(self.mouse_x, self.mouse_y, selected_object.size_x,
+                                                 selected_object.size_y):
+                current_resource.wood -= selected_object.require_resource.wood
+                current_resource.stone -= selected_object.require_resource.stone
+                self.build_map.build_object(self.mouse_x, self.mouse_y, selected_object.size_x, selected_object.size_y)
+                self.buildings.append(selected_object)
+        else:
+            selected_object = None
     def get_mouse_position(self, x, y):
         self.mouse_x = x
         self.mouse_y = y
 
-    def get_clicked_mouse_position(self, x, y):
+    def get_clicked_mouse_position(self, x, y, current_resource):
         self.mouse_clicked_x = x
         self.mouse_clicked_y = y
         selected_object = self.select_object
-        self.build_object(selected_object)
+        self.build_object(selected_object, current_resource)
         self.select_object = self.build_tech.select_object(self.mouse_clicked_x, self.mouse_clicked_y)
 
     def draw(self):
