@@ -51,6 +51,7 @@ class BuildingManager:
                 self.buildings.append(selected_object)
         else:
             selected_object = None
+
     def get_mouse_position(self, x, y):
         self.mouse_x = x
         self.mouse_y = y
@@ -92,9 +93,10 @@ class Build_Table:
         # tmp code ------------------------------------------------------------------------------------------------
         self.object_coord = [OBJECT_BASIC_WARRIOR, OBJECT_BASIC_TENT]  # position of build objects
         self.table[self.layer].append(Building_BasicWarrior(self.object_coord[0][2],
-                                                            (self.object_coord[0][1] + self.object_coord[0][3]) / 2))
+                                                            (self.object_coord[0][1] + self.object_coord[0][3]) / 2,
+                                                            True))
         self.table[self.layer].append(Building_BasicTent(self.object_coord[1][2],
-                                                         (self.object_coord[1][1] + self.object_coord[1][3]) / 2))
+                                                         (self.object_coord[1][1] + self.object_coord[1][3]) / 2, True))
         # ----------------------------------------------------------------------------------------------------------
         pass
 
@@ -122,8 +124,8 @@ class Build_Table:
             obj.draw()
 
         # tmp code : draw collision box ---------------------------------------------------
-        pico2d.draw_rectangle(self.object_coord[0][0], self.object_coord[0][1],
-                              self.object_coord[0][2], self.object_coord[0][3])
-        pico2d.draw_rectangle(self.object_coord[1][0], self.object_coord[1][1],
-                              self.object_coord[1][2], self.object_coord[1][3])
+        # pico2d.draw_rectangle(self.object_coord[0][0], self.object_coord[0][1],
+        #                       self.object_coord[0][2], self.object_coord[0][3])
+        # pico2d.draw_rectangle(self.object_coord[1][0], self.object_coord[1][1],
+        #                       self.object_coord[1][2], self.object_coord[1][3])
         # --------------------------------------------------------------------------------

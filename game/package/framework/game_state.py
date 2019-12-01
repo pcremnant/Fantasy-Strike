@@ -6,7 +6,6 @@ from ..framework import pause_state
 from ..framework import states
 
 
-
 class Game_State:
     def __init__(self):
         self.build_state = build_state.Build_State()
@@ -58,9 +57,12 @@ class Game_State:
         self.current_state.draw()
         if self.is_pause_state:
             self.pause_state.draw()
-        self.font.draw(WINDOW_WIDTH - 200, WINDOW_HEIGHT - 50, '(%(wood)d / %(stone)d)' %
-                       {'wood': self.build_state.current_resource.wood,
-                        'stone': self.build_state.current_resource.stone}, (0, 255, 0))
+        basic_struct.ui.write(36, WINDOW_WIDTH - 200, WINDOW_HEIGHT - 50, '(%(wood)d / %(stone)d)',
+                              {'wood': self.build_state.current_resource.wood,
+                               'stone': self.build_state.current_resource.stone}, (0, 255, 0))
+        # self.font.draw(WINDOW_WIDTH - 200, WINDOW_HEIGHT - 50, '(%(wood)d / %(stone)d)' %
+        #                {'wood': self.build_state.current_resource.wood,
+        #                 'stone': self.build_state.current_resource.stone}, (0, 255, 0))
         # self.font.draw(WINDOW_WIDTH - 100, WINDOW_HEIGHT - 50,  '(Time: %3.2f)' % get_time(),  (255, 255, 0))
 
     def pause(self):
