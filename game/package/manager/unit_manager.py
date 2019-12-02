@@ -13,6 +13,10 @@ class UnitManager:
         self.activated_units += [
             Unit_EnemyCastle(WINDOW_WIDTH // 2, get_unit_tile_position_y(WINDOW_HEIGHT) * UNIT_TILE_HEIGHT,
                              UNIT_TEAM_ENEMY)]
+        for unit in self.activated_units:
+            unit.unit_map = self.unit_map.map
+            unit.units = self.activated_units
+
         self.winner = None
 
     def draw(self):
@@ -20,27 +24,46 @@ class UnitManager:
             unit.draw()
         self.unit_map.tmp_draw()
 
+    # def update(self):
+    #     for unit in self.activated_units:
+    #         unit.set_target(self.activated_units)
+    #         unit.update(self.unit_map.unit_map)
+    #         self.unit_map.update_unit_map(self.activated_units)
+    #         if unit.is_attacking:
+    #             unit.attack(self.activated_units)
+#
+    #     for unit in self.activated_units:
+    #         if not unit.is_living:
+    #             self.activated_units.remove(unit)
+    #             del unit
+#
+    #     self.current_timer += 1
+    #     if self.current_timer >= self.create_timer:
+    #         self.prepare_unit()
+    #         self.create_unit()
+    #         self.current_timer = 0
+#
+    #     self.activated_units.sort(key=lambda x: x.position_on_tile.y, reverse=True)
+#
+    #     is_player_living = False
+    #     is_enemy_living = False
+    #     for unit in self.activated_units:
+    #         if unit.is_castle:
+    #             if unit.team == UNIT_TEAM_PLAYER:
+    #                 is_player_living = True
+    #             elif unit.team == UNIT_TEAM_ENEMY:
+    #                 is_enemy_living = True
     def update(self):
         for unit in self.activated_units:
-            unit.set_target(self.activated_units)
-            unit.update(self.unit_map.unit_map)
-            self.unit_map.update_unit_map(self.activated_units)
-            if unit.is_attacking:
-                unit.attack(self.activated_units)
-
-        for unit in self.activated_units:
-            if not unit.is_living:
-                self.activated_units.remove(unit)
-                del unit
-
+            unit.update()
+        # create unit
         self.current_timer += 1
         if self.current_timer >= self.create_timer:
             self.prepare_unit()
             self.create_unit()
             self.current_timer = 0
 
-        self.activated_units.sort(key=lambda x: x.position_on_tile.y, reverse=True)
-
+        # judge win or lose
         is_player_living = False
         is_enemy_living = False
         for unit in self.activated_units:
@@ -49,7 +72,6 @@ class UnitManager:
                     is_player_living = True
                 elif unit.team == UNIT_TEAM_ENEMY:
                     is_enemy_living = True
-
         # test code ---
         is_player_living = True
         # ----------
@@ -65,6 +87,9 @@ class UnitManager:
 
     def create_unit(self):
         self.activated_units += self.prepared_units
+        for unit in self.activated_units:
+            unit.units = self.activated_units
+            unit.unit_map = self.unit_map.map
 
     def prepare_unit(self):
         build_manager = states.GameState.build_state.building_manager
@@ -80,7 +105,7 @@ class UnitManager:
         count = 0
         x, y = 0, 0
         while count < basic_warrior_counter:
-            if self.unit_map.unit_map[y][x]:
+            if self.unit_map.map[y][x]:
                 player_units += [Unit_Warrior(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
                                               UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
                                               UNIT_TEAM_PLAYER)]
@@ -95,7 +120,7 @@ class UnitManager:
         x, y = 0, 0
         while count < basic_warrior_counter:
             x, y = 0, UNIT_MAP_SIZE_Y - 1
-            if self.unit_map.unit_map[y][x]:
+            if self.unit_map.map[y][x]:
                 enemy_units += [Unit_Enemy(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
                                            UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
                                            UNIT_TEAM_ENEMY)]
