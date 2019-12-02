@@ -3,6 +3,7 @@ from game.package.basic_module.basic_struct import *
 import pico2d
 import random
 import math
+from game.package.basic_module.behavior_tree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
 # tmp code : unit define module will be added ----------------------------------------------
 UNIT_FRAME_MOVE_TOP = 0
@@ -34,6 +35,10 @@ class Unit(Object):
         self.is_living = True
         self.is_castle = None
         self.attack_delay_counter = 0
+
+        # tmp code : for behavior tree
+        self.units = None
+        self.unit_map = None
         pass
 
     def draw(self):
@@ -48,7 +53,7 @@ class Unit(Object):
             distance = -1
         else:
             distance = math.sqrt((get_unit_tile_position_y(self.target_y) - self.position_on_tile.y) ** 2 + \
-                       (get_unit_tile_position_x(self.target_x) - self.position_on_tile.x) ** 2)
+                                 (get_unit_tile_position_x(self.target_x) - self.position_on_tile.x) ** 2)
         if 0 < distance <= self.status.attack_range:
             self.is_in_attack_range = True
             self.frame_mode = UNIT_FRAME_ATTACK_TOP
@@ -88,6 +93,7 @@ class Unit(Object):
                 else:
                     if min_distance > distance:
                         min_distance_index = index_counter
+                        min_distance = distance
                 index_counter += 1
             self.target_x = enemy_units[min_distance_index].position_on_window.x
             self.target_y = enemy_units[min_distance_index].position_on_window.y
@@ -121,7 +127,7 @@ class Unit(Object):
         self.is_able_to_attack = False
         self.is_attacking = False
 
-    def update(self, is_movable):
+    def update(self, unit_map):
         self.change_frame_mode()
         self.set_normalized_direction()
 
@@ -134,27 +140,133 @@ class Unit(Object):
                     self.attack_delay_counter = 0
                     self.is_able_to_attack = True
             else:
-                if self.image_class[self.frame_mode].current_frame == self.image_class[
-                    self.frame_mode].max_frame * SUB_FRAME - 1:
+                if self.image_class[self.frame_mode].current_frame == \
+                        self.image_class[self.frame_mode].max_frame * SUB_FRAME - 1:
                     self.is_able_to_attack = False
                     self.is_attacking = True
                 else:
                     self.is_attacking = False
-
-        elif is_movable:
-            self.position_on_window.move_position(self.direction.x, self.direction.y)
+        else:
+            moved_position = basic_struct.Position(self.position_on_window.x, self.position_on_window.y)
+            moved_position.move_position(self.direction.x, self.direction.y)
+            if get_unit_tile_position_x(moved_position.x) == self.position_on_tile.x and \
+                    get_unit_tile_position_y(moved_position.y) == self.position_on_tile.y:
+                self.position_on_window.move_position(self.direction.x, self.direction.y)
+            elif unit_map[get_unit_tile_position_y(moved_position.y)][get_unit_tile_position_x(moved_position.x)]:
+                self.position_on_window.move_position(self.direction.x, self.direction.y)
+            else:
+                if abs(self.direction.x) <= abs(self.direction.y):
+                    if self.target_x < self.position_on_window.x:
+                        if unit_map[self.position_on_tile.y][max(0, self.position_on_tile.x - 1)]:
+                            self.position_on_window.move_position(-1*self.status.move_speed, 0)
+                        else:
+                            self.position_on_window.move_position(1 * self.status.move_speed, 0)
+                    else:
+                        if unit_map[self.position_on_tile.y][min(UNIT_MAP_SIZE_X - 1, self.position_on_tile.x + 1)]:
+                            self.position_on_window.move_position(1 * self.status.move_speed, 0)
+                        else:
+                            self.position_on_window.move_position(-1 * self.status.move_speed, 0)
+                elif abs(self.direction.x) > abs(self.direction.y):
+                    if self.target_y < self.position_on_window.y:
+                        if unit_map[max(0, self.position_on_tile.y - 1)][self.position_on_tile.x]:
+                            self.position_on_window.move_position(0, -1 * self.status.move_speed)
+                        else:
+                            self.position_on_window.move_position(0, 1 * self.status.move_speed)
+                    else:
+                        if unit_map[min(UNIT_MAP_SIZE_Y - 1, self.position_on_tile.y + 1)][self.position_on_tile.x]:
+                            self.position_on_window.move_position(0, 1 * self.status.move_speed)
+                        else:
+                            self.position_on_window.move_position(0, -1 * self.status.move_speed)
 
         self.position_on_tile.set_position(get_unit_tile_position_x(self.position_on_window.x),
                                            get_unit_tile_position_y(self.position_on_window.y))
 
         if self.position_on_window.x > UNIT_MAP_END_X:
-            self.position_on_window.x -= self.direction.x * 2
+            self.position_on_window.x = UNIT_MAP_END_X - 1  # self.direction.x * 2
         if self.position_on_window.x < UNIT_MAP_START_X:
-            self.position_on_window.x -= self.direction.x * 2
+            self.position_on_window.x = UNIT_MAP_START_X + 1  # self.direction.x * 2
         if self.position_on_window.y > UNIT_MAP_END_Y:
-            self.position_on_window.y -= self.direction.y * 2
+            self.position_on_window.y = UNIT_MAP_END_Y - 1  # self.direction.y * 2
         if self.position_on_window.y < UNIT_MAP_START_Y:
-            self.position_on_window.y -= self.direction.y * 2
+            self.position_on_window.y = UNIT_MAP_START_Y + 1  # self.direction.y * 2
+
+    def is_in_attack_range(self):
+        for unit in self.units:
+            if unit.team != self.team:
+                distance = (unit.position_on_tile.x - self.position_on_tile.x)**2 + (unit.position_on_tile.y - self.position_on_tile.y)**2
+                if self.status.attack_range**2 >= distance:
+                    return BehaviorTree.SUCCESS
+
+        return BehaviorTree.FAIL
+
+    def is_in_attack_delay(self):
+        if self.attack_delay_counter < 100 / self.status.attack_speed:
+            self.attack_delay_counter += 1
+            return BehaviorTree.RUNNING
+        elif self.attack_delay_counter >= 100 / self.status.attack_speed:
+            self.attack_delay_counter = 0
+            return BehaviorTree.SUCCESS
+
+    def attack_enemy(self):
+        min_distance = None
+        min_index = None
+        min_count = 0
+        for unit in self.units:
+            if unit.team != self.team:
+                distance = (unit.position_on_tile.x - self.position_on_tile.x)**2 + (unit.position_on_tile.y - self.position_on_tile.y)**2
+                if min_distance > distance:
+                    min_distance = distance
+                    min_index = min_count
+            min_count += 1
+
+        if min_distance is None or min_index is None:
+            return BehaviorTree.FAIL
+        else:
+            self.units[min_index].status.current_hp -= self.status.attack_power
+            return BehaviorTree.SUCCESS
+
+    def set_target_enemy(self):
+        # 임시로 상수값 넣어보기
+        TEMP_RANGE = 5
+        min_distance = None
+        min_index = None
+        min_count = 0
+        for unit in self.units:
+            if unit.team != self.team:
+                distance = (unit.position_on_tile.x - self.position_on_tile.x)**2 + (unit.position_on_tile.y - self.position_on_tile.y)**2
+                if min_distance > distance:
+                    min_distance = distance
+                    min_index = min_count
+            min_count += 1
+
+        if min_distance is None or min_index is None:
+            return BehaviorTree.FAIL
+        elif min_distance < TEMP_RANGE**2:
+            # set target!
+            self.target_x = self.units[min_index].position_on_tile.x
+            self.target_y = self.units[min_index].position_on_tile.y
+            return BehaviorTree.SUCCESS
+
+        return BehaviorTree.FAIL
+
+    def set_target_castle(self):
+        for unit in self.units:
+            if unit.is_castle and unit.team != self.team:
+                self.target_x = unit.position_on_tile.x
+                self.target_y = unit.position_on_tile.y
+                return BehaviorTree.SUCCESS
+
+        return BehaviorTree.FAIL
+
+    def find_path(self):
+        pass
+
+    def move(self):
+        pass
+
+    def build_behavior_tree(self):
+        pass
+
 
 
 # tmp unit (for test)
@@ -162,7 +274,7 @@ class Unit_Warrior(Unit):
     MAX_HP = 100
     MOVE_SPEED = 0.5
     ATTACK_POWER = 10
-    ATTACK_RANGE = math.sqrt(1 + 1)
+    ATTACK_RANGE = 1.7
     ATTACK_SPEED = 1
 
     def __init__(self, x, y, team):
@@ -339,6 +451,7 @@ class Unit_EnemyCastle(Unit):
         self.set_object_frame(UNIT_FRAME_MOVE_RIGHT, 1, 256, 256)
         self.set_object_frame(UNIT_FRAME_ATTACK_TOP, 1, 256, 256)
 
-        self.status = basic_struct.Status(Unit_EnemyCastle.MAX_HP, Unit_EnemyCastle.MOVE_SPEED, Unit_EnemyCastle.ATTACK_POWER,
+        self.status = basic_struct.Status(Unit_EnemyCastle.MAX_HP, Unit_EnemyCastle.MOVE_SPEED,
+                                          Unit_EnemyCastle.ATTACK_POWER,
                                           Unit_EnemyCastle.ATTACK_SPEED, Unit_EnemyCastle.ATTACK_RANGE)
         pass

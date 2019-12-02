@@ -10,7 +10,9 @@ class UnitManager:
         self.unit_map = unit_map.Unit_Map()
         self.create_timer = 1000
         self.current_timer = 0
-        self.activated_units += [Unit_EnemyCastle(WINDOW_WIDTH // 2, get_unit_tile_position_y(WINDOW_HEIGHT) * UNIT_TILE_HEIGHT, UNIT_TEAM_ENEMY)]
+        self.activated_units += [
+            Unit_EnemyCastle(WINDOW_WIDTH // 2, get_unit_tile_position_y(WINDOW_HEIGHT) * UNIT_TILE_HEIGHT,
+                             UNIT_TEAM_ENEMY)]
         self.winner = None
 
     def draw(self):
@@ -21,8 +23,8 @@ class UnitManager:
     def update(self):
         for unit in self.activated_units:
             unit.set_target(self.activated_units)
+            unit.update(self.unit_map.unit_map)
             self.unit_map.update_unit_map(self.activated_units)
-            unit.update(self.unit_map.is_movable(unit))
             if unit.is_attacking:
                 unit.attack(self.activated_units)
 
@@ -73,8 +75,39 @@ class UnitManager:
                 basic_warrior_counter += 1
             elif building.type == BUILDING_TYPE_BASIC_TENT:
                 basic_tent_counter += 1
-        self.prepared_units = [Unit_Warrior(random.randint(200, 600), random.randint(100, 300), UNIT_TEAM_PLAYER)
-                               for i in range(basic_warrior_counter)] + \
-                              [Unit_Enemy(random.randint(200, 600), random.randint(400, 600), UNIT_TEAM_ENEMY)]
+
+        player_units = []
+        count = 0
+        x, y = 0, 0
+        while count < basic_warrior_counter:
+            if self.unit_map.unit_map[y][x]:
+                player_units += [Unit_Warrior(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
+                                              UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
+                                              UNIT_TEAM_PLAYER)]
+                count += 1
+            x += 1
+            if x >= UNIT_MAP_SIZE_X:
+                y += 1
+                x = 0
+
+        enemy_units = []
+        count = 0
+        x, y = 0, 0
+        while count < basic_warrior_counter:
+            x, y = 0, UNIT_MAP_SIZE_Y - 1
+            if self.unit_map.unit_map[y][x]:
+                enemy_units += [Unit_Enemy(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
+                                           UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
+                                           UNIT_TEAM_ENEMY)]
+                count += 1
+            x += 1
+            if x >= UNIT_MAP_SIZE_X:
+                y -= 1
+                x = 0
+
+        self.prepared_units = player_units + enemy_units
+        # self.prepared_units = [Unit_Warrior(random.randint(200, 600), random.randint(100, 300), UNIT_TEAM_PLAYER)
+        #                        for i in range(basic_warrior_counter)] + \
+        #                       [Unit_Enemy(random.randint(200, 600), random.randint(400, 600), UNIT_TEAM_ENEMY)]
 
     pass

@@ -15,6 +15,10 @@ class Game_State:
         self.is_pause_state = False
         self.font = load_font('tmp.ttf', 36)
         self.current_resource = None
+        self.image_wood = basic_struct.Image('resource/UI/ui_resource_wood.png', IMAGE_TYPE_SPRITE)
+        self.image_stone = basic_struct.Image('resource/UI/ui_resource_stone.png', IMAGE_TYPE_SPRITE)
+        self.image_wood.set_image_frame(1, 64, 64)
+        self.image_stone.set_image_frame(1, 64, 64)
 
     def handle_events(self):
         get_event = None
@@ -57,13 +61,12 @@ class Game_State:
         self.current_state.draw()
         if self.is_pause_state:
             self.pause_state.draw()
-        basic_struct.ui.write(36, WINDOW_WIDTH - 200, WINDOW_HEIGHT - 50, '(%(wood)d / %(stone)d)',
-                              {'wood': self.build_state.current_resource.wood,
-                               'stone': self.build_state.current_resource.stone}, (0, 255, 0))
-        # self.font.draw(WINDOW_WIDTH - 200, WINDOW_HEIGHT - 50, '(%(wood)d / %(stone)d)' %
-        #                {'wood': self.build_state.current_resource.wood,
-        #                 'stone': self.build_state.current_resource.stone}, (0, 255, 0))
-        # self.font.draw(WINDOW_WIDTH - 100, WINDOW_HEIGHT - 50,  '(Time: %3.2f)' % get_time(),  (255, 255, 0))
+        self.image_wood.image.clip_draw(0, 0, 64, 64, WINDOW_WIDTH / 2 + 300, WINDOW_HEIGHT - 50, 32, 32)
+        self.image_stone.image.clip_draw(0, 0, 64, 64, WINDOW_WIDTH / 2 + 400, WINDOW_HEIGHT - 50, 32, 32)
+        basic_struct.ui.write(25, WINDOW_WIDTH / 2 + 320, WINDOW_HEIGHT - 50, '%(wood)d',
+                              {'wood': self.build_state.current_resource.wood}, (0, 0, 0))
+        basic_struct.ui.write(25, WINDOW_WIDTH / 2 + 420, WINDOW_HEIGHT - 50, '%(stone)d',
+                              {'stone': self.build_state.current_resource.stone}, (0, 0, 0))
 
     def pause(self):
         pass
