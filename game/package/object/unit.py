@@ -295,6 +295,8 @@ class Unit(Object):
 
     def find_path(self):
         # set maze
+        #self.unit_map[self.position_on_tile.y][self.position_on_tile.x] = True
+        self.unit_map[self.target_y][self.target_x] = True
         maze = {}
         for y in range(UNIT_MAP_SIZE_Y):
             for x in range(UNIT_MAP_SIZE_X):
@@ -315,6 +317,8 @@ class Unit(Object):
 
                 maze[(y, x)] = path
 
+        self.unit_map[self.target_y][self.target_x] = False
+        # self.unit_map[self.position_on_tile.y][self.position_on_tile.x] = False
         # solve maze
         path = self.solve_maze(maze, (self.position_on_tile.y, self.position_on_tile.x), (self.target_y, self.target_x))
 

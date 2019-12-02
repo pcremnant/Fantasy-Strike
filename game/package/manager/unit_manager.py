@@ -55,6 +55,7 @@ class UnitManager:
     #                 is_enemy_living = True
     def update(self):
         for unit in self.activated_units:
+            self.unit_map.update_unit_map(self.activated_units)
             unit.update()
         # create unit
         self.current_timer += 1
