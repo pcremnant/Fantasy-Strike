@@ -57,6 +57,15 @@ class UnitManager:
         for unit in self.activated_units:
             self.unit_map.update_unit_map(self.activated_units)
             unit.update()
+
+        for unit in self.activated_units:
+            if not unit.is_living:
+                self.activated_units.remove(unit)
+                del unit
+
+        for unit in self.activated_units:
+            unit.units = self.activated_units
+            unit.unit_map = self.unit_map.map
         # create unit
         self.current_timer += 1
         if self.current_timer >= self.create_timer:
@@ -118,9 +127,8 @@ class UnitManager:
 
         enemy_units = []
         count = 0
-        x, y = 0, 0
+        x, y = 0, UNIT_MAP_SIZE_Y - 1
         while count < basic_warrior_counter:
-            x, y = 0, UNIT_MAP_SIZE_Y - 1
             if self.unit_map.map[y][x]:
                 enemy_units += [Unit_Enemy(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
                                            UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
