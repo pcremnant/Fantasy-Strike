@@ -49,6 +49,8 @@ class Game_State:
         self.pause_state.enter()
         self.current_state = self.build_state
         self.is_pause_state = False
+        stopwatch.start_timer()
+        stopwatch.end_timer()
         pass
 
     def exit(self):
@@ -67,6 +69,8 @@ class Game_State:
                               {'wood': self.build_state.current_resource.wood}, (0, 0, 0))
         basic_struct.ui.write(25, WINDOW_WIDTH / 2 + 420, WINDOW_HEIGHT - 50, '%(stone)d',
                               {'stone': self.build_state.current_resource.stone}, (0, 0, 0))
+        ui.write(36, WINDOW_WIDTH // 2 - 18, WINDOW_HEIGHT - 50, '%(timer)d',
+                 {'timer': TIMER_UNIT_CREATION - int(stopwatch.get_timer())}, (255, 55, 55))
 
     def pause(self):
         pass
@@ -78,6 +82,11 @@ class Game_State:
         if self.is_pause_state:
             self.pause_state.update()
         else:
+            stopwatch.end_timer()
+            if TIMER_UNIT_CREATION - int(stopwatch.get_timer()) < 0:
+                stopwatch.start_timer()
+                stopwatch.end_timer()
+
             self.build_state.update()
             self.battle_state.update()
 

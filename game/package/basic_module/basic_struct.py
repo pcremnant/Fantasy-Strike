@@ -1,4 +1,23 @@
 from game.package.basic_module.basic_define import *
+import time
+
+
+class StopWatch:
+    def __init__(self):
+        self.start_time = None
+        self.end_time = None
+        pass
+
+    def start_timer(self):
+        self.start_time = time.time()
+
+    def end_timer(self):
+        self.end_time = time.time()
+
+    def get_timer(self):
+        if self.start_time is None or self.end_time is None:
+            return -1
+        return int(self.end_time - self.start_time)
 
 
 class Position:
@@ -143,3 +162,4 @@ class UI:
 
 
 ui = UI()
+stopwatch = StopWatch()

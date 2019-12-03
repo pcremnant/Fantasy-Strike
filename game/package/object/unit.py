@@ -462,21 +462,23 @@ class Unit_PlayerCastle(Unit):
             self.image_class.append(
                 basic_struct.Image(image_path_list[frame_mode], image_type_list[frame_mode]))
 
-        self.set_object_frame(UNIT_FRAME_MOVE_TOP, 1, 300, 400)
-        self.set_object_frame(UNIT_FRAME_MOVE_DOWN, 1, 300, 400)
-        self.set_object_frame(UNIT_FRAME_MOVE_LEFT, 1, 300, 400)
-        self.set_object_frame(UNIT_FRAME_MOVE_RIGHT, 1, 300, 400)
-        self.set_object_frame(UNIT_FRAME_ATTACK_TOP, 1, 300, 400)
+        self.set_object_frame(UNIT_FRAME_MOVE_TOP, 1, 128, 196)
+        self.set_object_frame(UNIT_FRAME_MOVE_DOWN, 1, 128, 196)
+        self.set_object_frame(UNIT_FRAME_MOVE_LEFT, 1, 128, 196)
+        self.set_object_frame(UNIT_FRAME_MOVE_RIGHT, 1, 128, 196)
+        self.set_object_frame(UNIT_FRAME_ATTACK_TOP, 1, 128, 196)
 
         self.status = basic_struct.Status(Unit_PlayerCastle.MAX_HP, Unit_PlayerCastle.MOVE_SPEED,
                                           Unit_PlayerCastle.ATTACK_POWER,
                                           Unit_PlayerCastle.ATTACK_SPEED, Unit_PlayerCastle.ATTACK_RANGE)
 
     def draw(self):
-        self.image_class[self.frame_mode].draw_image(self.position_on_window.x, self.position_on_window.y - 128)
+        self.image_class[0].image[0].clip_draw(0, 0, 128, 196, self.position_on_window.x + 16,
+                                               self.position_on_window.y - 16, 256, 192)
         image = pico2d.load_image('resource/UI/hp_bar.png')
-        image.clip_draw(0, 0, 64, 64, self.position_on_window.x, self.position_on_window.y + 32,
+        image.clip_draw(0, 0, 64, 64, self.position_on_window.x + 16, self.position_on_window.y - 128,
                         self.status.current_hp / self.status.max_hp * 128, 10)
+
 
 class Unit_EnemyCastle(Unit):
     MAX_HP = 200
@@ -535,7 +537,7 @@ class Unit_EnemyCastle(Unit):
         pass
 
     def draw(self):
-        self.image_class[self.frame_mode].draw_image(self.position_on_window.x, self.position_on_window.y + 128)
+        self.image_class[0].image[0].clip_draw(0,0,256,256,self.position_on_window.x + 16, self.position_on_window.y + 92, 256, 192)
         image = pico2d.load_image('resource/UI/hp_bar.png')
-        image.clip_draw(0, 0, 64, 64, self.position_on_window.x, self.position_on_window.y + 32,
+        image.clip_draw(0, 0, 64, 64, self.position_on_window.x + 16, self.position_on_window.y - 16,
                         self.status.current_hp / self.status.max_hp * 128, 10)

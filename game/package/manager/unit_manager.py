@@ -10,9 +10,15 @@ class UnitManager:
         self.unit_map = unit_map.Unit_Map()
         self.create_timer = 1000
         self.current_timer = 0
+
+        self.is_created_unit = False
+
+        self.activated_units += [Unit_EnemyCastle(WINDOW_WIDTH // 2,
+                                                  (get_unit_tile_position_y(WINDOW_HEIGHT) - 2) * UNIT_TILE_HEIGHT +
+                                                  UNIT_MAP_START_Y,UNIT_TEAM_ENEMY)]
         self.activated_units += [
-            Unit_EnemyCastle(WINDOW_WIDTH // 2, get_unit_tile_position_y(WINDOW_HEIGHT) * UNIT_TILE_HEIGHT,
-                             UNIT_TEAM_ENEMY)]
+            Unit_PlayerCastle(WINDOW_WIDTH // 2, 2 * UNIT_TILE_HEIGHT + UNIT_MAP_START_Y,
+                             UNIT_TEAM_PLAYER)]
         for unit in self.activated_units:
             unit.unit_map = self.unit_map.map
             unit.units = self.activated_units
@@ -24,35 +30,6 @@ class UnitManager:
             unit.draw()
         self.unit_map.tmp_draw()
 
-    # def update(self):
-    #     for unit in self.activated_units:
-    #         unit.set_target(self.activated_units)
-    #         unit.update(self.unit_map.unit_map)
-    #         self.unit_map.update_unit_map(self.activated_units)
-    #         if unit.is_attacking:
-    #             unit.attack(self.activated_units)
-#
-    #     for unit in self.activated_units:
-    #         if not unit.is_living:
-    #             self.activated_units.remove(unit)
-    #             del unit
-#
-    #     self.current_timer += 1
-    #     if self.current_timer >= self.create_timer:
-    #         self.prepare_unit()
-    #         self.create_unit()
-    #         self.current_timer = 0
-#
-    #     self.activated_units.sort(key=lambda x: x.position_on_tile.y, reverse=True)
-#
-    #     is_player_living = False
-    #     is_enemy_living = False
-    #     for unit in self.activated_units:
-    #         if unit.is_castle:
-    #             if unit.team == UNIT_TEAM_PLAYER:
-    #                 is_player_living = True
-    #             elif unit.team == UNIT_TEAM_ENEMY:
-    #                 is_enemy_living = True
     def update(self):
         for unit in self.activated_units:
             self.unit_map.update_unit_map(self.activated_units)
@@ -66,12 +43,14 @@ class UnitManager:
         for unit in self.activated_units:
             unit.units = self.activated_units
             unit.unit_map = self.unit_map.map
-        # create unit
-        self.current_timer += 1
-        if self.current_timer >= self.create_timer:
-            self.prepare_unit()
-            self.create_unit()
-            self.current_timer = 0
+
+        if stopwatch.get_timer() % TIMER_UNIT_CREATION == 0:
+            if not self.is_created_unit:
+                self.prepare_unit()
+                self.create_unit()
+                self.is_created_unit = True
+        else:
+            self.is_created_unit = False
 
         # judge win or lose
         is_player_living = False

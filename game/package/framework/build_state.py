@@ -17,7 +17,8 @@ class Build_State:
 
         self.current_resource = basic_struct.Resource()
         self.add_resource = basic_struct.Resource(10, 10)
-        self.getting_resource_timer = 0
+
+        self.is_given_resource = False
 
     def handle_events(self):
         events = get_events()
@@ -33,7 +34,8 @@ class Build_State:
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.mouse_clicked_x = event.x
                 self.mouse_clicked_y = WINDOW_HEIGHT - event.y
-                self.building_manager.get_clicked_mouse_position(self.mouse_clicked_x, self.mouse_clicked_y, self.current_resource)
+                self.building_manager.get_clicked_mouse_position(self.mouse_clicked_x, self.mouse_clicked_y,
+                                                                 self.current_resource)
 
             elif event.type == SDL_MOUSEMOTION:
                 self.mouse_x = event.x
@@ -73,13 +75,11 @@ class Build_State:
         pass
 
     def update(self):
-        self.getting_resource_timer += 1
-        if self.getting_resource_timer >= GETTING_RESOURCE_TIME:
-            self.getting_resource_timer = 0
-            self.current_resource.wood += self.add_resource.wood
-            self.current_resource.stone += self.add_resource.stone
-
+        if stopwatch.get_timer() % 10 == 0:
+            if not self.is_given_resource:
+                self.current_resource.wood += self.add_resource.wood
+                self.current_resource.stone += self.add_resource.stone
+                self.is_given_resource = True
+        else:
+            self.is_given_resource = False
         pass
-
-
-
