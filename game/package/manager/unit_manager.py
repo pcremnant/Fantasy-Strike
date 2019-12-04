@@ -1,7 +1,7 @@
 from game.package.basic_module import unit_map
 from ..object.unit_warrior import *
 from ..object.unit_castle import *
-from ..object.unit_frogwarrior import *
+from ..object.unit_frogman import *
 from ..object.unit_militia import *
 
 from game.package.object.unit import *
@@ -122,9 +122,9 @@ class UnitManager:
         x, y = 0, UNIT_MAP_SIZE_Y - 1
         while count < basic_warrior_counter:
             if self.unit_map.map[y][x]:
-                enemy_units += [Unit_Enemy(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
-                                           UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
-                                           UNIT_TEAM_ENEMY)]
+                enemy_units += [Unit_Frogman(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
+                                             UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
+                                             UNIT_TEAM_ENEMY)]
                 count += 1
             x += 1
             if x >= UNIT_MAP_SIZE_X:
