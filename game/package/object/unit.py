@@ -52,9 +52,9 @@ class Unit(Object):
 
     def draw(self):
         self.image_class[self.frame_mode].draw_image(self.position_on_window.x,
-                                                     self.position_on_window.y + self.height // 2)
+                                                     self.position_on_window.y)
         image = pico2d.load_image('resource/UI/hp_bar.png')
-        image.clip_draw(0, 0, 64, 64, self.position_on_window.x, self.position_on_window.y + 32,
+        image.clip_draw(0, 0, 64, 64, self.position_on_window.x, self.position_on_window.y - 32,
                         self.status.current_hp / self.status.max_hp * 32, 10)
 
     def update(self):
@@ -88,8 +88,16 @@ class Unit(Object):
                 distance = (unit.position_on_window.x - self.position_on_window.x) ** 2 + (
                         unit.position_on_window.y - self.position_on_window.y) ** 2
                 if (UNIT_TILE_HEIGHT ** 2 + UNIT_TILE_WIDTH ** 2) * self.status.attack_range >= distance:
-                    # 방향에 따라 프레임 설정
-                    self.frame_mode = UNIT_FRAME_ATTACK_TOP
+                    if abs(self.direction.x) >= abs(self.direction.y):
+                        if self.direction.x >= 0:
+                            self.frame_mode = UNIT_FRAME_ATTACK_RIGHT
+                        else:
+                            self.frame_mode = UNIT_FRAME_ATTACK_LEFT
+                    else:
+                        if self.direction.y >= 0:
+                            self.frame_mode = UNIT_FRAME_ATTACK_TOP
+                        else:
+                            self.frame_mode = UNIT_FRAME_ATTACK_BOTTOM
                     return BehaviorTree.SUCCESS
         self.attack_delay_counter = 100 / self.status.attack_speed
         return BehaviorTree.FAIL

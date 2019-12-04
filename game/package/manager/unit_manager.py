@@ -2,6 +2,7 @@ from game.package.basic_module import unit_map
 from ..object.unit_warrior import *
 from ..object.unit_castle import *
 from ..object.unit_frogwarrior import *
+from ..object.unit_militia import *
 
 from game.package.object.unit import *
 from game.package.framework import states
@@ -12,11 +13,8 @@ class UnitManager:
         self.activated_units = []
         self.prepared_units = []
         self.unit_map = unit_map.Unit_Map()
-        self.create_timer = 1000
-        self.current_timer = 0
 
         self.is_created_unit = False
-
         self.activated_units += [Unit_EnemyCastle(WINDOW_WIDTH // 2,
                                                   (get_unit_tile_position_y(WINDOW_HEIGHT) - 2) * UNIT_TILE_HEIGHT +
                                                   UNIT_MAP_START_Y,UNIT_TEAM_ENEMY)]
@@ -107,6 +105,18 @@ class UnitManager:
                 y += 1
                 x = 0
 
+        count = 0
+        while count < basic_tent_counter:
+            if self.unit_map.map[y][x]:
+                player_units += [Unit_Militia(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
+                                              UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
+                                              UNIT_TEAM_PLAYER)]
+                count += 1
+            x += 1
+            if x >= UNIT_MAP_SIZE_X:
+                y += 1
+                x = 0
+
         enemy_units = []
         count = 0
         x, y = 0, UNIT_MAP_SIZE_Y - 1
@@ -122,8 +132,5 @@ class UnitManager:
                 x = 0
 
         self.prepared_units = player_units + enemy_units
-        # self.prepared_units = [Unit_Warrior(random.randint(200, 600), random.randint(100, 300), UNIT_TEAM_PLAYER)
-        #                        for i in range(basic_warrior_counter)] + \
-        #                       [Unit_Enemy(random.randint(200, 600), random.randint(400, 600), UNIT_TEAM_ENEMY)]
 
     pass
