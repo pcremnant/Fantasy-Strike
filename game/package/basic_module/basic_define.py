@@ -18,6 +18,8 @@ BUILD_TILE_START_Y = BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT
 
 BUILDING_TYPE_BASIC_WARRIOR = 1
 BUILDING_TYPE_BASIC_TENT = 2
+BUILDING_TYPE_TIMBER = 3
+BUILDING_TYPE_QUARRY = 4
 
 
 def change_coord_from_building_map_to_screen(x, y):  # get building's tile position and then transform to window position

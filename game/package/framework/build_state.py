@@ -13,10 +13,11 @@ class Build_State:
         self.mouse_x = 0
         self.mouse_y = 0
         self.building_manager = BuildingManager()
+
         self.background_image = None
 
         self.current_resource = basic_struct.Resource()
-        self.add_resource = basic_struct.Resource(10, 10)
+        self.add_resource = basic_struct.Resource(2, 2)
 
         self.is_given_resource = False
 
@@ -55,6 +56,7 @@ class Build_State:
         if self.background_image is None:
             self.background_image = basic_struct.Image("resource/background/build_state.png", IMAGE_TYPE_SPRITE)
             self.background_image.set_image_frame(1, WINDOW_WIDTH, WINDOW_HEIGHT)
+
         pass
 
     def exit(self):
@@ -77,8 +79,9 @@ class Build_State:
     def update(self):
         if stopwatch.get_timer() % 10 == 0:
             if not self.is_given_resource:
-                self.current_resource.wood += self.add_resource.wood
-                self.current_resource.stone += self.add_resource.stone
+                additional_resource = self.building_manager.get_additional_resource()
+                self.current_resource.wood += self.add_resource.wood + additional_resource[0]
+                self.current_resource.stone += self.add_resource.stone + additional_resource[1]
                 self.is_given_resource = True
         else:
             self.is_given_resource = False

@@ -3,15 +3,18 @@ from game.package.object.building import *
 from game.package.basic_module.basic_define import *
 from pico2d import *
 
-# tmp code : object list to show on right side -----------------------------------------
-# this code will be moved to basic_module module of build object
-pos = change_coord_from_building_map_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
+BUILD_TABLE_POSITION = change_coord_from_building_map_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
 
-OBJECT_BASIC_WARRIOR = pos[0] + 1 * BUILD_TILE_WIDTH, pos[1] + 3 * BUILD_TILE_HEIGHT, \
-                       pos[0] + 3 * BUILD_TILE_WIDTH - 1, pos[1] + 5 * BUILD_TILE_HEIGHT
 
-OBJECT_BASIC_TENT = pos[0] + 3 * BUILD_TILE_WIDTH, pos[1] + 3 * BUILD_TILE_HEIGHT, \
-                    pos[0] + 5 * BUILD_TILE_WIDTH - 1, pos[1] + 5 * BUILD_TILE_HEIGHT
+def get_window_position_for_build_table(x, y, w, h):
+    return BUILD_TABLE_POSITION[0] + x * BUILD_TILE_WIDTH, BUILD_TABLE_POSITION[1] + y * BUILD_TILE_HEIGHT, \
+           BUILD_TABLE_POSITION[0] + (x + w) * BUILD_TILE_WIDTH, BUILD_TABLE_POSITION[1] + (y + h) * BUILD_TILE_HEIGHT
+
+
+BUILD_TABLE_WARRIOR = get_window_position_for_build_table(0, 3, 2, 2)
+BUILD_TABLE_TENT = get_window_position_for_build_table(0, 7, 2, 2)
+BUILD_TABLE_TIMBER = get_window_position_for_build_table(2, 3, 2, 2)
+BUILD_TABLE_QUARRY = get_window_position_for_build_table(2, 7, 2, 2)
 
 
 # checking mouse point in object's collision box
@@ -80,24 +83,42 @@ class BuildingManager:
 
         self.build_tech.draw()  # draw build objects on right side
 
+    def get_additional_resource(self):
+        wood = 0
+        stone = 0
+        for build in self.buildings:
+            if build.type == BUILDING_TYPE_TIMBER:
+                wood += 1
+            elif build.type == BUILDING_TYPE_QUARRY:
+                stone += 1
+
+        return wood, stone
+
 
 # Build_Table has all of build objects
 # build manager selects object in Build_Table
 class Build_Table:
     def __init__(self):
         self.table_image = load_image("resource/UI/build_table.png")
-        self.position = change_coord_from_building_map_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X, BUILD_MAP_EDGE_Y)
+        self.position = change_coord_from_building_map_to_screen(BUILD_MAP_SIZE_X + BUILD_MAP_EDGE_X,
+                                                                 BUILD_MAP_EDGE_Y + 2)
         self.table = [[], []]
         self.layer = 0  # build layer will be added
 
-        # tmp code ------------------------------------------------------------------------------------------------
-        self.object_coord = [OBJECT_BASIC_WARRIOR, OBJECT_BASIC_TENT]  # position of build objects
-        self.table[self.layer].append(Building_BasicWarrior(self.object_coord[0][2],
+        # position of build objects
+        self.object_coord = [BUILD_TABLE_WARRIOR, BUILD_TABLE_TENT, BUILD_TABLE_TIMBER, BUILD_TABLE_QUARRY]
+        self.table[self.layer].append(Building_WarriorStone(self.object_coord[0][2],
                                                             (self.object_coord[0][1] + self.object_coord[0][3]) / 2,
                                                             True))
-        self.table[self.layer].append(Building_BasicTent(self.object_coord[1][2],
-                                                         (self.object_coord[1][1] + self.object_coord[1][3]) / 2, True))
-        # ----------------------------------------------------------------------------------------------------------
+        self.table[self.layer].append(Building_Tent(self.object_coord[1][2],
+                                                    (self.object_coord[1][1] + self.object_coord[1][3]) / 2, True))
+
+        self.table[self.layer].append(Building_Timber(self.object_coord[2][2],
+                                                      (self.object_coord[2][1] + self.object_coord[2][3]) / 2, True))
+
+        self.table[self.layer].append(Building_Quarry(self.object_coord[3][2],
+                                                      (self.object_coord[3][1] + self.object_coord[3][3]) / 2, True))
+
         pass
 
     def select_object(self, mx, my):
@@ -105,9 +126,13 @@ class Build_Table:
         for o in self.object_coord:
             if point_in_box(o, mx, my):
                 if count == 0:
-                    return Building_BasicWarrior(mx, my)
+                    return Building_WarriorStone(mx, my)
                 elif count == 1:
-                    return Building_BasicTent(mx, my)
+                    return Building_Tent(mx, my)
+                elif count == 2:
+                    return Building_Timber(mx, my)
+                elif count == 3:
+                    return Building_Quarry(mx, my)
             else:
                 count += 1
 
@@ -118,14 +143,7 @@ class Build_Table:
 
     def draw(self):
         self.table_image.draw(self.position[0] + BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH / 2,
-                              self.position[1] + BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT / 2,
-                              BUILD_MAP_EDGE_X * BUILD_TILE_WIDTH, BUILD_MAP_EDGE_Y * BUILD_TILE_HEIGHT)
+                              self.position[1] + (BUILD_MAP_EDGE_Y + 1) * BUILD_TILE_HEIGHT / 2,
+                              (BUILD_MAP_EDGE_X + 0.8) * BUILD_TILE_WIDTH, (BUILD_MAP_EDGE_Y + 5) * BUILD_TILE_HEIGHT)
         for obj in self.table[self.layer]:
             obj.draw()
-
-        # tmp code : draw collision box ---------------------------------------------------
-        # pico2d.draw_rectangle(self.object_coord[0][0], self.object_coord[0][1],
-        #                       self.object_coord[0][2], self.object_coord[0][3])
-        # pico2d.draw_rectangle(self.object_coord[1][0], self.object_coord[1][1],
-        #                       self.object_coord[1][2], self.object_coord[1][3])
-        # --------------------------------------------------------------------------------

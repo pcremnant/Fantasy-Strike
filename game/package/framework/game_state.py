@@ -15,8 +15,13 @@ class Game_State:
         self.is_pause_state = False
         self.font = load_font('tmp.ttf', 36)
         self.current_resource = None
+
+        self.image_resource_board = basic_struct.Image("resource/UI/resource_board.png", IMAGE_TYPE_SPRITE)
+        self.image_timer_board = basic_struct.Image("resource/UI/timer_board.png", IMAGE_TYPE_SPRITE)
         self.image_wood = basic_struct.Image('resource/UI/ui_resource_wood.png', IMAGE_TYPE_SPRITE)
         self.image_stone = basic_struct.Image('resource/UI/ui_resource_stone.png', IMAGE_TYPE_SPRITE)
+        self.image_resource_board.set_image_frame(1, 256, 64)
+        self.image_timer_board.set_image_frame(1, 128, 86)
         self.image_wood.set_image_frame(1, 64, 64)
         self.image_stone.set_image_frame(1, 64, 64)
 
@@ -63,14 +68,18 @@ class Game_State:
         self.current_state.draw()
         if self.is_pause_state:
             self.pause_state.draw()
+        self.image_resource_board.image.clip_draw(0, 0, 256, 64, WINDOW_WIDTH / 2 + 380, WINDOW_HEIGHT - 50, 220, 64)
+
         self.image_wood.image.clip_draw(0, 0, 64, 64, WINDOW_WIDTH / 2 + 300, WINDOW_HEIGHT - 50, 32, 32)
         self.image_stone.image.clip_draw(0, 0, 64, 64, WINDOW_WIDTH / 2 + 400, WINDOW_HEIGHT - 50, 32, 32)
         basic_struct.ui.write(25, WINDOW_WIDTH / 2 + 320, WINDOW_HEIGHT - 50, '%(wood)d',
                               {'wood': self.build_state.current_resource.wood}, (0, 0, 0))
         basic_struct.ui.write(25, WINDOW_WIDTH / 2 + 420, WINDOW_HEIGHT - 50, '%(stone)d',
                               {'stone': self.build_state.current_resource.stone}, (0, 0, 0))
+
+        self.image_timer_board.image.clip_draw(0, 0, 128, 86, WINDOW_WIDTH // 2, WINDOW_HEIGHT - 50, 120, 64)
         ui.write(36, WINDOW_WIDTH // 2 - 18, WINDOW_HEIGHT - 50, '%(timer)d',
-                 {'timer': TIMER_UNIT_CREATION - int(stopwatch.get_timer())}, (255, 55, 55))
+                 {'timer': TIMER_UNIT_CREATION - int(stopwatch.get_timer())}, (0, 0, 0))
 
     def pause(self):
         pass
