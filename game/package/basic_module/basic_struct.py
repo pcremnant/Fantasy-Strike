@@ -148,6 +148,7 @@ class Menu:
 class UI:
     def __init__(self):
         self.font_size_11 = pico2d.load_font('tmp.ttf', 11)
+        self.font_size_20 = pico2d.load_font('tmp.ttf', 20)
         self.font_size_25 = pico2d.load_font('tmp.ttf', 25)
         self.font_size_36 = pico2d.load_font('tmp.ttf', 36)
         pass
@@ -155,10 +156,22 @@ class UI:
     def write(self, font_size, x, y, string, commend, color):
         if font_size == 11:
             self.font_size_11.draw(x, y, string % commend, color)
+        elif font_size == 20:
+            self.font_size_20.draw(x, y, string % commend, color)
         elif font_size == 25:
             self.font_size_25.draw(x, y, string % commend, color)
         elif font_size == 36:
             self.font_size_36.draw(x, y, string % commend, color)
+
+    def show_info(self, font_size, x, y, string, color):
+        if font_size == 11:
+            self.font_size_11.draw(x, y, string, color)
+        elif font_size == 20:
+            self.font_size_20.draw(x, y, string, color)
+        elif font_size == 25:
+            self.font_size_25.draw(x, y, string, color)
+        elif font_size == 36:
+            self.font_size_36.draw(x, y, string, color)
 
 
 ui = UI()

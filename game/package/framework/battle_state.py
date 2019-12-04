@@ -23,7 +23,7 @@ class Battle_State:
             elif event.type == SDL_KEYDOWN:
                 if event.key == SDLK_ESCAPE:
                     return HANDLE_EVENT_ENTER_PAUSE
-                elif event.key == SDLK_q:
+                elif event.key == SDLK_SPACE:
                     return HANDLE_EVENT_CHANGE_STATE
 
             elif event.type == SDL_MOUSEBUTTONDOWN:

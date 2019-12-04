@@ -14,9 +14,20 @@ class Building(Object):
         self.require_resource = None  # 임시 자원 변수
         self.is_on_table = on_table
 
+        self.info_text_width = None
+        self.name_text_width = None
+        self.name_text = None
+        self.info_text = None
+
     def build_object_on_tile(self, x, y):
         self.set_object_position(get_build_tile_position_x(x) * BUILD_TILE_WIDTH,
                                  get_build_tile_position_y(y) * BUILD_TILE_HEIGHT)
+
+    def check_required_resource(self, current_resource):
+        if self.require_resource.wood >= current_resource.wood and self.require_resource.stone >= current_resource.stone:
+            return True
+        else:
+            return False
 
     def draw(self):
         self.image_class.draw_on_map(self.position.x, self.position.y,
@@ -36,6 +47,11 @@ class Building_WarriorStone(Building):
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 256)
         self.require_resource = basic_struct.Resource(6, 10)
 
+        self.name_text_width = 60
+        self.info_text_width = 60
+        self.name_text = '전사의 바위(w)'
+        self.info_text = '전사를 생산합니다\n'
+
 
 class Building_Tent(Building):
     def __init__(self, x, y, on_table=False):
@@ -43,6 +59,11 @@ class Building_Tent(Building):
         self.type = BUILDING_TYPE_BASIC_TENT
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 256)
         self.require_resource = basic_struct.Resource(5, 0)
+
+        self.name_text_width = 80
+        self.info_text_width = 80
+        self.name_text = '시민군의 천막(e)'
+        self.info_text = '시민군을 생산합니다\n'
 
 
 class Building_Timber(Building):
@@ -52,6 +73,11 @@ class Building_Timber(Building):
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 196)
         self.require_resource = basic_struct.Resource(5, 3)
 
+        self.name_text_width = 60
+        self.info_text_width = 60
+        self.name_text = '목재 저장소(r)'
+        self.info_text = '목재를 추가적으로 더 생산합니다\n'
+
 
 class Building_Quarry(Building):
     def __init__(self, x, y, on_table=False):
@@ -59,6 +85,11 @@ class Building_Quarry(Building):
         self.type = BUILDING_TYPE_QUARRY
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 196)
         self.require_resource = basic_struct.Resource(3, 5)
+
+        self.name_text_width = 60
+        self.info_text_width = 60
+        self.name_text = '석재 저장소(q)'
+        self.info_text = '석재를 추가적으로 더 생산합니다\n'
 
 
 class Building_Pointer(Object):

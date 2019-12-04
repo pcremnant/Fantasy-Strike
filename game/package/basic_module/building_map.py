@@ -55,7 +55,7 @@ class Build_Map:
 
         return True
 
-    def show_is_buildable(self, x, y, size_x, size_y):
+    def show_is_buildable(self, x, y, size_x, size_y, require_resource, current_resource):
         tile_x = int((x - BUILD_TILE_START_X) / BUILD_TILE_WIDTH)
         tile_y = int((y - BUILD_TILE_START_Y) / BUILD_TILE_HEIGHT)
 
@@ -64,7 +64,10 @@ class Build_Map:
         elif tile_x <= 0 or tile_y <= 0:
             return False
         elif self.check_is_buildable(x, y, size_x, size_y):
-            imgTile = Image("resource/UI/tile_g.png", IMAGE_TYPE_SPRITE)
+            if current_resource.wood < require_resource.wood or current_resource.stone < require_resource.stone:
+                imgTile = Image("resource/UI/tile_r.png", IMAGE_TYPE_SPRITE)
+            else:
+                imgTile = Image("resource/UI/tile_g.png", IMAGE_TYPE_SPRITE)
             imgTile.set_image_frame(1, 64, 64)
             imgTile.draw_on_map(tile_x * BUILD_TILE_WIDTH + BUILD_TILE_START_X,
                                 tile_y * BUILD_TILE_HEIGHT + BUILD_TILE_START_Y,

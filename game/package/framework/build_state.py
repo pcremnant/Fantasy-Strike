@@ -30,8 +30,10 @@ class Build_State:
             elif event.type == SDL_KEYDOWN:
                 if event.key == SDLK_ESCAPE:
                     return HANDLE_EVENT_ENTER_PAUSE
-                elif event.key == SDLK_q:
+                elif event.key == SDLK_SPACE:
                     return HANDLE_EVENT_CHANGE_STATE
+                else:
+                    self.building_manager.select_building_as_keyboard(event.key)
 
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.mouse_clicked_x = event.x
@@ -69,7 +71,7 @@ class Build_State:
 
     def draw(self):
         self.background_image.draw_image(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
-        self.building_manager.draw()
+        self.building_manager.draw(self.current_resource)
 
     def pause(self):
         pass
@@ -78,9 +80,9 @@ class Build_State:
         pass
 
     def update(self):
+        self.additional_resource = basic_struct.Resource(*self.building_manager.get_additional_resource())
         if stopwatch.get_timer() % 10 == 0:
             if not self.is_given_resource:
-                self.additional_resource = basic_struct.Resource(*self.building_manager.get_additional_resource())
                 self.current_resource.wood += self.add_resource.wood + self.additional_resource.wood
                 self.current_resource.stone += self.add_resource.stone + self.additional_resource.stone
                 self.is_given_resource = True
