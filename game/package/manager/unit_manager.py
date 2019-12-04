@@ -1,4 +1,8 @@
 from game.package.basic_module import unit_map
+from ..object.unit_warrior import *
+from ..object.unit_castle import *
+from ..object.unit_frogwarrior import *
+
 from game.package.object.unit import *
 from game.package.framework import states
 
@@ -61,8 +65,7 @@ class UnitManager:
                     is_player_living = True
                 elif unit.team == UNIT_TEAM_ENEMY:
                     is_enemy_living = True
-        # test code ---
-        is_player_living = True
+
         # ----------
         if is_player_living and is_enemy_living:
             self.winner = None

@@ -11,8 +11,11 @@ UNIT_FRAME_MOVE_DOWN = 1
 UNIT_FRAME_MOVE_RIGHT = 2
 UNIT_FRAME_MOVE_LEFT = 3
 UNIT_FRAME_ATTACK_TOP = 4
+UNIT_FRAME_ATTACK_BOTTOM = 5
+UNIT_FRAME_ATTACK_RIGHT = 6
+UNIT_FRAME_ATTACK_LEFT = 7
 
-UNIT_FRAME_SIZE = 5
+UNIT_FRAME_SIZE = 8
 
 
 # ------------------------------------------------------------------------------------------
@@ -21,6 +24,8 @@ class Unit(Object):
     def __init__(self, x, y, size_x, size_y):
         super().__init__(size_x, size_y)
         self.image_class = []  # image list [frame_mode]
+        self.width = None
+        self.height = None
         self.frame_mode = None
         self.position_on_window = basic_struct.Position(x, y)
         self.position_on_tile = basic_struct.Position(get_unit_tile_position_x(x), get_unit_tile_position_y(y))
@@ -46,7 +51,8 @@ class Unit(Object):
         pass
 
     def draw(self):
-        self.image_class[self.frame_mode].draw_image(self.position_on_window.x, self.position_on_window.y)
+        self.image_class[self.frame_mode].draw_image(self.position_on_window.x,
+                                                     self.position_on_window.y + self.height // 2)
         image = pico2d.load_image('resource/UI/hp_bar.png')
         image.clip_draw(0, 0, 64, 64, self.position_on_window.x, self.position_on_window.y + 32,
                         self.status.current_hp / self.status.max_hp * 32, 10)
@@ -62,7 +68,7 @@ class Unit(Object):
         done.add(start)
 
         while queue:
-            p = queue.pop()
+            p = queue.pop(0)
             v = (p[-2], p[-1])
             if v == end:
                 return p
@@ -78,10 +84,10 @@ class Unit(Object):
         if self.is_castle:
             return BehaviorTree.FAIL
         for unit in self.units:
-            if unit.team != self.team:
-                distance = (unit.position_on_tile.x - self.position_on_tile.x) ** 2 + (
-                        unit.position_on_tile.y - self.position_on_tile.y) ** 2
-                if self.status.attack_range ** 2 >= distance:
+            if unit.team != self.team and unit.is_living:
+                distance = (unit.position_on_window.x - self.position_on_window.x) ** 2 + (
+                        unit.position_on_window.y - self.position_on_window.y) ** 2
+                if (UNIT_TILE_HEIGHT ** 2 + UNIT_TILE_WIDTH ** 2) * self.status.attack_range >= distance:
                     # 방향에 따라 프레임 설정
                     self.frame_mode = UNIT_FRAME_ATTACK_TOP
                     return BehaviorTree.SUCCESS
@@ -123,6 +129,7 @@ class Unit(Object):
                 min_count += 1
 
             if min_distance is None or min_index is None:
+                self.is_attacking = False
                 return BehaviorTree.FAIL
             else:
                 self.units[min_index].status.current_hp -= self.status.attack_power
@@ -135,7 +142,7 @@ class Unit(Object):
 
     def set_target_enemy(self):
         # 임시로 상수값 넣어보기
-        TEMP_RANGE = 1000
+        TEMP_RANGE = 10
         min_distance = None
         min_index = None
         min_count = 0
@@ -257,6 +264,7 @@ class Unit(Object):
             self.position_on_window.move_position(self.direction.x, self.direction.y)
             self.position_on_tile.set_position(get_unit_tile_position_x(self.position_on_window.x),
                                                get_unit_tile_position_y(self.position_on_window.y))
+
             return BehaviorTree.SUCCESS
 
     def build_behavior_tree(self):
@@ -284,260 +292,3 @@ class Unit(Object):
 
         self.bt = BehaviorTree(action_node)
         pass
-
-
-# tmp unit (for test)
-class Unit_Warrior(Unit):
-    MAX_HP = 100
-    MOVE_SPEED = 0.5
-    ATTACK_POWER = 10
-    ATTACK_RANGE = 1.7
-    ATTACK_SPEED = 1
-
-    def __init__(self, x, y, team):
-        super().__init__(x, y, 1, 1)
-        self.direction = basic_struct.Position(0, 1)
-        self.frame_mode = UNIT_FRAME_MOVE_TOP
-        self.team = team
-        self.is_castle = False
-        image_path_list = []
-        image_type_list = []
-
-        image_path_list.append([
-            'resource/object/unit/warrior/move_top_1.png',
-            'resource/object/unit/warrior/move_top_2.png',
-            'resource/object/unit/warrior/move_top_3.png',
-            'resource/object/unit/warrior/move_top_4.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/warrior/move_bottom_1.png',
-            'resource/object/unit/warrior/move_bottom_2.png',
-            'resource/object/unit/warrior/move_bottom_3.png',
-            'resource/object/unit/warrior/move_bottom_4.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/warrior/move_right_1.png',
-            'resource/object/unit/warrior/move_right_2.png',
-            'resource/object/unit/warrior/move_right_3.png',
-            'resource/object/unit/warrior/move_right_4.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/warrior/move_left_1.png',
-            'resource/object/unit/warrior/move_left_2.png',
-            'resource/object/unit/warrior/move_left_3.png',
-            'resource/object/unit/warrior/move_left_4.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/warrior/attack_top_1.png',
-            'resource/object/unit/warrior/attack_top_2.png',
-            'resource/object/unit/warrior/attack_top_3.png',
-            'resource/object/unit/warrior/attack_top_4.png',
-            'resource/object/unit/warrior/attack_top_5.png',
-            'resource/object/unit/warrior/attack_top_6.png',
-            'resource/object/unit/warrior/attack_top_7.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        for frame_mode in range(UNIT_FRAME_SIZE):
-            self.image_class.append(
-                basic_struct.Image(image_path_list[frame_mode], image_type_list[frame_mode]))
-
-        self.set_object_frame(UNIT_FRAME_MOVE_TOP, 4, 64, 64)
-        self.set_object_frame(UNIT_FRAME_MOVE_DOWN, 4, 64, 64)
-        self.set_object_frame(UNIT_FRAME_MOVE_LEFT, 4, 64, 64)
-        self.set_object_frame(UNIT_FRAME_MOVE_RIGHT, 4, 64, 64)
-        self.set_object_frame(UNIT_FRAME_ATTACK_TOP, 7, 86, 86)
-
-        self.status = basic_struct.Status(Unit_Warrior.MAX_HP, Unit_Warrior.MOVE_SPEED, Unit_Warrior.ATTACK_POWER,
-                                          Unit_Warrior.ATTACK_SPEED, Unit_Warrior.ATTACK_RANGE)
-        pass
-
-
-class Unit_Enemy(Unit):
-    MAX_HP = 20
-    MOVE_SPEED = 0.3
-    ATTACK_POWER = 0
-    ATTACK_RANGE = 1
-    ATTACK_SPEED = 20
-
-    def __init__(self, x, y, team):
-        super().__init__(x, y, 1, 1)
-        self.direction = basic_struct.Position(0, -1)
-        self.frame_mode = UNIT_FRAME_MOVE_DOWN
-        self.team = team
-        self.is_castle = False
-        image_path_list = []
-        image_type_list = []
-
-        image_path_list.append([
-            'resource/object/unit/tmp_enemy/enemy_for_test.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/tmp_enemy/enemy_for_test.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/tmp_enemy/enemy_for_test.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/tmp_enemy/enemy_for_test.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/tmp_enemy/enemy_for_test.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        for frame_mode in range(UNIT_FRAME_SIZE):
-            self.image_class.append(
-                basic_struct.Image(image_path_list[frame_mode], image_type_list[frame_mode]))
-
-        self.set_object_frame(UNIT_FRAME_MOVE_TOP, 1, 64, 64)
-        self.set_object_frame(UNIT_FRAME_MOVE_DOWN, 1, 64, 64)
-        self.set_object_frame(UNIT_FRAME_MOVE_LEFT, 1, 64, 64)
-        self.set_object_frame(UNIT_FRAME_MOVE_RIGHT, 1, 64, 64)
-        self.set_object_frame(UNIT_FRAME_ATTACK_TOP, 1, 64, 64)
-
-        self.status = basic_struct.Status(Unit_Enemy.MAX_HP, Unit_Enemy.MOVE_SPEED, Unit_Enemy.ATTACK_POWER,
-                                          Unit_Enemy.ATTACK_SPEED, Unit_Enemy.ATTACK_RANGE)
-        pass
-
-
-class Unit_PlayerCastle(Unit):
-    MAX_HP = 200
-    MOVE_SPEED = 0
-    ATTACK_POWER = 0
-    ATTACK_RANGE = 0
-    ATTACK_SPEED = 0
-
-    def __init__(self, x, y, team):
-        super().__init__(x, y, 1, 1)
-        self.direction = basic_struct.Position(0, -1)
-        self.frame_mode = UNIT_FRAME_MOVE_DOWN
-        self.team = team
-        self.is_castle = True
-        image_path_list = []
-        image_type_list = []
-
-        image_path_list.append([
-            'resource/object/unit/player_castle/player_castle.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/player_castle/player_castle.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/player_castle/player_castle.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/player_castle/player_castle.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/player_castle/player_castle.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        for frame_mode in range(UNIT_FRAME_SIZE):
-            self.image_class.append(
-                basic_struct.Image(image_path_list[frame_mode], image_type_list[frame_mode]))
-
-        self.set_object_frame(UNIT_FRAME_MOVE_TOP, 1, 128, 196)
-        self.set_object_frame(UNIT_FRAME_MOVE_DOWN, 1, 128, 196)
-        self.set_object_frame(UNIT_FRAME_MOVE_LEFT, 1, 128, 196)
-        self.set_object_frame(UNIT_FRAME_MOVE_RIGHT, 1, 128, 196)
-        self.set_object_frame(UNIT_FRAME_ATTACK_TOP, 1, 128, 196)
-
-        self.status = basic_struct.Status(Unit_PlayerCastle.MAX_HP, Unit_PlayerCastle.MOVE_SPEED,
-                                          Unit_PlayerCastle.ATTACK_POWER,
-                                          Unit_PlayerCastle.ATTACK_SPEED, Unit_PlayerCastle.ATTACK_RANGE)
-
-    def draw(self):
-        self.image_class[0].image[0].clip_draw(0, 0, 128, 196, self.position_on_window.x + 16,
-                                               self.position_on_window.y - 16, 256, 192)
-        image = pico2d.load_image('resource/UI/hp_bar.png')
-        image.clip_draw(0, 0, 64, 64, self.position_on_window.x + 16, self.position_on_window.y - 128,
-                        self.status.current_hp / self.status.max_hp * 128, 10)
-
-
-class Unit_EnemyCastle(Unit):
-    MAX_HP = 200
-    MOVE_SPEED = 0
-    ATTACK_POWER = 0
-    ATTACK_RANGE = 0
-    ATTACK_SPEED = 0
-
-    def __init__(self, x, y, team):
-        super().__init__(x, y, 1, 1)
-        self.direction = basic_struct.Position(0, -1)
-        self.frame_mode = UNIT_FRAME_MOVE_DOWN
-        self.team = team
-        self.is_castle = True
-        image_path_list = []
-        image_type_list = []
-
-        image_path_list.append([
-            'resource/object/unit/enemy_castle/enemy_castle.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/enemy_castle/enemy_castle.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/enemy_castle/enemy_castle.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/enemy_castle/enemy_castle.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        image_path_list.append([
-            'resource/object/unit/enemy_castle/enemy_castle.png'
-        ])
-        image_type_list.append(IMAGE_TYPE_FILES)
-
-        for frame_mode in range(UNIT_FRAME_SIZE):
-            self.image_class.append(
-                basic_struct.Image(image_path_list[frame_mode], image_type_list[frame_mode]))
-
-        self.set_object_frame(UNIT_FRAME_MOVE_TOP, 1, 256, 256)
-        self.set_object_frame(UNIT_FRAME_MOVE_DOWN, 1, 256, 256)
-        self.set_object_frame(UNIT_FRAME_MOVE_LEFT, 1, 256, 256)
-        self.set_object_frame(UNIT_FRAME_MOVE_RIGHT, 1, 256, 256)
-        self.set_object_frame(UNIT_FRAME_ATTACK_TOP, 1, 256, 256)
-
-        self.status = basic_struct.Status(Unit_EnemyCastle.MAX_HP, Unit_EnemyCastle.MOVE_SPEED,
-                                          Unit_EnemyCastle.ATTACK_POWER,
-                                          Unit_EnemyCastle.ATTACK_SPEED, Unit_EnemyCastle.ATTACK_RANGE)
-        pass
-
-    def draw(self):
-        self.image_class[0].image[0].clip_draw(0,0,256,256,self.position_on_window.x + 16, self.position_on_window.y + 92, 256, 192)
-        image = pico2d.load_image('resource/UI/hp_bar.png')
-        image.clip_draw(0, 0, 64, 64, self.position_on_window.x + 16, self.position_on_window.y - 16,
-                        self.status.current_hp / self.status.max_hp * 128, 10)
