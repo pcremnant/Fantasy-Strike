@@ -3,6 +3,7 @@ from ..object.unit_warrior import *
 from ..object.unit_castle import *
 from ..object.unit_frogman import *
 from ..object.unit_goblin import *
+from ..object.unit_goblinwarrior import *
 from ..object.unit_militia import *
 
 from game.package.object.unit import *
@@ -123,12 +124,15 @@ class UnitManager:
         x, y = 0, UNIT_MAP_SIZE_Y - 1
         while count < 1:
             if self.unit_map.map[y][x]:
-                enemy_units += [Unit_Frogman(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
-                                             UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
-                                             UNIT_TEAM_ENEMY)]
-                enemy_units += [Unit_Goblin(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
-                                             UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
-                                             UNIT_TEAM_ENEMY)]
+                # enemy_units += [Unit_Frogman(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
+                #                              UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
+                #                              UNIT_TEAM_ENEMY)]
+                # enemy_units += [Unit_Goblin(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
+                #                              UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
+                #                              UNIT_TEAM_ENEMY)]
+                enemy_units += [Unit_GoblinWarrior(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
+                                            UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
+                                            UNIT_TEAM_ENEMY)]
                 count += 1
             x += 1
             if x >= UNIT_MAP_SIZE_X:
