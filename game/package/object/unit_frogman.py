@@ -2,11 +2,11 @@ from .unit import *
 
 
 class Unit_Frogman(Unit):
-    MAX_HP = 30
-    MOVE_SPEED = 0.3
-    ATTACK_POWER = 5
+    MAX_HP = 20
+    MOVE_SPEED = 0.4
+    ATTACK_POWER = 3
     ATTACK_RANGE = 0.5
-    ATTACK_SPEED = 1
+    ATTACK_SPEED = 0.6
 
     def __init__(self, x, y, team):
         super().__init__(x, y, 1, 1)
