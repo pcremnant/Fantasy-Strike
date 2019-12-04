@@ -9,9 +9,9 @@ MENU_INDEX_PAUSE = 0
 MENU_INDEX_RESUME = 1
 MENU_INDEX_QUIT = 2
 
-PAUSE_STATE_PAUSE = [WINDOW_WIDTH // 2, WINDOW_HEIGHT - 100, 500, 130, 'resource/UI/pause.png']
-PAUSE_STATE_RESUME = [WINDOW_WIDTH // 2, WINDOW_HEIGHT - 400, 500, 130, 'resource/UI/pause_resume.png']
-PAUSE_STATE_QUIT = [WINDOW_WIDTH // 2, WINDOW_HEIGHT - 600, 500, 130, 'resource/UI/pause_quit.png']
+PAUSE_STATE_PAUSE = [WINDOW_WIDTH // 2, WINDOW_HEIGHT - 160, 500, 130, 'resource/UI/pause.png']
+PAUSE_STATE_RESUME = [WINDOW_WIDTH // 2, WINDOW_HEIGHT - 400, 440, 60, 'resource/UI/pause_resume.png']
+PAUSE_STATE_QUIT = [WINDOW_WIDTH // 2, WINDOW_HEIGHT - 600, 260, 160, 'resource/UI/pause_quit.png']
 
 
 # position / width / height / image

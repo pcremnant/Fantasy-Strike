@@ -12,8 +12,8 @@ def get_window_position_for_build_table(x, y, w, h):
 
 
 BUILD_TABLE_WARRIOR = get_window_position_for_build_table(0, 3, 2, 2)
-BUILD_TABLE_TENT = get_window_position_for_build_table(0, 7, 2, 2)
-BUILD_TABLE_TIMBER = get_window_position_for_build_table(2, 3, 2, 2)
+BUILD_TABLE_TENT = get_window_position_for_build_table(2, 3, 2, 2)
+BUILD_TABLE_TIMBER = get_window_position_for_build_table(0, 7, 2, 2)
 BUILD_TABLE_QUARRY = get_window_position_for_build_table(2, 7, 2, 2)
 
 

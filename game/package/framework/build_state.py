@@ -18,6 +18,7 @@ class Build_State:
 
         self.current_resource = basic_struct.Resource()
         self.add_resource = basic_struct.Resource(2, 2)
+        self.additional_resource = basic_struct.Resource(0, 0)
 
         self.is_given_resource = False
 
@@ -79,9 +80,9 @@ class Build_State:
     def update(self):
         if stopwatch.get_timer() % 10 == 0:
             if not self.is_given_resource:
-                additional_resource = self.building_manager.get_additional_resource()
-                self.current_resource.wood += self.add_resource.wood + additional_resource[0]
-                self.current_resource.stone += self.add_resource.stone + additional_resource[1]
+                self.additional_resource = basic_struct.Resource(*self.building_manager.get_additional_resource())
+                self.current_resource.wood += self.add_resource.wood + self.additional_resource.wood
+                self.current_resource.stone += self.add_resource.stone + self.additional_resource.stone
                 self.is_given_resource = True
         else:
             self.is_given_resource = False

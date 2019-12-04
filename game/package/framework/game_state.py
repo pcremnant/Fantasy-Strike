@@ -65,21 +65,35 @@ class Game_State:
         pass
 
     def draw(self):
-        self.current_state.draw()
         if self.is_pause_state:
             self.pause_state.draw()
-        self.image_resource_board.image.clip_draw(0, 0, 256, 64, WINDOW_WIDTH / 2 + 380, WINDOW_HEIGHT - 50, 220, 64)
+        else:
+            self.current_state.draw()
 
-        self.image_wood.image.clip_draw(0, 0, 64, 64, WINDOW_WIDTH / 2 + 300, WINDOW_HEIGHT - 50, 32, 32)
-        self.image_stone.image.clip_draw(0, 0, 64, 64, WINDOW_WIDTH / 2 + 400, WINDOW_HEIGHT - 50, 32, 32)
-        basic_struct.ui.write(25, WINDOW_WIDTH / 2 + 320, WINDOW_HEIGHT - 50, '%(wood)d',
-                              {'wood': self.build_state.current_resource.wood}, (0, 0, 0))
-        basic_struct.ui.write(25, WINDOW_WIDTH / 2 + 420, WINDOW_HEIGHT - 50, '%(stone)d',
-                              {'stone': self.build_state.current_resource.stone}, (0, 0, 0))
+            # resource board
+            self.image_resource_board.image.clip_draw(0, 0, 256, 64, WINDOW_WIDTH / 2 + 340, WINDOW_HEIGHT - 50, 300,
+                                                      64)
 
-        self.image_timer_board.image.clip_draw(0, 0, 128, 86, WINDOW_WIDTH // 2, WINDOW_HEIGHT - 50, 120, 64)
-        ui.write(36, WINDOW_WIDTH // 2 - 18, WINDOW_HEIGHT - 50, '%(timer)d',
-                 {'timer': TIMER_UNIT_CREATION - int(stopwatch.get_timer())}, (0, 0, 0))
+            # wood resource
+            wood_x = WINDOW_WIDTH / 2 + 220
+            self.image_wood.image.clip_draw(0, 0, 64, 64, wood_x, WINDOW_HEIGHT - 50, 32, 32)
+            basic_struct.ui.write(25, wood_x + 30, WINDOW_HEIGHT - 50, '%(wood)d',
+                                  {'wood': self.build_state.current_resource.wood}, (0, 0, 0))
+            basic_struct.ui.write(25, wood_x + 65, WINDOW_HEIGHT - 50, '(%(wood)d)',
+                                  {'wood': self.build_state.additional_resource.wood}, (0, 150, 0))
+
+            # stone resource
+            stone_x = wood_x + 140
+            self.image_stone.image.clip_draw(0, 0, 64, 64, stone_x, WINDOW_HEIGHT - 50, 32, 32)
+            basic_struct.ui.write(25, stone_x + 30, WINDOW_HEIGHT - 50, '%(stone)d',
+                                  {'stone': self.build_state.current_resource.stone}, (0, 0, 0))
+            basic_struct.ui.write(25, stone_x + 65, WINDOW_HEIGHT - 50, '(%(stone)d)',
+                                  {'stone': self.build_state.additional_resource.stone}, (0, 150, 0))
+
+            # timer board
+            self.image_timer_board.image.clip_draw(0, 0, 128, 86, WINDOW_WIDTH // 2, WINDOW_HEIGHT - 50, 120, 64)
+            ui.write(36, WINDOW_WIDTH // 2 - 18, WINDOW_HEIGHT - 50, '%(timer)d',
+                     {'timer': TIMER_UNIT_CREATION - int(stopwatch.get_timer())}, (0, 0, 0))
 
     def pause(self):
         pass
