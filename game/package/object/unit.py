@@ -239,10 +239,11 @@ class Unit(Object):
                                (self.target_y, self.target_x))
         # set next tile
         if path == '?':
-            next_tile = None
+            self.next_tile = None
             return BehaviorTree.FAIL
         else:
-            self.next_tile = basic_struct.Position(path[3], path[2])
+            if len(path) >= 4:
+                self.next_tile = basic_struct.Position(path[3], path[2])
             return BehaviorTree.SUCCESS
 
     def move(self):

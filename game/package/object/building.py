@@ -45,7 +45,7 @@ class Building_WarriorStone(Building):
         super().__init__(x, y, 2, 2, imgPath, IMAGE_TYPE_SPRITE, on_table)
         self.type = BUILDING_TYPE_BASIC_WARRIOR
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 256)
-        self.require_resource = basic_struct.Resource(6, 10)
+        self.require_resource = basic_struct.Resource(5, 8)
 
         self.name_text_width = 60
         self.info_text_width = 60
@@ -58,7 +58,7 @@ class Building_Tent(Building):
         super().__init__(x, y, 2, 2, "resource/object/build/basic_tent.png", IMAGE_TYPE_SPRITE, on_table)
         self.type = BUILDING_TYPE_BASIC_TENT
         self.set_object_frame(FRAME_MODE_NONE, 1, 256, 256)
-        self.require_resource = basic_struct.Resource(5, 0)
+        self.require_resource = basic_struct.Resource(2, 0)
 
         self.name_text_width = 80
         self.info_text_width = 80

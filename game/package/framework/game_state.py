@@ -80,7 +80,7 @@ class Game_State:
             basic_struct.ui.write(25, wood_x + 30, WINDOW_HEIGHT - 50, '%(wood)d',
                                   {'wood': self.build_state.current_resource.wood}, (0, 0, 0))
             basic_struct.ui.write(25, wood_x + 65, WINDOW_HEIGHT - 50, '(%(wood)d)',
-                                  {'wood': self.build_state.additional_resource.wood}, (0, 150, 0))
+                                  {'wood': self.build_state.additional_resource.wood + self.build_state.add_resource.wood}, (0, 150, 0))
 
             # stone resource
             stone_x = wood_x + 140
@@ -88,7 +88,7 @@ class Game_State:
             basic_struct.ui.write(25, stone_x + 30, WINDOW_HEIGHT - 50, '%(stone)d',
                                   {'stone': self.build_state.current_resource.stone}, (0, 0, 0))
             basic_struct.ui.write(25, stone_x + 65, WINDOW_HEIGHT - 50, '(%(stone)d)',
-                                  {'stone': self.build_state.additional_resource.stone}, (0, 150, 0))
+                                  {'stone': self.build_state.additional_resource.stone + self.build_state.add_resource.stone}, (0, 150, 0))
 
             # timer board
             self.image_timer_board.image.clip_draw(0, 0, 128, 86, WINDOW_WIDTH // 2, WINDOW_HEIGHT - 50, 120, 64)

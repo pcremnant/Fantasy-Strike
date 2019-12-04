@@ -120,7 +120,7 @@ class UnitManager:
         enemy_units = []
         count = 0
         x, y = 0, UNIT_MAP_SIZE_Y - 1
-        while count < basic_warrior_counter:
+        while count < 1:
             if self.unit_map.map[y][x]:
                 enemy_units += [Unit_Frogman(UNIT_MAP_START_X + x * UNIT_TILE_WIDTH + UNIT_TILE_WIDTH // 2,
                                              UNIT_MAP_START_Y + y * UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT // 2,
