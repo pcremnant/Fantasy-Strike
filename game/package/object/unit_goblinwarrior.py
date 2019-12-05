@@ -2,11 +2,11 @@ from .unit import *
 
 
 class Unit_GoblinWarrior(Unit):
-    MAX_HP = 30
-    MOVE_SPEED = 0.3
-    ATTACK_POWER = 5
-    ATTACK_RANGE = 0.5
-    ATTACK_SPEED = 1
+    MAX_HP = 60
+    MOVE_SPEED = 0.2
+    ATTACK_POWER = 8
+    ATTACK_RANGE = 0.7
+    ATTACK_SPEED = 0.8
 
     def __init__(self, x, y, team):
         super().__init__(x, y, 1, 1)

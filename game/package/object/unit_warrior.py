@@ -2,11 +2,11 @@ from .unit import *
 
 
 class Unit_Warrior(Unit):
-    MAX_HP = 100
-    MOVE_SPEED = 0.5
-    ATTACK_POWER = 10
+    MAX_HP = 130
+    MOVE_SPEED = 0.2
+    ATTACK_POWER = 11
     ATTACK_RANGE = 0.7
-    ATTACK_SPEED = 1
+    ATTACK_SPEED = 1.1
 
     def __init__(self, x, y, team):
         super().__init__(x, y, 1, 1)
