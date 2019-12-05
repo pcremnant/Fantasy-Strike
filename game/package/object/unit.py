@@ -41,8 +41,6 @@ class Unit(Object):
         self.is_castle = None
         self.attack_delay_counter = 0
 
-        # self.is_moving = False
-        # tmp code : for behavior tree
         self.units = None
         self.unit_map = None
         self.next_tile = None
@@ -85,9 +83,9 @@ class Unit(Object):
             return BehaviorTree.FAIL
         for unit in self.units:
             if unit.team != self.team and unit.is_living:
-                distance = (unit.position_on_window.x - self.position_on_window.x) ** 2 + (
-                        unit.position_on_window.y - self.position_on_window.y) ** 2
-                if (UNIT_TILE_HEIGHT ** 2 + UNIT_TILE_WIDTH ** 2) * self.status.attack_range >= distance:
+                distance = (unit.position_on_tile.x - self.position_on_tile.x) ** 2 + (
+                        unit.position_on_tile.y - self.position_on_tile.y) ** 2
+                if self.status.attack_range**2 >= distance:
                     if abs(self.direction.x) >= abs(self.direction.y):
                         if self.direction.x >= 0:
                             self.frame_mode = UNIT_FRAME_ATTACK_RIGHT

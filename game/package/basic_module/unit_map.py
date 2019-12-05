@@ -1,5 +1,4 @@
 from game.package.basic_module.basic_define import *
-from game.package.basic_module import basic_struct
 
 
 class Unit_Map:
