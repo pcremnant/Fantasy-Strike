@@ -111,3 +111,5 @@ class Unit_Warrior(Unit):
 
         self.width = 64
         self.height = 64
+
+        self.attack_effect_index = EFFECT_INDEX_SWORD_SWING

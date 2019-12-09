@@ -45,13 +45,19 @@ class Unit(Object):
         self.unit_map = None
         self.next_tile = None
 
+        self.attack_effect_index = None
+
         self.build_behavior_tree()
         pass
 
     def draw(self):
         self.image_class[self.frame_mode].draw_image(self.position_on_window.x,
                                                      self.position_on_window.y)
-        image = pico2d.load_image('resource/UI/hp_bar.png')
+        image = None
+        if self.team == UNIT_TEAM_PLAYER:
+            image = pico2d.load_image('resource/UI/hp_bar_player.png')
+        elif self.team == UNIT_TEAM_ENEMY:
+            image = pico2d.load_image('resource/UI/hp_bar_enemy.png')
         image.clip_draw(0, 0, 64, 64, self.position_on_window.x, self.position_on_window.y - 32,
                         self.status.current_hp / self.status.max_hp * 32, 10)
 
@@ -96,6 +102,7 @@ class Unit(Object):
                             self.frame_mode = UNIT_FRAME_ATTACK_TOP
                         else:
                             self.frame_mode = UNIT_FRAME_ATTACK_BOTTOM
+                    sound.play_effect(self.attack_effect_index, 50)
                     return BehaviorTree.SUCCESS
         self.attack_delay_counter = 100 / self.status.attack_speed
         return BehaviorTree.FAIL

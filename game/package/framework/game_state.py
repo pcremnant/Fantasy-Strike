@@ -56,12 +56,14 @@ class Game_State:
         self.is_pause_state = False
         stopwatch.start_timer()
         stopwatch.end_timer()
+        sound.play_bgm(BGM_INDEX_GAME)
         pass
 
     def exit(self):
         self.build_state.exit()
         self.battle_state.exit()
         self.pause_state.exit()
+        sound.stop_bgm(BGM_INDEX_GAME)
         pass
 
     def draw(self):

@@ -91,3 +91,5 @@ class Unit_GoblinWarrior(Unit):
         self.height = 32
         self.status = basic_struct.Status(Unit_GoblinWarrior.MAX_HP, Unit_GoblinWarrior.MOVE_SPEED, Unit_GoblinWarrior.ATTACK_POWER,
                                           Unit_GoblinWarrior.ATTACK_SPEED, Unit_GoblinWarrior.ATTACK_RANGE)
+
+        self.attack_effect_index = EFFECT_INDEX_HAMMER_SWING

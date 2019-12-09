@@ -1,4 +1,5 @@
 from pico2d import *
+
 from game.package.framework import game_framework
 from game.package.basic_module import basic_define
 

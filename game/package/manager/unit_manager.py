@@ -169,8 +169,8 @@ DIFFICULTY_GENERAL = 4
 class EnemyBarracks:
 
     def __init__(self):
-        self.current_resource = 0
-        self.additional_resource = 2
+        self.current_resource = 1
+        self.additional_resource = 4
 
         self.difficulty = DIFFICULTY_FROG
         self.current_round = 0
@@ -178,19 +178,19 @@ class EnemyBarracks:
     def next_round(self):
         self.current_resource += self.additional_resource
         self.current_round += 1
-        self.additional_resource = 2 + int(self.current_round * 0.8)
-        if self.current_round > 6:
+        self.additional_resource = 4 + int(self.current_round * 1.5)
+        if self.current_round > 3:
             self.difficulty = DIFFICULTY_GENERAL
-        elif self.current_round > 4:
-            self.difficulty = DIFFICULTY_WARRIOR
         elif self.current_round > 2:
+            self.difficulty = DIFFICULTY_WARRIOR
+        elif self.current_round > 1:
             self.difficulty = DIFFICULTY_GOBLIN
         else:
             self.difficulty = DIFFICULTY_FROG
 
     def get_enemy_unit_index(self):
         enemy_index_list = []
-        count = random.randint(1, max(1, int(self.current_round*1.8)))
+        count = random.randint(self.current_round * 2, max(1, int(self.current_round*3)))
         for i in range(count):
             enemy_type = random.randint(DIFFICULTY_FROG, self.difficulty)
             if self.current_resource >= enemy_type:

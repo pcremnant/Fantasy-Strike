@@ -61,9 +61,11 @@ class Main_State:
             self.menu.append(basic_struct.Menu(*MAIN_STATE_TITLE))
             self.menu.append(basic_struct.Menu(*MAIN_STATE_START))
             self.menu.append(basic_struct.Menu(*MAIN_STATE_EXIT))
+        basic_struct.sound.play_bgm(BGM_INDEX_MAIN)
         pass
 
     def exit(self):
+        basic_struct.sound.stop_bgm(BGM_INDEX_MAIN)
         pass
 
     def draw(self):

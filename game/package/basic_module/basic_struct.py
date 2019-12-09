@@ -174,5 +174,32 @@ class UI:
             self.font_size_36.draw(x, y, string, color)
 
 
+
+
+
+class Sound:
+    def __init__(self):
+        self.bgm = [pico2d.load_music('resource/sound/bgm/main_background.wav'),
+                    pico2d.load_music('resource/sound/bgm/game_background.mp3')
+                    ]
+        self.effect = [pico2d.load_wav('resource/sound/effect/sword_swing.wav'),
+                       pico2d.load_wav('resource/sound/effect/knife_swing.wav'),
+                       pico2d.load_wav('resource/sound/effect/hammer_swing.wav'),
+                       pico2d.load_wav('resource/sound/effect/victory.wav')
+                       ]
+
+    def stop_bgm(self, layer):
+        self.bgm[layer].stop()
+
+    def play_bgm(self, layer=BGM_INDEX_MAIN, volume=32):
+        self.bgm[layer].set_volume(volume)
+        self.bgm[layer].repeat_play()
+
+    def play_effect(self, layer, volume=32):
+        self.effect[layer].set_volume(volume)
+        self.effect[layer].play()
+
+
 ui = UI()
+sound = Sound()
 stopwatch = StopWatch()

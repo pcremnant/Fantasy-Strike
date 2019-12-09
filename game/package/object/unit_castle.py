@@ -34,7 +34,7 @@ class Unit_PlayerCastle(Unit):
     def draw(self):
         self.image_class[0].image[0].clip_draw(0, 0, 128, 196, self.position_on_window.x + 16,
                                                self.position_on_window.y - 16, 256, 192)
-        image = pico2d.load_image('resource/UI/hp_bar.png')
+        image = pico2d.load_image('resource/UI/hp_bar_player.png')
         image.clip_draw(0, 0, 64, 64, self.position_on_window.x + 16, self.position_on_window.y - 128,
                         self.status.current_hp / self.status.max_hp * 128, 10)
 
@@ -74,6 +74,6 @@ class Unit_EnemyCastle(Unit):
     def draw(self):
         self.image_class[0].image[0].clip_draw(0, 0, 256, 256, self.position_on_window.x + 16,
                                                self.position_on_window.y + 92, 256, 192)
-        image = pico2d.load_image('resource/UI/hp_bar.png')
+        image = pico2d.load_image('resource/UI/hp_bar_enemy.png')
         image.clip_draw(0, 0, 64, 64, self.position_on_window.x + 16, self.position_on_window.y - 16,
                         self.status.current_hp / self.status.max_hp * 128, 10)

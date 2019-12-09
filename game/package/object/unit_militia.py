@@ -2,11 +2,11 @@ from .unit import *
 
 
 class Unit_Militia(Unit):
-    MAX_HP = 60
+    MAX_HP = 40
     MOVE_SPEED = 0.5
     ATTACK_POWER = 4
     ATTACK_RANGE = 0.3
-    ATTACK_SPEED = 1.2
+    ATTACK_SPEED = 1
 
     def __init__(self, x, y, team):
         super().__init__(x, y, 1, 1)
@@ -87,3 +87,5 @@ class Unit_Militia(Unit):
 
         self.width = 64
         self.height = 64
+
+        self.attack_effect_index = EFFECT_INDEX_KNIFE_SWING

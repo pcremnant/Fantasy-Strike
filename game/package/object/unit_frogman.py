@@ -107,3 +107,5 @@ class Unit_Frogman(Unit):
         self.height = 32
         self.status = basic_struct.Status(Unit_Frogman.MAX_HP, Unit_Frogman.MOVE_SPEED, Unit_Frogman.ATTACK_POWER,
                                           Unit_Frogman.ATTACK_SPEED, Unit_Frogman.ATTACK_RANGE)
+
+        self.attack_effect_index = EFFECT_INDEX_KNIFE_SWING
