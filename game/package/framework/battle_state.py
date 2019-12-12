@@ -25,6 +25,16 @@ class Battle_State:
                     return HANDLE_EVENT_ENTER_PAUSE
                 elif event.key == SDLK_SPACE:
                     return HANDLE_EVENT_CHANGE_STATE
+                elif event.key == SDLK_1:
+                    for unit in self.unit_manager.activated_units:
+                        if unit.is_castle and unit.team == UNIT_TEAM_PLAYER:
+                            unit.status.current_hp -= 50
+                            break
+                elif event.key == SDLK_2:
+                    for unit in self.unit_manager.activated_units:
+                        if unit.is_castle and unit.team == UNIT_TEAM_ENEMY:
+                            unit.status.current_hp -= 50
+                            break
 
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 self.mouse_clicked_x = event.x
