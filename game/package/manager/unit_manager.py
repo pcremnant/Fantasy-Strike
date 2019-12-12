@@ -67,11 +67,10 @@ class UnitManager:
                     is_player_living = False
                 elif unit.team == UNIT_TEAM_PLAYER:
                     is_player_living = True
-                if unit.team == UNIT_TEAM_ENEMY and unit.status.current_hp <=0:
+                if unit.team == UNIT_TEAM_ENEMY and unit.status.current_hp <= 0:
                     is_enemy_living = False
                 elif unit.team == UNIT_TEAM_ENEMY:
                     is_enemy_living = True
-        
 
         # ----------
         if is_player_living and is_enemy_living:
