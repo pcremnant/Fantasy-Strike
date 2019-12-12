@@ -63,17 +63,21 @@ class UnitManager:
         is_enemy_living = False
         for unit in self.activated_units:
             if unit.is_castle:
-                if unit.team == UNIT_TEAM_PLAYER:
+                if unit.team == UNIT_TEAM_PLAYER and unit.status.current_hp <= 0:
+                    is_player_living = False
+                elif unit.team == UNIT_TEAM_PLAYER:
                     is_player_living = True
+                if unit.team == UNIT_TEAM_ENEMY and unit.status.current_hp <=0:
+                    is_enemy_living = False
                 elif unit.team == UNIT_TEAM_ENEMY:
                     is_enemy_living = True
 
         # ----------
         if is_player_living and is_enemy_living:
             self.winner = None
-        elif is_player_living:
+        elif is_player_living and not is_enemy_living:
             self.winner = 'player'
-        elif is_enemy_living:
+        elif is_enemy_living and not is_player_living:
             self.winner = 'enemy'
         else:
             self.winner = 'draw'
@@ -190,7 +194,7 @@ class EnemyBarracks:
 
     def get_enemy_unit_index(self):
         enemy_index_list = []
-        count = random.randint(self.current_round * 2, max(1, int(self.current_round*3)))
+        count = random.randint(self.current_round * 2, max(1, int(self.current_round * 3)))
         for i in range(count):
             enemy_type = random.randint(DIFFICULTY_FROG, self.difficulty)
             if self.current_resource >= enemy_type:
