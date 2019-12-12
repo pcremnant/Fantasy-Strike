@@ -71,6 +71,7 @@ class UnitManager:
                     is_enemy_living = False
                 elif unit.team == UNIT_TEAM_ENEMY:
                     is_enemy_living = True
+        
 
         # ----------
         if is_player_living and is_enemy_living:
